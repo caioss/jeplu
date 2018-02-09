@@ -1,43 +1,32 @@
 #include "qtloader.hpp"
 
+#include "iqtplugin.hpp"
+
 #include <QDebug>
+#include <QPluginLoader>
+#include <QString>
 
 QtLoader::QtLoader()
 {
-
 }
 
-QList<QFile> QtLoader::_getFiles(const std::string &path)
+int QtLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin)
 {
-    QList<QFile> files;
-
-    // ...
-
-    return files;
-}
-
-int QtLoader::_loadPlugin(const QString &filePath, std::shared_ptr<IPlugin> plugin)
-{
-    plugin = nullptr;
-
-    return -1;
-}
-
-std::vector<std::string> QtLoader::loadPlugins(const std::vector<std::string> &pluginsPath,
-                                               std::vector<std::shared_ptr<IPlugin>> &plugins)
-{
-    qDebug() << "Loading qt plugins...";
-    std::vector<std::string> failedPaths;
-    // Find files
-    for(std::string pluginPath : pluginsPath) {
-        std::shared_ptr<IPlugin> plugin;
-        int rc = _loadPlugin(QString::fromStdString(pluginPath), plugin);
-        if (rc == 0) {
-            plugins.push_back(plugin);
+    int rc = 0;
+    QPluginLoader loader(QString::fromStdString(pluginPath));
+    if (loader.load())
+    {
+        IPlugin *castPlugin = qobject_cast<IPlugin*>(loader.instance());
+        if (castPlugin != nullptr) {
+            plugin.reset(castPlugin);
         } else {
-            failedPaths.push_back(pluginPath);
+            rc = -2;
         }
+    } else {
+        qDebug() << "QtLoader coudn't load the lib " << QString::fromStdString(pluginPath);
+        qDebug() << loader.errorString();
+        rc = -1;
     }
 
-    return failedPaths;
+    return rc;
 }

@@ -28,8 +28,7 @@ public:
      * vector.
      * @return A list of paths to the lib files that were not loaded.
      */
-    virtual std::vector<std::string> loadPlugins(const std::vector<std::string> &pluginsPath,
-                                                 std::vector<std::shared_ptr<IPlugin>> &plugins) = 0;
+    virtual int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugins) = 0;
 
     /**
      * @brief Gets the name of the loader.

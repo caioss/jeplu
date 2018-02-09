@@ -1,7 +1,7 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include "include/ipluginmanager.hpp"
+#include "ipluginmanager.hpp"
 #include "pluginfactory.hpp"
 
 class PluginManager : public IPluginManager

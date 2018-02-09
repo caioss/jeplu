@@ -9,16 +9,10 @@
 
 class QtLoader : public IPluginLoader
 {
-private:
-    QList<QFile> _getFiles(const std::string &path);
-
-    int _loadPlugin(const QString &filePath, std::shared_ptr<IPlugin> plugin);
-
 public:
     QtLoader();
 
-    std::vector<std::string> loadPlugins(const std::vector<std::string> &pluginsPath,
-                                         std::vector<std::shared_ptr<IPlugin>> &plugins) override;
+    int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) override;
 
     std::string name() const override { return "Qt Loader"; }
 };

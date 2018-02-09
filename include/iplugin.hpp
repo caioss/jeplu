@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include "plugindefinitions.h"
-
 /**
  *  \brief Class IPlugin
  *
@@ -18,27 +16,46 @@
  */
 class IPlugin
 {
-    public:
-        /**
-         *  \brief Default destructor.
-         *
-         *  Called anytime. Make sure to cleanup everything here.
-         */
-         virtual ~IPlugin() = 0;
+public:
+    /**
+     *  \brief Default destructor.
+     */
+    virtual ~IPlugin() {}
+    
+    /**
+     *  \brief Plug this plugin to the application.
+     *
+     *  \param pluginWorkinPath represents the path which this plugin are able to work.
+     *  If this plugin needs to create or access some file, it should be done inside this path.
+     *
+     *  \return Returns 0 if success, otherwise returns a negative number.
+     */
+    virtual int plugin(const std::string &pluginWorkingPath) = 0;
 
-        /**
-         *  \brief Plug this plugin to the application.
-         */
-         virtual void plugin() = 0;
+    /**
+     *  \brief Gets the plugin name.
+     *
+     *  The plugin name should be unique and universal. A reverse domain works fine.
+     *
+     *  \return return a string containing the name of the plugin.
+     */
+    virtual std::string  pluginName() = 0;
 
-        /**
-         *  \brief Gets the plugin name.
-         *
-         *  The plugin name should be unique and universal. A reverse domain works fine.
-         *
-         *  \return return a string containing the name of the plugin.
-         */
-         virtual std::string  pluginName() = 0;
+    /**
+     *  \brief Gets the plugin version.
+     *
+     *  \return The version of the plugin.
+     */
+    virtual int pluginVersion() = 0;
+
+    /**
+     *  \brief Gets the plugin group id.
+     *
+     *  If the given group ID is not registered, the plugin is not loaded.
+     *
+     *  \return Returns a string representing the group ID.
+     */
+    virtual std::string pluginGroup() = 0;
 };
 
 #endif

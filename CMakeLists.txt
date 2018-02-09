@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1.0)
 
 # Project
 project(jeplu)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 
 # Extra definitions
 set(CMAKE_CXX_STANDARD 11)
@@ -19,14 +19,6 @@ set(CMAKE_AUTO_MOC ON)
 set(JEPLU_LINK_LIBS)
 
 ################# QT #########################
-# Find Qt modules for loaders
-if(MSVC)
-    MESSAGE("MSVC compiler")
-    set(CMAKE_PREFIX_PATH "C:\\Qt\\5.10.0\\msvc2015_64")
-elseif(MINGW)
-    MESSAGE("MINGW compiler")
-    set(CMAKE_PREFIX_PATH "C:\\Qt\\5.10.0\\mingw53_32")
-endif(MSVC)
 find_package(Qt5Core)
 
 # Add qtloader as static library
@@ -53,11 +45,7 @@ if(NOT UNIX)
     LIST(REMOVE_ITEM JEPLU_SOURCES "${PROJECT_SOURCE_DIR}/src/dlloader.cpp")
 endif(NOT UNIX)
 
-# Example files
-#include_directories("${PROJECT_SOURCE_DIR}/example")
-#file(GLOB EXAMPLE_SOURCES "${PROJECT_SOURCE_DIR}/src/*.cpp")
-
 # Build
-add_executable(jeplu main.cpp ${JEPLU_SOURCES} ${JEPLU_INCLUDE} ${EXAMPLE_SOURCES})
+add_executable(jeplu main.cpp ${JEPLU_SOURCES} ${JEPLU_INCLUDE})
 
 target_link_libraries(jeplu ${JEPLU_LINK_LIBS})

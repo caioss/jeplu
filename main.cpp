@@ -17,13 +17,12 @@ int main(int argc, const char **argv)
 
     std::cout << "Searching for plugins in " << pluginsPath << std::endl;
 
-
     // TODO: Create a Facade for this:
     std::shared_ptr<PluginFactory> pluginFactory = std::make_shared<PluginFactory>();
     std::vector<std::shared_ptr<IPluginLoader>> loaders;
 #ifdef __linux__
     std::shared_ptr<DLLoader> dlLoader = std::make_shared<DLLoader>();
-    loaders.push_back(std::dynamic_pointer_cast<IPluginLoader*>(dlLoader));
+    loaders.push_back(std::dynamic_pointer_cast<IPluginLoader>(dlLoader));
 #endif
     std::shared_ptr<QtLoader> qLoader = std::make_shared<QtLoader>();
     loaders.push_back(std::dynamic_pointer_cast<IPluginLoader>(qLoader));

@@ -11,6 +11,7 @@ bool PluginManager::init(const std::string &path)
 {
     // todo: find plugins .lib files
     std::vector<std::string> libsPath;
+    libsPath.push_back("plugins/libqcustom_plugin.so");
     if (_factory != nullptr) {
         _factory->createPlugins(libsPath);
 

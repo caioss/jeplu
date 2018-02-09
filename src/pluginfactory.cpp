@@ -1,5 +1,6 @@
 #include "pluginfactory.hpp"
 
+#include <vector>
 #include <iostream>
 
 PluginFactory::PluginFactory()
@@ -9,13 +10,28 @@ PluginFactory::PluginFactory()
 int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPaths)
 {
     std::vector<std::shared_ptr<IPlugin>> loadedPlugins;
-    std::vector<std::string> unloadedPaths = pluginsPaths;
-    for(std::shared_ptr<IPluginLoader> loader : _loaders) {
-        unloadedPaths = loader->loadPlugins(unloadedPaths, loadedPlugins);
+    for(const std::string &libPath : pluginsPaths)
+    {
+        std::cout << "Loading lib: " << libPath << std::endl;
+        for(std::shared_ptr<IPluginLoader> loader : _loaders)
+        {
+            std::cout << "Trying loader: " << loader->name() << std::endl;
+            std::shared_ptr<IPlugin> plugin = nullptr;
+            int rc = loader->loadPlugin(libPath, plugin);
+            if (rc == 0)
+            {
+                loadedPlugins.push_back(plugin);
+                std::cout << "Plugin " << plugin->pluginName().c_str() << " loaded!" << std::endl;
+                break;
+            } else {
+                std::cout << "Failed to load plugin. Error:" << rc << std::endl;
+            }
+        }
     }
 
-    if (!loadedPlugins.empty()) {
-      _plugins = loadedPlugins;
+    if (!loadedPlugins.empty())
+    {
+        _plugins = loadedPlugins;
     }
   
     return 0;

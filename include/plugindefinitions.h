@@ -22,10 +22,4 @@
 // *< PLUGIN_LOCAL is used for non-API symbols.
 #define PLUGIN_LOCAL	PLUGIN_DLL_LOCAL
 
-class IPlugin;
-
-// Plugin factory.
-typedef IPlugin* create_t();
-typedef void destroy_t(IPlugin*);
-
 #endif
