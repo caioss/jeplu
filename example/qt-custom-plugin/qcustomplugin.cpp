@@ -12,17 +12,24 @@ int QCustomPlugin::plugin(const std::string &pluginWorkingPath)
     return 0;
 }
 
-std::string QCustomPlugin::pluginName()
+std::string QCustomPlugin::pluginName() const
 {
     return "QCustomPlugin";
 }
 
-std::string QCustomPlugin::pluginGroup()
+std::string QCustomPlugin::pluginId() const
 {
-    return "";
+    return QCUSTOM_PLUGIN_ID;
 }
 
-int QCustomPlugin::pluginVersion()
+int QCustomPlugin::pluginVersion() const
 {
     return 1;
+}
+
+bool QCustomPlugin::customFunction()
+{
+    qDebug() << "Custom function works!";
+
+    return true;
 }

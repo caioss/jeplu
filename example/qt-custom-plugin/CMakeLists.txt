@@ -21,7 +21,8 @@ find_package(Qt5 REQUIRED Core)
 ################# QT #########################
 # Include jeplu files.
 file (GLOB JEPLU_INCLUDE "../include/*.hpp"
-                         "../include/*.h")
+                         "../include/*.h"
+                         "../custom-proxy/icustominterface.hpp")
 
 # Add flags to compiler.
 #add_definitions(-[compiler_definition])
@@ -30,6 +31,7 @@ add_library(${PROJECT_NAME} SHARED
 			    "qcustomplugin.cpp"
 			    ${JEPLU_INCLUDE})
 
-target_include_directories(${PROJECT_NAME} PUBLIC "../include/")
+target_include_directories(${PROJECT_NAME} PUBLIC "../include/"
+                                                  "../custom-proxy")
 
 target_link_libraries(${PROJECT_NAME} Qt5::Core)

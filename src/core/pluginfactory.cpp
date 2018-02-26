@@ -10,12 +10,12 @@ PluginFactory::PluginFactory()
 int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPaths)
 {
     std::vector<std::shared_ptr<IPlugin>> loadedPlugins;
+
     for(const std::string &libPath : pluginsPaths)
     {
         std::cout << "Loading lib: " << libPath << std::endl;
         for(std::shared_ptr<IPluginLoader> loader : _loaders)
         {
-            std::cout << "Trying loader: " << loader->name() << std::endl;
             std::shared_ptr<IPlugin> plugin = nullptr;
             int rc = loader->loadPlugin(libPath, plugin);
             if (rc == 0)
@@ -24,7 +24,7 @@ int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPaths)
                 std::cout << "Plugin " << plugin->pluginName().c_str() << " loaded!" << std::endl;
                 break;
             } else {
-                std::cout << "Failed to load plugin. Error:" << rc << std::endl;
+                std::cout << "Unable to load plugin with " << loader->name() << " loader..." << std::endl;
             }
         }
     }
@@ -33,7 +33,7 @@ int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPaths)
     {
         _plugins = loadedPlugins;
     }
-  
+
     return 0;
 }
 
@@ -44,7 +44,8 @@ std::vector<std::shared_ptr<IPlugin>> PluginFactory::getPlugins() const
 
 bool PluginFactory::registerLoader(std::shared_ptr<IPluginLoader> loader)
 {
-    if (loader == nullptr) {
+    if (loader == nullptr)
+    {
         return false;
     }
     _loaders.push_back(loader);

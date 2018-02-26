@@ -6,5 +6,4 @@
 
 Q_DECLARE_INTERFACE(IPlugin, "jeplu.interfaces.iplugin")
 
-
 #endif // IQTPLUGIN_HPP

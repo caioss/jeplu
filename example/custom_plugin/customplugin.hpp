@@ -12,9 +12,15 @@ public:
 
     ~CustomPlugin();
 
-    void plugin() override;
+    int plugin(const std::string &pluginWorkingPath) override;
 
-    std::string  pluginName() override;
+    std::string pluginName() const override;
+
+    std::string pluginId() const override;
+
+    int pluginVersion() const override;
+
+    std::string proxyId() const override;
 };
 
 #endif

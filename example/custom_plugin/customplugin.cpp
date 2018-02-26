@@ -9,14 +9,31 @@ CustomPlugin::~CustomPlugin()
     printf("Destroyed.");
 }
 
-void CustomPlugin::plugin()
+int CustomPlugin::plugin(const std::string &pluginWorkingPath)
 {
     printf("Custom Plugin Plugged! \n");
+
+    return 0;
 }
 
-std::string CustomPlugin::pluginName()
+std::string CustomPlugin::pluginName() const
 {
     return "CustomPlugin";
+}
+
+std::string CustomPlugin::pluginId() const
+{
+    return "CustomPlugin.example.jeplu";
+}
+
+int CustomPlugin::pluginVersion() const
+{
+    return 1;
+}
+
+std::string CustomPlugin::proxyId() const
+{
+    return "";
 }
 
 // Plugin  Factory

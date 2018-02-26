@@ -7,12 +7,8 @@
  *  \brief Class IPlugin
  *
  *  The \c IPlugin interface is the base class for all the plugins. It's the plugin object which can be created or used
- *  anytime. For it's usage, a \c IPluginProxy should be created to cast this \c IPlugin object to the desired
- *  type and provide a registration interface to the application.
- *
- *  TODO:
- *  doc
- *
+ *  anytime. For it's usage, a \c IPluginProxy should be created to cast this \c IPlugin object to the desired type and
+ *  also to provide a registration interface between the \c IPlugin and the application.
  */
 class IPlugin
 {
@@ -21,7 +17,7 @@ public:
      *  \brief Default destructor.
      */
     virtual ~IPlugin() {}
-    
+
     /**
      *  \brief Plug this plugin to the application.
      *
@@ -39,23 +35,32 @@ public:
      *
      *  \return return a string containing the name of the plugin.
      */
-    virtual std::string  pluginName() = 0;
+    virtual std::string  pluginName() const = 0;
+
+    /**
+     *  \brief Gets the plugin unique ID.
+     *
+     *  The ID should be unique. Reverse domain is recomended.
+     *
+     *  \return A unique plugin ID.
+     */
+    virtual std::string pluginId() const = 0;
 
     /**
      *  \brief Gets the plugin version.
      *
      *  \return The version of the plugin.
      */
-    virtual int pluginVersion() = 0;
+    virtual int pluginVersion() const = 0;
 
     /**
-     *  \brief Gets the plugin group id.
+     *  \brief Gets the plugin proxy id.
      *
-     *  If the given group ID is not registered, the plugin is not loaded.
+     *  If the given proxy ID is not registered, the plugin will not be loaded.
      *
-     *  \return Returns a string representing the group ID.
+     *  \return Returns a string representing the proxy ID.
      */
-    virtual std::string pluginGroup() = 0;
+    virtual std::string proxyId() const = 0;
 };
 
 #endif

@@ -3,12 +3,14 @@
 #include <string.h>
 #include <vector>
 
-#include "src/pluginmanager.hpp"
-#include "src/pluginfactory.hpp"
-#include "src/qtloader.hpp"
+#include "pluginmanager.hpp"
+#include "pluginfactory.hpp"
+#include "qtloader.hpp"
 #ifdef __linux__
-    #include "src/dlloader.hpp"
+    #include "dlloader.hpp"
 #endif
+
+#include "example/custom-proxy/qcustomproxy.hpp"
 
 int main(int argc, const char **argv)
 {
@@ -34,8 +36,11 @@ int main(int argc, const char **argv)
         }
     }
 
+    std::shared_ptr<QCustomProxy> proxy = std::make_shared<QCustomProxy>();
+
     PluginManager *pluginManager = new PluginManager();
     pluginManager->registerFactory(pluginFactory);
+    pluginManager->registerProxy(proxy);
     pluginManager->init(pluginsPath);
 
     return 0;
