@@ -10,7 +10,6 @@
 
 DLLoader::DLLoader()
 {
-
 }
 
 int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plugin)
@@ -18,23 +17,28 @@ int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plu
     char *error;
     void *plugin_h = dlopen (file.c_str(), RTLD_LAZY);
 
-    if (!plugin_h) {
+    if (!plugin_h)
+    {
         std::cout << "Failed to load plugin: " << dlerror() << std::endl;
         return -1;
     }
 
-    create_t* create_plugin = (create_t*) dlsym(plugin_h, "create");
+    create_t *create_plugin = (create_t*) dlsym(plugin_h, "create");
 
-    if ((error = dlerror()) != NULL)  {
+    if ((error = dlerror()) != NULL)
+    {
         std::cout << "Failed to sync plugin: " << error << std::endl;
         dlclose(plugin_h);
         return -2;
     }
 
     plugin = create_plugin();
-    if (plugin) {
+    if (plugin)
+    {
         plugin->plugin("plugins/");
-    } else {
+    }
+    else
+    {
         dlclose(plugin_h);
         return -3;
     }

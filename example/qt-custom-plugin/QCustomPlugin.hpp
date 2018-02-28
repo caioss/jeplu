@@ -19,13 +19,13 @@ public:
 
     ~QCustomPlugin() {}
 
-    int plugin(const std::string &pluginWorkingPath) Q_DECL_OVERRIDE;
+    int plugin(const std::string &pluginWorkingPath) override;
 
-    std::string pluginName() const Q_DECL_OVERRIDE;
+    std::string pluginName() const override;
 
-    std::string pluginId() const Q_DECL_OVERRIDE;
+    std::string pluginId() const override;
 
-    int pluginVersion() const Q_DECL_OVERRIDE;
+    int pluginVersion() const override;
 
     bool customFunction() override;
 };

@@ -23,8 +23,10 @@ int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPaths)
                 loadedPlugins.push_back(plugin);
                 std::cout << "Plugin " << plugin->pluginName().c_str() << " loaded!" << std::endl;
                 break;
-            } else {
-                std::cout << "Unable to load plugin with " << loader->name() << " loader..." << std::endl;
+            }
+            else
+            {
+                std::cout << "Unable to load plugin with " << loader->name() << " loader." << std::endl;
             }
         }
     }

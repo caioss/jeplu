@@ -3,20 +3,20 @@
 
 #include "IQtPlugin.hpp"
 
-#define QCUSTOMINTERFACE_IID "qcustomproxy.proxy.jeplu"
+static const char* customInterfaceID = "qcustomproxy.proxy.jeplu";
 
 class ICustomInterface : public virtual IPlugin
 {
 public:
-    virtual int plugin(const std::string &pluginWorkingPath) Q_DECL_OVERRIDE = 0;
+    virtual int plugin(const std::string &pluginWorkingPath) override = 0;
 
-    virtual std::string pluginName() const Q_DECL_OVERRIDE = 0;
+    virtual std::string pluginName() const override = 0;
 
-    virtual std::string pluginId() const Q_DECL_OVERRIDE = 0;
+    virtual std::string pluginId() const override = 0;
 
-    virtual int pluginVersion() const Q_DECL_OVERRIDE = 0;
+    virtual int pluginVersion() const override = 0;
 
-    std::string proxyId() const Q_DECL_OVERRIDE { return QCUSTOMINTERFACE_IID; }
+    std::string proxyId() const override { return customInterfaceID; }
 
     virtual bool customFunction() { return false; };
 };

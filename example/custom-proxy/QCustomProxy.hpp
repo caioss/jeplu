@@ -5,14 +5,6 @@
 
 class QCustomProxy : public IPluginProxy
 {
-private:
-    /**
-     *  \brief Indicates if this proxy is initialized.
-     */
-    bool _initialized;
-
-    std::vector<std::weak_ptr<IPlugin>> _plugins;
-
 public:
     QCustomProxy();
 
@@ -27,6 +19,14 @@ public:
     std::vector<std::weak_ptr<IPlugin>> getPlugins() const override;
 
     bool addPlugin(std::weak_ptr<IPlugin> plugin) override;
+
+private:
+    /**
+     *  \brief Indicates if this proxy is initialized.
+     */
+    bool _initialized;
+
+    std::vector<std::weak_ptr<IPlugin>> _plugins;
 };
 
 #endif

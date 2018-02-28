@@ -1,17 +1,17 @@
 #include "CustomPlugin.hpp"
 #include "dlplugincreator.h"
 
-#include <stdio.h>
+#include <iostream>
 #include <memory>
 
 CustomPlugin::~CustomPlugin()
 {
-    printf("Destroyed.");
+    std::cout << "Destroyed." << std::endl;
 }
 
 int CustomPlugin::plugin(const std::string &pluginWorkingPath)
 {
-    printf("Custom Plugin Plugged! \n");
+    std::cout << "Custom Plugin Plugged!" << std::endl;
 
     return 0;
 }
@@ -36,7 +36,7 @@ std::string CustomPlugin::proxyId() const
     return "";
 }
 
-// Plugin  Factory
+// Plugin Creator
 
 extern "C" std::shared_ptr<IPlugin> create() {
     return std::make_shared<CustomPlugin>();

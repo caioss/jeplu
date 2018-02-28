@@ -4,7 +4,8 @@
 
 #include <iostream>
 
-QCustomProxy::QCustomProxy() : _initialized(false)
+QCustomProxy::QCustomProxy()
+: _initialized(false)
 {
 }
 
@@ -38,7 +39,8 @@ bool QCustomProxy::addPlugin(std::weak_ptr<IPlugin> plugin)
 {
     std::shared_ptr<IPlugin> sharedPlugin = plugin.lock();
     std::shared_ptr<ICustomInterface> customPlugin = std::dynamic_pointer_cast<ICustomInterface>(sharedPlugin);
-    if (customPlugin != nullptr && customPlugin->customFunction()) {
+    if (customPlugin != nullptr && customPlugin->customFunction())
+    {
         std::cout << "Plugin " << customPlugin->pluginName() << " compatible with proxy." << std::endl;
         _plugins.push_back(plugin);
 

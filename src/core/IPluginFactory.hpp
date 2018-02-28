@@ -1,12 +1,12 @@
 #ifndef IPLUGINFACTORY_H
 #define IPLUGINFACTORY_H
 
+#include "IPlugin.hpp"
+#include "IPluginLoader.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "IPlugin.hpp"
-#include "IPluginLoader.hpp"
 
 /**
  *  The \c IPluginFactory interface represents a plugin factory that can be registered to the \c \sa PluginManager.

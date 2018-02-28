@@ -1,11 +1,11 @@
 #ifndef IPLUGINPROXY_HPP
 #define IPLUGINPROXY_HPP
 
+#include "IPlugin.hpp"
+
 #include <memory>
 #include <vector>
 #include <string>
-
-#include "IPlugin.hpp"
 
 /**
  *  The \c IPluginProxy interface must be used for converting \c IPlugin objects to an especific type that the only the

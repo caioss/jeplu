@@ -1,11 +1,11 @@
 #ifndef IPLUGINLOADER_H
 #define IPLUGINLOADER_H
 
+#include "IPlugin.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "IPlugin.hpp"
 
 /**
  *  \brief The IPluginLoader interface represents a \c IPlugin loader.
@@ -26,12 +26,12 @@ public:
      *  All the succesfully loaded plugins will be appended to \c plugins.
      *
      *  \param path The path where all the libraries will be loaded.
-     *  \param plugins[out] The vector containing a list of plugins. All the loaded plugins will be appended to this
-     *  vector.
+     *  \param plugin[out] A shared reference to the new \c IPlugin object. If the plugin cannot be loaded, it's setted
+     *  to nullptr.
      *
-     *  \return A list of paths to the lib files that were not loaded.
+     *  \return Returns 0 if the plugin was loaded. Otherwise, returns a negative number representing an specific error.
      */
-    virtual int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugins) = 0;
+    virtual int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) = 0;
 
     /**
      *  \brief Gets the name of the loader.

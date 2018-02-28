@@ -22,27 +22,6 @@
  */
 class PluginManager : public IPluginManager
 {
-private:
-    /**
-     *  \brief _factory The reference of a \c IPluginFactory object.
-     */
-    std::shared_ptr<IPluginFactory> _factory;
-
-    /**
-     *  \brief _proxyList Holds \c IPluginProxy object references and its IDs as keys.
-     */
-    std::map<std::string, std::shared_ptr<IPluginProxy>> _proxyList;
-
-    /**
-     *  \brief Initializes all \c IPluginProxy available in \c _proxyList.
-     */
-    void _initializeProxies();
-
-    /**
-     *  \brief Adds all loaded plugins to its respective \c IPluginProxy.
-     */
-    void _addPluginsToProxies();
-
 public:
     /**
      *  \brief Default constructor.
@@ -70,6 +49,27 @@ public:
     bool registerFactory(std::shared_ptr<IPluginFactory> factory);
 
     bool registerProxy(std::shared_ptr<IPluginProxy> proxy) override;
+
+private:
+    /**
+     *  \brief Initializes all \c IPluginProxy available in \c _proxyList.
+     */
+    void _initializeProxies();
+
+    /**
+     *  \brief Adds all loaded plugins to its respective \c IPluginProxy.
+     */
+    void _addPluginsToProxies();
+
+    /**
+     *  \brief _factory The reference of a \c IPluginFactory object.
+     */
+    std::shared_ptr<IPluginFactory> _factory;
+
+    /**
+     *  \brief _proxyList Holds \c IPluginProxy object references and its IDs as keys.
+     */
+    std::map<std::string, std::shared_ptr<IPluginProxy>> _proxyList;
 };
 
 #endif

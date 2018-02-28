@@ -5,7 +5,7 @@
 
 void PluginManager::_initializeProxies()
 {
-    for (std::map<std::string, std::shared_ptr<IPluginProxy>>::iterator it = _proxyList.begin();
+    for (auto it = _proxyList.begin();
          it != _proxyList.end(); ++it)
     {
         it->second->init();
@@ -21,15 +21,17 @@ void PluginManager::_addPluginsToProxies()
         if (_proxyList.count(plugin->proxyId()) > 0)
         {
             _proxyList[plugin->proxyId()]->addPlugin(plugin);
-        } else {
+        }
+        else
+        {
             std::cout << "Proxy \"" << plugin->proxyId() << "\" not found." << std::endl;
         }
         std::cout << std::endl;
     }
 }
 
-PluginManager::PluginManager() :
-    _factory(nullptr)
+PluginManager::PluginManager()
+: _factory(nullptr)
 {
 }
 

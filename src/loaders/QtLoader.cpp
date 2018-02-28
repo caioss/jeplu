@@ -16,12 +16,17 @@ int QtLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin>
     if (loader.load())
     {
         IPlugin *castPlugin = qobject_cast<IPlugin*>(loader.instance());
-        if (castPlugin != nullptr) {
+        if (castPlugin != nullptr)
+        {
             plugin.reset(castPlugin);
-        } else {
+        }
+        else
+        {
             rc = -2;
         }
-    } else {
+    }
+    else
+    {
         qDebug() << "QtLoader coudn't load the lib " << QString::fromStdString(pluginPath);
         qDebug() << loader.errorString();
         rc = -1;
