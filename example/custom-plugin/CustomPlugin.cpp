@@ -1,5 +1,5 @@
-#include "customplugin.hpp"
-#include "dlplugincreator.hpp"
+#include "CustomPlugin.hpp"
+#include "dlplugincreator.h"
 
 #include <stdio.h>
 #include <memory>

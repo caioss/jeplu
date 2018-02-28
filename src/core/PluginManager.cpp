@@ -1,6 +1,5 @@
-#include "pluginmanager.hpp"
-
-#include "pluginfactory.hpp"
+#include "PluginManager.hpp"
+#include "PluginFactory.hpp"
 
 #include <iostream>
 

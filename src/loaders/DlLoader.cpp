@@ -1,5 +1,5 @@
-#include "dlloader.hpp"
-#include "dlplugincreator.hpp"
+#include "DlLoader.hpp"
+#include "dlplugincreator.h"
 
 #include <sys/types.h>
 #include <cstring>

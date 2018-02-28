@@ -1,7 +1,7 @@
 #ifndef IPLUGINMANAGER_H
 #define IPLUGINMANAGER_H
 
-#include "ipluginproxy.hpp"
+#include "IPluginProxy.hpp"
 
 class IPluginManager
 {

@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "iplugin.hpp"
-#include "ipluginloader.hpp"
+#include "IPlugin.hpp"
+#include "IPluginLoader.hpp"
 
 /**
  *  The \c IPluginFactory interface represents a plugin factory that can be registered to the \c \sa PluginManager.

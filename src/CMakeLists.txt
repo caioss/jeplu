@@ -8,9 +8,9 @@ foreach(comp ${COMPONENTS})
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/${comp}")
 endforeach()
 
-set(JEPLU_SOURCES "core/pluginfactory.cpp"
-                  "core/pluginmanager.cpp"
-                  "../example/custom-proxy/qcustomproxy.cpp")
+set(JEPLU_SOURCES "core/PluginFactory.cpp"
+                  "core/PluginManager.cpp"
+                  "../example/custom-proxy/QCustomProxy.cpp")
 
 # Build
 add_executable(${CMAKE_PROJECT_NAME} "${PROJECT_SOURCE_DIR}/main.cpp" ${JEPLU_SOURCES} ${JEPLU_INCLUDE})

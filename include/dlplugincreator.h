@@ -1,7 +1,7 @@
 #ifndef DLPLUGINCREATOR_HPP
 #define DLPLUGINCREATOR_HPP
 
-#include "iplugin.hpp"
+#include "IPlugin.hpp"
 
 #include <memory>
 

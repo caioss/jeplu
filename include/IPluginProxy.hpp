@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-#include "iplugin.hpp"
+#include "IPlugin.hpp"
 
 /**
  *  The \c IPluginProxy interface must be used for converting \c IPlugin objects to an especific type that the only the

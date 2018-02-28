@@ -1,11 +1,11 @@
 #ifndef QTLOADER_H
 #define QTLOADER_H
 
+#include "IPluginLoader.hpp"
+
 #include <memory>
 #include <QList>
 #include <QFile>
-
-#include "ipluginloader.hpp"
 
 /**
  *  \brief The \c QtLoader class implements \c IPluginLoader.

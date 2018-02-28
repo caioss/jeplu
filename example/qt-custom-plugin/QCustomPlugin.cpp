@@ -1,4 +1,4 @@
-#include "qcustomplugin.hpp"
+#include "QCustomPlugin.hpp"
 
 #include <QDebug>
 

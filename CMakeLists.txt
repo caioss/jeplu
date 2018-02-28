@@ -17,12 +17,12 @@ set(CMAKE_AUTO_MOC ON)
 
 # Jeplu external
 include_directories("${PROJECT_SOURCE_DIR}/include")
-set(JEPLU_INCLUDE "${PROJECT_SOURCE_DIR}/include/dlplugincreator.hpp"
-                  "${PROJECT_SOURCE_DIR}/include/iplugin.hpp"
-                  "${PROJECT_SOURCE_DIR}/include/ipluginmanager.hpp"
-                  "${PROJECT_SOURCE_DIR}/include/ipluginproxy.hpp"
-                  "${PROJECT_SOURCE_DIR}/include/iqtplugin.hpp"
-                  "${PROJECT_SOURCE_DIR}/example/custom-proxy/qcustomproxy.hpp")
+set(JEPLU_INCLUDE "${PROJECT_SOURCE_DIR}/include/dlplugincreator.h"
+                  "${PROJECT_SOURCE_DIR}/include/IPlugin.hpp"
+                  "${PROJECT_SOURCE_DIR}/include/IPluginManager.hpp"
+                  "${PROJECT_SOURCE_DIR}/include/IPluginProxy.hpp"
+                  "${PROJECT_SOURCE_DIR}/include/IQtPlugin.hpp"
+                  "${PROJECT_SOURCE_DIR}/example/custom-proxy/QCustomProxy.hpp")
 
 # Include src main CMakeLists
 add_subdirectory("${PROJECT_SOURCE_DIR}/src")

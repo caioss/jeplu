@@ -24,6 +24,6 @@ project (${PROJECT_NAME})
 #add_definitions(-[compiler_definition])
 
 add_library(${PROJECT_NAME} SHARED
-			    "customplugin.cpp"
+			    "CustomPlugin.cpp"
 			    ${JEPLU_INCLUDE})
                 

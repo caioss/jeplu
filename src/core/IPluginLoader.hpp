@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "iplugin.hpp"
+#include "IPlugin.hpp"
 
 /**
  *  \brief The IPluginLoader interface represents a \c IPlugin loader.

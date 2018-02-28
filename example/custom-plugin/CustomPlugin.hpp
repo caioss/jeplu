@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#include "iplugin.hpp"
+#include "IPlugin.hpp"
 
 class CustomPlugin : public IPlugin
 {

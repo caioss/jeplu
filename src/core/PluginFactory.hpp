@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "ipluginfactory.hpp"
-#include "ipluginloader.hpp"
+#include "IPluginFactory.hpp"
+#include "IPluginLoader.hpp"
 
 /**
  *  \brief The \c PluginFactory implements the interface \c IPluginFactory.

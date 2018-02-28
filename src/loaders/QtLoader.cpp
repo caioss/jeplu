@@ -1,6 +1,5 @@
-#include "qtloader.hpp"
-
-#include "iqtplugin.hpp"
+#include "QtLoader.hpp"
+#include "IQtPlugin.hpp"
 
 #include <QDebug>
 #include <QPluginLoader>

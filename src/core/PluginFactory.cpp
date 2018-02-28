@@ -1,4 +1,4 @@
-#include "pluginfactory.hpp"
+#include "PluginFactory.hpp"
 
 #include <vector>
 #include <iostream>

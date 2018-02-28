@@ -1,8 +1,8 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include "ipluginmanager.hpp"
-#include "pluginfactory.hpp"
+#include "IPluginManager.hpp"
+#include "PluginFactory.hpp"
 
 #include <map>
 

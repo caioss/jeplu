@@ -3,14 +3,13 @@
 #include <string.h>
 #include <vector>
 
-#include "pluginmanager.hpp"
-#include "pluginfactory.hpp"
-#include "qtloader.hpp"
 #ifdef __linux__
-    #include "dlloader.hpp"
+    #include "DlLoader.hpp"
 #endif
-
-#include "example/custom-proxy/qcustomproxy.hpp"
+#include "example/custom-proxy/QCustomProxy.hpp"
+#include "PluginManager.hpp"
+#include "PluginFactory.hpp"
+#include "QtLoader.hpp"
 
 int main(int argc, const char **argv)
 {

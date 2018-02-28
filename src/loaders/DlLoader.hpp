@@ -1,13 +1,13 @@
 #ifndef DLLOADER_H
 #define DLLOADER_H
 
-#include "ipluginloader.hpp"
+#include "IPluginLoader.hpp"
 
 class DLLoader : public IPluginLoader
 {
 private:
     int _loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plugin);
-    
+
 public:
     DLLoader();
 

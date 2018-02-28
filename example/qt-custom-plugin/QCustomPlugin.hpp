@@ -1,7 +1,7 @@
 #ifndef QCUSTOMPLUGIN_H
 #define QCUSTOMPLUGIN_H
 
-#include "icustominterface.hpp"
+#include "ICustomInterface.hpp"
 
 #include <QObject>
 #include <string.h>
