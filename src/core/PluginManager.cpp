@@ -35,12 +35,10 @@ PluginManager::PluginManager()
 {
 }
 
-bool PluginManager::init(const std::string &path)
+bool PluginManager::init(const ILibFinder &libFinder)
 {
-    // todo: find plugins .lib files
-    std::vector<std::string> libsPath;
-    libsPath.push_back("plugins/libqcustom_plugin.so");
-    libsPath.push_back("plugins/libcustom_plugin.so");
+    std::vector<std::string> libsPath = libFinder.libsPath();
+
     if (_factory == nullptr)
     {
         return false;

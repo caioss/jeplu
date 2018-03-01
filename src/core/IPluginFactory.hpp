@@ -19,16 +19,16 @@ class IPluginFactory
 {
 public:
     /**
-     *  \brief Search inside \c pluginsPath for dynamic libraries that are compatibles with any \c IPluginLoader
-     *  registered.
+     *  \brief Search inside each path in \c pluginsPath for a dynamic library that are compatible with any
+     *  \c IPluginLoader registered.
      *
-     *  For a given path, the \c IPluginFactory will search for available dynamic libraries and create (using the
+     *  For each path, the \c IPluginFactory will search for available dynamic libraries and create (using the
      *  \c IPluginLoader) a \c IPlugin object for each library.
      *
-     *  \param pluginsPaths The root path for dynamic library search.
+     *  \param path The root path to find the dynamic libraries.
      *  \return returns 0 if all the plugins were created succesfully. Otherwise, returns a negative number.
      */
-    virtual int createPlugins(const std::vector<std::string> &pluginsPaths) = 0;
+    virtual int createPlugins(const std::vector<std::string> &pluginsPath) = 0;
 
     /**
      *  \brief Gets a vector containing all the \c IPlugin references loaded.

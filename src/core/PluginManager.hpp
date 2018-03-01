@@ -1,6 +1,7 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
+#include "ILibFinder.hpp"
 #include "IPluginManager.hpp"
 #include "PluginFactory.hpp"
 
@@ -36,7 +37,7 @@ public:
      *  \param path The path to look for dynamic libraries.
      *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, returns \c false.
      */
-    bool init(const std::string &path);
+    bool init(const ILibFinder &finder);
 
     /**
      *  \brief Register the factory that will create the plugin objects.

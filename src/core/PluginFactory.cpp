@@ -7,11 +7,11 @@ PluginFactory::PluginFactory()
 {
 }
 
-int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPaths)
+int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPath)
 {
     std::vector<std::shared_ptr<IPlugin>> loadedPlugins;
 
-    for(const std::string &libPath : pluginsPaths)
+    for(const std::string &libPath : pluginsPath)
     {
         std::cout << "Loading lib: " << libPath << std::endl;
         for(std::shared_ptr<IPluginLoader> loader : _loaders)

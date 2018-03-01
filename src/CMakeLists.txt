@@ -2,7 +2,7 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 include_directories("${PROJECT_SOURCE_DIR}/src/core")
 
-set(COMPONENTS loaders)
+set(COMPONENTS loaders JepluLibFinder)
 foreach(comp ${COMPONENTS})
     include_directories("${CMAKE_CURRENT_SOURCE_DIR}/${comp}")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/${comp}")

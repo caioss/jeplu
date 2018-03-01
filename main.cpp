@@ -10,11 +10,12 @@
 #include "PluginManager.hpp"
 #include "PluginFactory.hpp"
 #include "QtLoader.hpp"
+#include "JepluLibFinder.hpp"
 
 int main(int argc, const char **argv)
 {
     std::string pluginsPath;
-    pluginsPath += "/plugins";
+    pluginsPath += "plugins/";
 
     std::cout << "Searching for plugins in " << pluginsPath << std::endl;
 
@@ -37,10 +38,11 @@ int main(int argc, const char **argv)
 
     std::shared_ptr<QCustomProxy> proxy = std::make_shared<QCustomProxy>();
 
+    JepluLibFinder finder(pluginsPath);
     PluginManager *pluginManager = new PluginManager();
     pluginManager->registerFactory(pluginFactory);
     pluginManager->registerProxy(proxy);
-    pluginManager->init(pluginsPath);
+    pluginManager->init(finder);
 
     return 0;
 }
