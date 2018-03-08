@@ -35,7 +35,8 @@ public:
      *  Creates all plugins that can be found in \c path and register them to its \c IPluginProxy.
      *
      *  \param path The path to look for dynamic libraries.
-     *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, returns \c false.
+     *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, if the \c IPluginFactory is
+     *  not registered or if it cannot create plugins, it returns \c false.
      */
     bool init(const ILibFinder &finder);
 

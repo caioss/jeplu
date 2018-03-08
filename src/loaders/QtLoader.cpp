@@ -9,9 +9,9 @@ QtLoader::QtLoader()
 {
 }
 
-int QtLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin)
+QtLoader::LoadingErrors QtLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin)
 {
-    int rc = 0;
+    LoadingErrors rc = IPluginLoader::OK;
     QPluginLoader loader(QString::fromStdString(pluginPath));
     if (loader.load())
     {
@@ -22,14 +22,14 @@ int QtLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin>
         }
         else
         {
-            rc = -2;
+            rc = IPluginLoader::OBJ_NOT_CASTABLE;
         }
     }
     else
     {
         qDebug() << "QtLoader coudn't load the lib " << QString::fromStdString(pluginPath);
         qDebug() << loader.errorString();
-        rc = -1;
+        rc = IPluginLoader::LIB_NOT_LOADABLE;
     }
 
     return rc;

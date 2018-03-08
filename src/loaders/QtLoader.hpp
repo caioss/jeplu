@@ -36,7 +36,7 @@ public:
      */
     QtLoader();
 
-    int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) override;
+    LoadingErrors loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) override;
 
     std::string name() const override { return "Qt Loader"; }
 };

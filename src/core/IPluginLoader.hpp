@@ -21,6 +21,19 @@ class IPluginLoader
 {
 public:
     /**
+     *  \brief The enum LoadingErrors indicates possible errors when tring to load a plugin.
+     */
+    enum LoadingErrors
+    {
+        OK = 0,                /*!< Successful */
+        LIB_NOT_LOADABLE = -1, /*!< The given lib couldn't be loaded. */
+        OBJ_NOT_CASTABLE = -2, /*!< The given lib doesn't have a castable object. It can be lead by incompatible
+                                    versions. */
+        CANT_CREATE_OBJ  = -3,  /*!< The given lib could not provide a object. */
+        UNKNOW_ERROR     = -4   /*!< An unknown error occurred, not loading the lib. */
+    };
+
+    /**
      *  \brief Load all the plugins from a given \c path.
      *
      *  All the succesfully loaded plugins will be appended to \c plugins.
@@ -29,9 +42,9 @@ public:
      *  \param plugin[out] A shared reference to the new \c IPlugin object. If the plugin cannot be loaded, it's setted
      *  to nullptr.
      *
-     *  \return Returns 0 if the plugin was loaded. Otherwise, returns a negative number representing an specific error.
+     *  \return Returns an error specified at \c \sa LoadingErrors.
      */
-    virtual int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) = 0;
+    virtual LoadingErrors loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) = 0;
 
     /**
      *  \brief Gets the name of the loader.

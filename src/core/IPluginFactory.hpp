@@ -26,7 +26,9 @@ public:
      *  \c IPluginLoader) a \c IPlugin object for each library.
      *
      *  \param path The root path to find the dynamic libraries.
-     *  \return returns 0 if all the plugins were created succesfully. Otherwise, returns a negative number.
+     *  \return returns \c 0 if all the plugins were created succesfully. Otherwise, returns:
+     *          \c -1 if no loader is avilable; or
+     *          \c -2 If no plugins were loaded.
      */
     virtual int createPlugins(const std::vector<std::string> &pluginsPath) = 0;
 

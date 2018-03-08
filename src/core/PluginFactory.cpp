@@ -9,6 +9,12 @@ PluginFactory::PluginFactory()
 
 int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPath)
 {
+    // If there are no loader available, we can't create plugins
+    if (_loaders.empty())
+    {
+        return -1;
+    }
+    int rerr = 0;
     std::vector<std::shared_ptr<IPlugin>> loadedPlugins;
 
     for(const std::string &libPath : pluginsPath)
@@ -26,7 +32,8 @@ int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPath)
             }
             else
             {
-                std::cout << "Unable to load plugin with " << loader->name() << " loader." << std::endl;
+                std::cout << "Unable to load plugin with " << loader->name()
+                          << " loader. Err Code: " << rc << std::endl;
             }
         }
     }
@@ -34,9 +41,11 @@ int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPath)
     if (!loadedPlugins.empty())
     {
         _plugins = loadedPlugins;
+        std::cout << "No plugins loaded.";
+        rerr = -2;
     }
 
-    return 0;
+    return rerr;
 }
 
 std::vector<std::shared_ptr<IPlugin>> PluginFactory::getPlugins() const
