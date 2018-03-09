@@ -14,7 +14,7 @@ void PluginManager::_initializeProxies()
 
 void PluginManager::_addPluginsToProxies()
 {
-    for (std::shared_ptr<IPlugin> plugin : _factory->getPlugins())
+    for (std::shared_ptr<IPlugin> plugin : _factory->plugins())
     {
         std::cout << "Checking plugin proxy: " << plugin->pluginName() << std::endl;
         std::cout << "\tProxy: " << plugin->proxyId() << std::endl;
@@ -30,8 +30,9 @@ void PluginManager::_addPluginsToProxies()
     }
 }
 
-PluginManager::PluginManager()
-: _factory(nullptr)
+PluginManager::PluginManager() :
+_initialized(false),
+_factory(nullptr)
 {
 }
 
@@ -49,7 +50,7 @@ bool PluginManager::init(const ILibFinder &libFinder)
         _addPluginsToProxies();
         _initializeProxies();
 
-        return true;
+        return _initialized = true;
     }
 
     return false;
@@ -66,7 +67,7 @@ bool PluginManager::registerProxy(std::shared_ptr<IPluginProxy> proxy)
     return false;
 }
 
-bool PluginManager::registerFactory(std::shared_ptr<IPluginFactory> factory)
+bool PluginManager::registerFactory(std::shared_ptr<PluginFactory> factory)
 {
     if (factory != nullptr)
     {

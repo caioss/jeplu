@@ -1,17 +1,19 @@
 #ifndef PLUGINFACTORY_H
 #define PLUGINFACTORY_H
 
-#include "IPluginFactory.hpp"
 #include "IPluginLoader.hpp"
 
 #include <memory>
 
 /**
- *  \brief The \c PluginFactory implements the interface \c IPluginFactory.
+ *  The class \c PluginFactory represents a plugin factory that can register loaders and create plugins with the
+ *  registered loaders.
  *
- *  \sa IPluginFactory
+ *  The objective of this class is:
+ *    - to provide ways to register \c \sa IPluginLoader;
+ *    - create and store \c IPlugin object references.
  */
-class PluginFactory : public IPluginFactory
+class PluginFactory
 {
 public:
     /**
@@ -19,15 +21,41 @@ public:
      */
     PluginFactory();
 
-    int createPlugins(const std::vector<std::string> &pluginsPaths) override;
+     /**
+     *  \brief Search inside each path in \c pluginsPath for a dynamic library that are compatible with any
+     *  \c IPluginLoader registered.
+     *
+     *  For each path, the \c PluginFactory will search for available dynamic libraries and create (using the
+     *  \c IPluginLoader) a \c IPlugin object for each library.
+     *
+     *  If some lib cannot be dynamically linked to the application using some loader, another one will be called for
+     *  the job, if available.
+     *
+     *  \param path The root path to find the dynamic libraries.
+     *  \return returns \c 0 if all the plugins were created succesfully. Otherwise, returns:
+     *          \c -1 if no loader is avilable; or
+     *          \c -2 If no plugins were loaded.
+     */
+    int createPlugins(const std::vector<std::string> &pluginsPaths);
 
-    std::vector<std::shared_ptr<IPlugin>> getPlugins() const override;
+    /**
+     *  \brief Gets a vector containing all the \c IPlugin references loaded.
+     *
+     *  \sa createPlugins()
+     *
+     *  \return Returns a vector with \c IPlugin shared objects.
+     */
+    std::vector<std::shared_ptr<IPlugin>> plugins() const;
 
-    bool registerLoader(std::shared_ptr<IPluginLoader> loader) override;
-
-//    template <typename T> int getPluginsWithInterface(QList<std::weak_ptr<T>> &plugins) {} //TODO
-
-//    template <typename T> std::vector<std::string> getPluginsID() const {} //TODO
+    /**
+     *  \brief Register \c IPluginLoader that can load its dynamic libraries.
+     *
+     *  See \c \sa IPluginLoader for details.
+     *
+     *  \param loader The \c IPluginLoader reference that will be registered to this factory.
+     *  \return Returns \c true if the \c loader could be registered sucessfully.
+     */
+    bool registerLoader(std::shared_ptr<IPluginLoader> loader);
 
 private:
     /**

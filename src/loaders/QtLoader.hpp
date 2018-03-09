@@ -39,6 +39,14 @@ public:
     LoadingErrors loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) override;
 
     std::string name() const override { return "Qt Loader"; }
+
+    std::string errString() const override;
+
+private:
+    /**
+     *  \brief Holds the last error string.
+     */
+    std::string _errStr;
 };
 
 #endif // QTLOADER_H

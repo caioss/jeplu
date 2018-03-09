@@ -15,40 +15,37 @@ int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPath)
         return -1;
     }
     int rerr = 0;
-    std::vector<std::shared_ptr<IPlugin>> loadedPlugins;
 
     for(const std::string &libPath : pluginsPath)
     {
         std::cout << "Loading lib: " << libPath << std::endl;
         for(std::shared_ptr<IPluginLoader> loader : _loaders)
         {
+            std::cout << "Trying loader: " << loader->name() << std::endl;
             std::shared_ptr<IPlugin> plugin = nullptr;
             int rc = loader->loadPlugin(libPath, plugin);
             if (rc == 0)
             {
-                loadedPlugins.push_back(plugin);
+                _plugins.push_back(plugin);
                 std::cout << "Plugin " << plugin->pluginName().c_str() << " loaded!" << std::endl;
                 break;
             }
             else
             {
-                std::cout << "Unable to load plugin with " << loader->name()
-                          << " loader. Err Code: " << rc << std::endl;
+                std::cout << "Unable to load plugin. Err: " << loader->errString() << std::endl;
             }
         }
     }
 
-    if (!loadedPlugins.empty())
+    if (_plugins.empty())
     {
-        _plugins = loadedPlugins;
-        std::cout << "No plugins loaded.";
+        std::cout << "No plugins loaded." << std::endl;
         rerr = -2;
     }
-
     return rerr;
 }
 
-std::vector<std::shared_ptr<IPlugin>> PluginFactory::getPlugins() const
+std::vector<std::shared_ptr<IPlugin>> PluginFactory::plugins() const
 {
     return _plugins;
 }

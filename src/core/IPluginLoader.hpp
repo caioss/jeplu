@@ -51,6 +51,12 @@ public:
      *  \return The loader's name.
      */
     virtual std::string name() const = 0;
+
+    /**
+     *  \brief Gets the last error described.
+     *  \return A string describing the last error.
+     */
+    virtual std::string errString() const = 0;
 };
 
 #endif

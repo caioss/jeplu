@@ -2,7 +2,7 @@
 #define PLUGINMANAGER_H
 
 #include "ILibFinder.hpp"
-#include "IPluginManager.hpp"
+#include "IPluginProxy.hpp"
 #include "PluginFactory.hpp"
 
 #include <map>
@@ -19,9 +19,9 @@
  *
  *  \sa IPlugin
  *  \sa IPluginProxy
- *  \sa IPluginFactory
+ *  \sa PluginFactory
  */
-class PluginManager : public IPluginManager
+class PluginManager
 {
 public:
     /**
@@ -35,22 +35,41 @@ public:
      *  Creates all plugins that can be found in \c path and register them to its \c IPluginProxy.
      *
      *  \param path The path to look for dynamic libraries.
-     *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, if the \c IPluginFactory is
+     *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, if the \c PluginFactory is
      *  not registered or if it cannot create plugins, it returns \c false.
      */
     bool init(const ILibFinder &finder);
+
+    /**
+     *  \brief Indicates if this PluginManager is initialized.
+     *
+     *  \return Returns \c true if it's initialized or \c false otherwise.
+     */
+    bool initialized() const;
 
     /**
      *  \brief Register the factory that will create the plugin objects.
      *
      *  If no factory is registered no plugins can be created, so this class became useless.
      *
-     *  \param factory A shared reference to the \c IPluginFactory object.
-     *  \return Returns \c true if the \c factory could be registered succesfully. Otherwise, returs true.
+     *  \param factory A shared reference to the \c PluginFactory object.
+     *  \return Returns \c true if the \c factory could be registered succesfully. Otherwise, returs false.
      */
-    bool registerFactory(std::shared_ptr<IPluginFactory> factory);
+    bool registerFactory(std::shared_ptr<PluginFactory> factory);
 
-    bool registerProxy(std::shared_ptr<IPluginProxy> proxy) override;
+    /**
+     *  \brief Register the \c proxy to the list of proxies availbable.
+     *
+     *  When this \c PluginManager is initialized, it will search for match between \c IPlugin proxy ID and the
+     *  registered proxies. If there is a match, the \c IPlugin object is registered to it's `IPluginProxy`, becoming
+     *  available as a custom interface of that \c IPluginProxy.
+     *
+     *  \sa IPluginProxy
+     *
+     *  \param proxy The \c IPluginProxy object that will be registered to initialization.
+     *  \return Returns true if it can be registered.
+     */
+    bool registerProxy(std::shared_ptr<IPluginProxy> proxy);
 
 private:
     /**
@@ -64,9 +83,14 @@ private:
     void _addPluginsToProxies();
 
     /**
-     *  \brief _factory The reference of a \c IPluginFactory object.
+     *  \brief _initialized Holds the init state of this PluginManager.
      */
-    std::shared_ptr<IPluginFactory> _factory;
+    bool _initialized;
+
+    /**
+     *  \brief _factory The reference of a \c PluginFactory object.
+     */
+    std::shared_ptr<PluginFactory> _factory;
 
     /**
      *  \brief _proxyList Holds \c IPluginProxy object references and its IDs as keys.

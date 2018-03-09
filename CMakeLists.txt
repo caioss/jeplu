@@ -19,7 +19,6 @@ set(CMAKE_AUTO_MOC ON)
 include_directories("${PROJECT_SOURCE_DIR}/include")
 set(JEPLU_INCLUDE "${PROJECT_SOURCE_DIR}/include/dlplugincreator.h"
                   "${PROJECT_SOURCE_DIR}/include/IPlugin.hpp"
-                  "${PROJECT_SOURCE_DIR}/include/IPluginManager.hpp"
                   "${PROJECT_SOURCE_DIR}/include/IPluginProxy.hpp"
                   "${PROJECT_SOURCE_DIR}/include/IQtPlugin.hpp"
                   "${PROJECT_SOURCE_DIR}/example/custom-proxy/QCustomProxy.hpp")

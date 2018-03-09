@@ -7,7 +7,7 @@ include_directories("${PROJECT_SOURCE_DIR}/src/core")
 # and link with another created by its own. Create another ILibFinder/IPluginLoader, insert its CMakeList target name
 # here (wich represents the same name of its subdir. e.g: JepluLibFinder/CMakeLists.txt) and register into
 # `IPluginManager` changing the `Jeplu.cpp`, at the registration section.
-set(COMPONENTS loaders JepluLibFinder)
+set(COMPONENTS core loaders JepluLibFinder)
 
 # Including components subdir
 foreach(comp ${COMPONENTS})
@@ -15,8 +15,7 @@ foreach(comp ${COMPONENTS})
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/${comp}")
 endforeach()
 
-set(JEPLU_SOURCES "core/PluginFactory.cpp"
-                  "core/PluginManager.cpp"
+set(JEPLU_SOURCES "Jeplu.cpp"
                   "../example/custom-proxy/QCustomProxy.cpp")
 
 # Build

@@ -44,7 +44,7 @@ public:
      *
      *  \return Returns a vector containing weak references of \c IPlugin objects.
      */
-    virtual std::vector<std::weak_ptr<IPlugin>> getPlugins() const = 0;
+    virtual std::vector<std::weak_ptr<IPlugin>> plugins() const = 0;
 
     /**
      *  \brief Adds the \c plugin reference to this proxy.

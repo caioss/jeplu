@@ -8,7 +8,8 @@
 #include <iostream>
 #include <dlfcn.h>
 
-DLLoader::DLLoader()
+DLLoader::DLLoader() :
+_errStr("No error")
 {
 }
 
@@ -19,7 +20,7 @@ int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plu
 
     if (!plugin_h)
     {
-        std::cout << "Failed to load plugin: " << dlerror() << std::endl;
+        _errStr = "Failed to load plugin: " + std::string(dlerror());
         return IPluginLoader::LIB_NOT_LOADABLE;
     }
 
@@ -27,7 +28,7 @@ int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plu
 
     if ((error = dlerror()) != NULL)
     {
-        std::cout << "Failed to sync plugin: " << error << std::endl;
+        _errStr = "Failed to sync plugin: " + std::string(error);
         dlclose(plugin_h);
         return IPluginLoader::OBJ_NOT_CASTABLE;
     }
@@ -35,10 +36,12 @@ int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plu
     plugin = create_plugin();
     if (plugin)
     {
+        _errStr = "Success";
         plugin->plugin("plugins/");
     }
     else
     {
+        _errStr = "Unable to create a plugin object.";
         dlclose(plugin_h);
         return IPluginLoader::CANT_CREATE_OBJ;
     }
@@ -51,4 +54,9 @@ DLLoader::LoadingErrors DLLoader::loadPlugin(const std::string &pluginPath, std:
     LoadingErrors rc = static_cast<LoadingErrors>(_loadPlugin(pluginPath, plugin));
 
     return rc;
+}
+
+std::string DLLoader::errString() const
+{
+    return _errStr;
 }

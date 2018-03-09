@@ -1,7 +1,5 @@
 #include "QCustomProxy.hpp"
 
-#include "ICustomInterface.hpp"
-
 #include <iostream>
 
 QCustomProxy::QCustomProxy()
@@ -30,7 +28,7 @@ bool QCustomProxy::initialized() const
     return _initialized;
 }
 
-std::vector<std::weak_ptr<IPlugin>> QCustomProxy::getPlugins() const
+std::vector<std::weak_ptr<IPlugin>> QCustomProxy::plugins() const
 {
     return _plugins;
 }
@@ -47,4 +45,18 @@ bool QCustomProxy::addPlugin(std::weak_ptr<IPlugin> plugin)
         return true;
     }
     return false;
+}
+
+std::vector<std::weak_ptr<ICustomInterface>> QCustomProxy::interfaces() const
+{
+    std::vector<std::weak_ptr<ICustomInterface>> interfaces;
+    for (std::weak_ptr<IPlugin> plugin : _plugins)
+    {
+        std::shared_ptr<IPlugin> pluginLocked = plugin.lock();
+        if (pluginLocked)
+        {
+            interfaces.push_back(std::dynamic_pointer_cast<ICustomInterface>(pluginLocked));
+        }
+    }
+    return interfaces;
 }

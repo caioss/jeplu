@@ -5,7 +5,8 @@
 #include <QPluginLoader>
 #include <QString>
 
-QtLoader::QtLoader()
+QtLoader::QtLoader() :
+_errStr("No error.")
 {
 }
 
@@ -19,18 +20,24 @@ QtLoader::LoadingErrors QtLoader::loadPlugin(const std::string &pluginPath, std:
         if (castPlugin != nullptr)
         {
             plugin.reset(castPlugin);
+            _errStr = "Success";
         }
         else
         {
+            _errStr = "Unable to cast the library object to a known object.";
             rc = IPluginLoader::OBJ_NOT_CASTABLE;
         }
     }
     else
     {
-        qDebug() << "QtLoader coudn't load the lib " << QString::fromStdString(pluginPath);
-        qDebug() << loader.errorString();
+        _errStr = loader.errorString().toStdString();
         rc = IPluginLoader::LIB_NOT_LOADABLE;
     }
 
     return rc;
+}
+
+std::string QtLoader::errString() const
+{
+    return _errStr;
 }

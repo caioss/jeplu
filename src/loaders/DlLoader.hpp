@@ -12,8 +12,18 @@ public:
 
     std::string name() const override { return "Dl Loader"; }
 
+    std::string errString() const override;
+
 private:
+    /**
+     *  \brief Try to load the lib file \c file and cast to a known Plugin object.
+     */
     int _loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plugin);
+
+    /**
+     *  \brief Holds the last error string.
+     */
+    std::string _errStr;
 };
 
 #endif

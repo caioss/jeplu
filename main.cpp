@@ -3,14 +3,9 @@
 #include <string.h>
 #include <vector>
 
-#ifdef __linux__
-    #include "DlLoader.hpp"
-#endif
+#include "example/custom-proxy/ICustomInterface.hpp"
 #include "example/custom-proxy/QCustomProxy.hpp"
-#include "PluginManager.hpp"
-#include "PluginFactory.hpp"
-#include "QtLoader.hpp"
-#include "JepluLibFinder.hpp"
+#include "Jeplu.hpp"
 
 int main(int argc, const char **argv)
 {
@@ -19,30 +14,22 @@ int main(int argc, const char **argv)
 
     std::cout << "Searching for plugins in " << pluginsPath << std::endl;
 
-    // TODO: Create a Facade for this:
-    std::shared_ptr<PluginFactory> pluginFactory = std::make_shared<PluginFactory>();
-    std::vector<std::shared_ptr<IPluginLoader>> loaders;
-#ifdef __linux__
-    std::shared_ptr<DLLoader> dlLoader = std::make_shared<DLLoader>();
-    loaders.push_back(std::dynamic_pointer_cast<IPluginLoader>(dlLoader));
-#endif
-    std::shared_ptr<QtLoader> qLoader = std::make_shared<QtLoader>();
-    loaders.push_back(std::dynamic_pointer_cast<IPluginLoader>(qLoader));
-    for (std::shared_ptr<IPluginLoader> loader : loaders) {
-        if (pluginFactory->registerLoader(loader)) {
-            std::cout << "Loader " << loader->name() << " registered." << std::endl;
-        } else {
-            std::cout << "Loader " << loader->name() << " couldn't be registered." << std::endl;
+    Jeplu pluginManager;
+    std::shared_ptr<QCustomProxy> proxy = std::make_shared<QCustomProxy>();
+    pluginManager.registerProxy(proxy);
+    pluginManager.init(pluginsPath);
+
+    if (proxy->initialized())
+    {
+        for (std::weak_ptr<ICustomInterface> wPlugin : proxy->interfaces())
+        {
+            std::shared_ptr<ICustomInterface> plugin = wPlugin.lock();
+            if (plugin)
+            {
+                std::cout << "Loading custom function from plugin " << plugin->pluginName() << std::endl;
+                plugin->customFunction();
+            }
         }
     }
-
-    std::shared_ptr<QCustomProxy> proxy = std::make_shared<QCustomProxy>();
-
-    JepluLibFinder finder(pluginsPath);
-    PluginManager *pluginManager = new PluginManager();
-    pluginManager->registerFactory(pluginFactory);
-    pluginManager->registerProxy(proxy);
-    pluginManager->init(finder);
-
     return 0;
 }
