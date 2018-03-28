@@ -2,7 +2,6 @@
 #define JEPLU_HPP
 
 #include "IPluginProxy.hpp"
-#include "PluginManager.hpp"
 
 /**
  *  \brief The Jeplu is the main class that works as a facade for dynamic libraries (plugins) management.
@@ -23,6 +22,11 @@ public:
      *  \brief Default constructor.
      */
     Jeplu();
+
+    /**
+     *  \brief Default destructor.
+     */
+    ~Jeplu();
 
     /**
      *  \brief Initializes the class loading all the plugin available in \c pluginsRootPath.
@@ -46,11 +50,15 @@ public:
     // template <typename T> std::vector<std::string> pluginsID() const {} //TODO
 
 private:
-    bool _initFactory();
+    /**
+     *  \brief Define the private implementation of jeplu as Pimpl.
+     */
+    class JepluImpl;
 
-    bool _initProxies();
-
-    std::unique_ptr<PluginManager> _manager;
+    /**
+     *  \brief Holds a unique pointer to the implementation Jeplu class.
+     */
+    std::unique_ptr<JepluImpl> _impl;
 };
 
 #endif // JEPLU_HPP

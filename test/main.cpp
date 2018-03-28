@@ -3,8 +3,8 @@
 #include <string.h>
 #include <vector>
 
-#include "example/custom-proxy/ICustomInterface.hpp"
-#include "example/custom-proxy/QCustomProxy.hpp"
+#include "custom-proxy/ICustomInterface.hpp"
+#include "custom-proxy/QCustomProxy.hpp"
 #include "Jeplu.hpp"
 
 int main(int argc, const char **argv)

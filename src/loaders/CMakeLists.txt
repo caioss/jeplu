@@ -19,7 +19,6 @@ if (UNIX)
    list(APPEND LOADERS_LINK_LIBS ${CMAKE_DL_LIBS})
 endif (UNIX)
 
-
 # Build and link targets
 add_library(loaders ${LOADERS_SRC} ${INCLUDE_FILES})
 target_link_libraries(loaders ${LOADERS_LINK_LIBS})

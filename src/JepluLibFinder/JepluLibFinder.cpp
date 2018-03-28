@@ -29,7 +29,7 @@ void JepluLibFinder::_findLibsPath(const std::string &path)
     QDir pluginsDir(QString::fromStdString(path));
     for (QString pluginPath : pluginsDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot))
     {
-        // The lib should be named as path+libname+[osprefix lib][dirname].[so|dll|dylib]
+        // The lib should be named as path/libname/[osprefix lib]+libname.[so|dll|dylib]
         // unix example: example/libexample.[so|dylib]; Windows example: example/example.dll
         QString libPath = QString::fromStdString(path) + pluginPath +
                           (_hasLibPrefix ? "/lib" : "/") + pluginPath + _libSuffix;

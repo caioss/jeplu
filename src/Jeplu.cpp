@@ -10,11 +10,43 @@
 
 #include <iostream>
 
-Jeplu::Jeplu() :
-_manager(std::unique_ptr<PluginManager>(new PluginManager()))
-{}
+/**
+ *  \brief Implements and defines the JepluImpl as Pimpl.
+ */
+class Jeplu::JepluImpl {
+public:
+    /**
+     *  \brief Default constructor.
+     */
+    JepluImpl() :
+    _manager(new PluginManager())
+    {}
 
-bool Jeplu::_initFactory()
+    /**
+     *  \brief Initializes the PluginFactory and set it up to the Plugin Manager.
+     */
+    bool initFactory();
+
+    /**
+     *  \brief Initializes the plugin manager.
+     */
+    bool initManager(const JepluLibFinder &finder);
+
+    /**
+     *  \brief Register the given proxy into PluginManager.
+     */
+    bool registerProxy(std::shared_ptr<IPluginProxy> proxy);
+
+private:
+    /**
+     *  \brief Holds a unique pointer to PluginManager.
+     */
+    std::unique_ptr<PluginManager> _manager;
+};
+
+// JepluImpl implementation
+
+bool Jeplu::JepluImpl::initFactory()
 {
     bool ret = false;
     std::shared_ptr<PluginFactory> pluginFactory = std::make_shared<PluginFactory>();
@@ -33,19 +65,40 @@ bool Jeplu::_initFactory()
     return ret;
 }
 
+bool Jeplu::JepluImpl::initManager(const JepluLibFinder &finder)
+{
+    return _manager->init(finder);
+}
+
+bool Jeplu::JepluImpl::registerProxy(std::shared_ptr<IPluginProxy> proxy)
+{
+    return _manager->registerProxy(proxy);
+}
+
+// Jeplu Implementation
+
+// Tell the compiler to generate default special members which utilize the power of std::unique_ptr.
+// We must do it here because the implementation class is defined at this point thus std::unique_ptr
+// can properly handle the implementation pointer.
+Jeplu::~Jeplu() = default;
+
+Jeplu::Jeplu() :
+_impl(new JepluImpl())
+{}
+
 int Jeplu::init(const std::string &pluginsRootPath)
 {
     std::cout << "Initializing Jeplu..." << std::endl;
     int rc = 0;
     // Initializes and register factory to manager.
-    if (!_initFactory())
+    if (!_impl->initFactory())
     {
         std::cout << "The Plugin Factory could not be initialized or there are no loader available." << std::endl;
         return -1;
     }
 
     JepluLibFinder finder(pluginsRootPath);
-    if (!_manager->init(finder))
+    if (!_impl->initManager(finder))
     {
         std::cout << "Plugin Manager couldn't be initialized." << std::endl;
         rc = -2;
@@ -55,5 +108,5 @@ int Jeplu::init(const std::string &pluginsRootPath)
 
 bool Jeplu::registerProxy(std::shared_ptr<IPluginProxy> proxy)
 {
-    return _manager->registerProxy(proxy);
+    return _impl->registerProxy(proxy);
 }
