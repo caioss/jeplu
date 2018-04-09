@@ -28,6 +28,13 @@ else ()
     list(APPEND MODULES "qt-loader")
 endif ()
 
+# Adds installer to be built if not excluded.
+if (no-plugin-installer)
+    add_definitions(-DNO_PLUGIN_INSTALLER)
+else ()
+    list(APPEND MODULES "installer")
+endif ()
+
 # Build components that was added above.
 foreach(module ${MODULES})
     message("Module " ${module} " marked for build.")
