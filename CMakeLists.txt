@@ -34,4 +34,3 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/src")
 if (test)
    add_subdirectory("${PROJECT_SOURCE_DIR}/test")
 endif ()
-
