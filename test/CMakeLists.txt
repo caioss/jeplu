@@ -7,20 +7,41 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-include_directories("../example/")
+# Test
+# Download and unpack googletest at configure time
+configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+RESULT_VARIABLE result
+WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
+if(result)
+    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+RESULT_VARIABLE result
+WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
+if(result)
+    message(FATAL_ERROR "Build step for googletest failed: ${result}")
+endif()
 
-# Find Qt package
-find_package(Qt5 REQUIRED Core)
+# Prevent overriding the parent project's compiler/linker
+# settings on Windows
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+# Add googletest directly to our build. This defines
+# the gtest and gtest_main targets.
+add_subdirectory(${PROJECT_SOURCE_DIR}/ext/googletest-src
+                 ${PROJECT_BINARY_DIR}/googletest-build
+                                  EXCLUDE_FROM_ALL)
+
+# Include examples for testing plugins.
+include_directories("${CMAKE_SRC_DIR}/example/")
 
 # Find jeplu library
-find_library(JEPLU_LINK jeplu PATHS "${PROJECT_BINARY_DIR}/../lib" NO_DEFAULT_PATH)
-include_directories("${PROJECT_BINARY_DIR}/../include/")
+include_directories("${CMAKE_SRC_DIR}/include/")
+# Include lib output directory 
+link_directories("${CMAKE_BINARY_DIR}/lib/")
 
 set(TEST_SOURCES  "main.cpp"
-                  "${PROJECT_BINARY_DIR}/../include/dlplugincreator.h"
-                  "${PROJECT_BINARY_DIR}/../include/IPlugin.hpp"
-                  "${PROJECT_BINARY_DIR}/../include/IPluginProxy.hpp"
-                  "${PROJECT_BINARY_DIR}/../include/IQtPlugin.hpp"
                   "../example/custom-proxy/ICustomInterface.hpp"
                   "../example/custom-proxy/QCustomProxy.cpp")
 
@@ -28,4 +49,4 @@ set(TEST_SOURCES  "main.cpp"
 add_executable(jeplu-test ${TEST_SOURCES} ${JEPLU_INCLUDE})
 
 # Links the library with components.
-target_link_libraries(jeplu-test Qt5::Core ${JEPLU_LINK})
+target_link_libraries(jeplu-test jeplu gtest_main)

@@ -5,6 +5,8 @@ project(jeplu)
 set(CMAKE_BUILD_TYPE Debug)
 
 # Project extra definitions
+# Options. Turn off with 'cmake -Dtest=FALSE'.
+option(test "Build all tests." TRUE) # Makes boolean 'test' available.
 
 # Extra definitions
 set(CMAKE_CXX_STANDARD 11)
@@ -22,7 +24,14 @@ include_directories("${PROJECT_SOURCE_DIR}/include")
 set(JEPLU_INCLUDE "${PROJECT_SOURCE_DIR}/include/dlplugincreator.h"
                   "${PROJECT_SOURCE_DIR}/include/IPlugin.hpp"
                   "${PROJECT_SOURCE_DIR}/include/IPluginProxy.hpp"
-                  "${PROJECT_SOURCE_DIR}/include/IQtPlugin.hpp")
+                  "${PROJECT_SOURCE_DIR}/include/IQtPlugin.hpp"
+                  "${PROJECT_SOURCE_DIR}/include/Jeplu.hpp")
 
 # Include src main CMakeLists
 add_subdirectory("${PROJECT_SOURCE_DIR}/src")
+
+# Include tests if enabled
+if (test)
+   add_subdirectory("${PROJECT_SOURCE_DIR}/test")
+endif ()
+
