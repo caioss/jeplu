@@ -2,7 +2,6 @@
 #define _ZIP_H
 
 #include <string>
-#include <vector>
 #include <cstdint>
 #include <fstream>
 
@@ -15,7 +14,7 @@
  */
 #define ZIP_MEM_CHUNK_SIZE 64
 
-using namespace std;
+//using namespace std;
 
 /**
  * \brief Zip class, this class will handle zip archives.
@@ -33,9 +32,9 @@ public:
     /**
      * \brief Zip constructor.
      *
-     * @param m_pluginsPath string, file system plugins path.
+     * @param m_pluginsPath std::string, file system plugins path.
      */
-    Zip(string pluginsPath);
+    Zip(std::string pluginsPath);
 
     /**
      * \brief Zip destructor.
@@ -46,17 +45,17 @@ public:
     /**
      * \brief Sets the pluuginsPath attribute.
      *
-     * @param pluginsPath string, file system plugins path.
+     * @param pluginsPath std::string, file system plugins path.
      */
-    void setPluginsPath(string pluginsPath);
+    void setPluginsPath(std::string pluginsPath);
 
     /**
      * \brief Opens the zip archive.
      *
-     * @param zipPath string, zip archive file system path.
+     * @param zipPath std::string, zip archive file system path.
      * @return bool
      */
-    bool openZip(const string zipPath);
+    bool openZip(const std::string zipPath);
 
     /**
      * \brief Closes zip archive.
@@ -92,19 +91,18 @@ private:
     /**
      * \brief _mkdir, create the directory.
      *
-     * @param  dir string, directory name
-     * @param  len size_t, directory path name lenght
+     * @param  dirName std::string, directory name
      * @return uint8, ZIP_RET_VALUES
      */
-    uint8_t _mkdir(const string dir, size_t len);
+    uint8_t _mkdir(const std::string dirName);
 
     /**
      * \brief Open/create file.
      *
-     * @param  filePath string, file path.
+     * @param  filePath std::string, file path.
      * @return bool
      */
-    bool _openFile(const string filePath);
+    bool _openFile(const std::string filePath);
 
     /**
      * \brief Close the file.
@@ -115,10 +113,10 @@ private:
     /**
      * \brief _write, write the bytes read from the zip archive into the target file.
      *
-     * @param path string, the file path.
+     * @param path std::string, the file path.
      * @return uint8_t, ZIP_RET_VALUES
      */
-    uint8_t _writeFile(const string filePath);
+    uint8_t _writeFile(const std::string filePath);
 
     /**
      * \brief _extracFile, extract the file from zip archive.
@@ -133,31 +131,31 @@ private:
      * \brief Plugins path, where the plugins will be installed.
      *
      */
-    string m_pluginsPath;
+    std::string m_pluginsPath;
 
     /**
      * \brief ofstream
      *
      */
-    ofstream m_file;
+    std::ofstream m_file;
 
     /**
-     * \brief struct zip, libzip related.
+     * \brief pointer to struct zip, libzip related.
      *
      */
-    zip_t *m_za = NULL;
+    zip_t *_za = nullptr;
 
     /**
-     * \brief struct zip_file, libzip related.
+     * \brief pointer to struct zip_file, libzip related.
      *
      */
-    zip_file_t *m_zf = NULL;
+    zip_file_t *_zf = nullptr;
 
     /**
      * \brief struct zip_stat, libzip related.
      *
      */
-    zip_stat_t m_sb;
+    zip_stat_t _sb;
 };
 
 #endif // _ZIP_H
