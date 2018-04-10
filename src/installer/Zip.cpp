@@ -1,8 +1,8 @@
-// linux only
-#include <sys/stat.h>
-
 #include <cstring>
 #include <iostream>
+
+#include <QDir>
+#include <QString>
 
 #include "Zip.hpp"
 
@@ -10,23 +10,21 @@ Zip::Zip()
 {
 }
 
-Zip::Zip(string pluginsPath)
+Zip::Zip(std::string pluginsPath)
 {
     this->m_pluginsPath = pluginsPath;
 }
 
-void Zip::setPluginsPath(string pluginsPath)
+void Zip::setPluginsPath(std::string pluginsPath)
 {
     this->m_pluginsPath = pluginsPath;
 }
 
-bool Zip::openZip(const string zipPath)
+bool Zip::openZip(const std::string zipPath)
 {
     int err;
 
-    if ((this->m_za = zip_open(zipPath.c_str(),
-                               ZIP_CHECKCONS | ZIP_RDONLY,
-                               &err)) != NULL)
+    if ((this->_za = zip_open(zipPath.c_str(), ZIP_CHECKCONS | ZIP_RDONLY, &err)) != nullptr)
     {
         return true;
     }
@@ -35,16 +33,19 @@ bool Zip::openZip(const string zipPath)
 
 void Zip::closeZip(void)
 {
-    if (this->m_za != NULL)
+    if (this->_za != nullptr)
     {
-        zip_close(m_za);
+        zip_close(this->_za);
     }
 }
 
-bool Zip::_openFile(const string filePath)
+bool Zip::_openFile(const std::string filePath)
 {
     // create and append
-    this->m_file.open(filePath, ofstream::out | ofstream::app | ofstream::binary);
+    this->m_file.open(filePath,
+                      std::ofstream::out |
+                      std::ofstream::app |
+                      std::ofstream::binary);
 
     return this->m_file.is_open();
 }
@@ -57,11 +58,11 @@ void Zip::_closeFile(void)
 uint8_t Zip::extractZip(void)
 {
     // limit and interator libzip related
-    zip_int64_t num_entries = zip_get_num_entries(this->m_za, ZIP_FL_COMPRESSED),
+    zip_int64_t num_entries = zip_get_num_entries(this->_za, ZIP_FL_COMPRESSED),
                 i;
 
     // auxiliary
-    uint8_t ret = -1;
+    uint8_t ret;
 
     // verify numbers of entries in the zip archive
     if (num_entries < 0)
@@ -69,7 +70,7 @@ uint8_t Zip::extractZip(void)
         return ZIP_ERROR_ENTRIES;
     }
 
-    // extract all the contents from zip archive this->m_file
+    // extract all the contents from zip archive
     for (i = 0; i < num_entries; i++)
     {
         if ((ret = this->_extracFile(i)) != ZIP_SUCCESS)
@@ -83,58 +84,59 @@ uint8_t Zip::extractZip(void)
 uint8_t Zip::_extracFile(zip_int64_t index)
 {
     // full filePath where will be save the archive
-    string filePath;
+    std::string filePath;
 
     // len for zip_state.name (libc)
     size_t len = 0;
 
-    // get zip stats, TODO errors
-    if (zip_stat_index(m_za, index, 0, &(this->m_sb)) < 0)
+    // get zip stats
+    if (zip_stat_index(this->_za, index, 0, &(this->_sb)) < 0)
     {
         return ZIP_ERROR_STAT;
     }
 
     // this->m_file name len
-    len      = strlen(this->m_sb.name);
-    filePath = this->m_pluginsPath + this->m_sb.name;
+    len      = strlen(this->_sb.name);
+    filePath = this->m_pluginsPath + this->_sb.name;
 
     // if is a directory, create (so dependent)
-    if (this->m_sb.name[len - 1] == '/')
+    if (this->_sb.name[len - 1] == '/')
     {
-        return this->_mkdir(filePath, len);
+        return this->_mkdir(filePath);
     }
 
-    if (!(this->m_zf = zip_fopen_index(this->m_za, index, 0)))
+    if (!(this->_zf = zip_fopen_index(this->_za, index, 0)))
     {
         return ZIP_ERROR_OPEN;
     }
     return this->_writeFile(filePath);
 }
 
-uint8_t Zip::_writeFile(const string filePath)
+uint8_t Zip::_writeFile(const std::string filePath)
 {
     // auxiliary memory chunk
     char mem_chunk[ZIP_MEM_CHUNK_SIZE];
 
     // libzip types
     zip_uint64_t sum = 0,
-        len = 0;
+                 len = 0;
 
     if (!this->_openFile(filePath))
     {
         return ZIP_ERROR_OPEN;
     }
+
     // clean buffer, avoid errors
     memset((void *)mem_chunk, 0, ZIP_MEM_CHUNK_SIZE);
 
     // read and save
-    while (sum != this->m_sb.size)
+    while (sum != this->_sb.size)
     {
-        if ((len = zip_fread(this->m_zf, (void *)mem_chunk, ZIP_MEM_CHUNK_SIZE)) < 0)
+        if ((len = zip_fread(this->_zf, (void *)mem_chunk, ZIP_MEM_CHUNK_SIZE)) < 0)
         {
             return ZIP_ERROR_READ;
         }
-        this->m_file.write(mem_chunk, (streamsize)len);
+        this->m_file.write(mem_chunk, (std::streamsize)len);
         sum += len;
     }
     this->_closeFile();
@@ -143,25 +145,24 @@ uint8_t Zip::_writeFile(const string filePath)
     return ZIP_SUCCESS;
 }
 
-// ifdef windows?
-uint8_t Zip::_mkdir(const string filePath, size_t len)
+uint8_t Zip::_mkdir(const std::string dirName)
 {
-    // create directory
-    if (mkdir(filePath.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) < 0)
-    {
-        return ZIP_ERROR_DIR;
-    }
+    // QDir object
+    QDir dir;
 
-    return ZIP_SUCCESS;
+    // dir path as a qt string
+    const QString dirPath = QString::fromStdString(dirName);
+
+    // create directory
+    if (dir.mkdir(dirPath))
+    {
+        return ZIP_SUCCESS;
+    }
+    return ZIP_ERROR_DIR;
 }
 
 Zip::~Zip()
 {
     this->closeZip();
 }
-
-// OBS
-// plugins filePath no set, empty, another layer will verify this
-// if ((this->m_pluginsPath.empty()))
-//     return;
 
