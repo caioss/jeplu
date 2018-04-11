@@ -41,7 +41,7 @@ include_directories("${CMAKE_SRC_DIR}/include/")
 # Include lib output directory 
 link_directories("${CMAKE_BINARY_DIR}/lib/")
 
-set(TEST_SOURCES  "main.cpp"
+set(TEST_SOURCES  "main.cpp"                
                   "../example/custom-proxy/ICustomInterface.hpp"
                   "../example/custom-proxy/QCustomProxy.cpp")
 

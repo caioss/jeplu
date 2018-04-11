@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.1.0)
 project(jeplu)
 set(CMAKE_BUILD_TYPE Debug)
 
+# set cmake modules path
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
 # Project extra definitions
 # Options. Turn off with 'cmake -Dtest=FALSE'.
 option(test "Build all tests." TRUE) # Makes boolean 'test' available.
