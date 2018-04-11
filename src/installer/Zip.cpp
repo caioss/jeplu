@@ -8,23 +8,27 @@
 
 Zip::Zip()
 {
+    this->_za = nullptr;
+    this->_zf = nullptr;
 }
 
-Zip::Zip(std::string pluginsPath)
+Zip::Zip(std::string pluginPath)
 {
-    this->m_pluginsPath = pluginsPath;
+    this->_za = nullptr;
+    this->_zf = nullptr;
+    this->_pluginPath = pluginPath;
 }
 
-void Zip::setPluginsPath(std::string pluginsPath)
+void Zip::setPluginPath(std::string pluginPath)
 {
-    this->m_pluginsPath = pluginsPath;
+    this->_pluginPath = pluginPath;
 }
 
-bool Zip::openZip(const std::string zipPath)
+bool Zip::openZip(const std::string zipFile)
 {
     int err;
 
-    if ((this->_za = zip_open(zipPath.c_str(), ZIP_CHECKCONS | ZIP_RDONLY, &err)) != nullptr)
+    if ((this->_za = zip_open(zipFile.c_str(), ZIP_CHECKCONS | ZIP_RDONLY, &err)) != nullptr)
     {
         return true;
     }
@@ -97,7 +101,7 @@ uint8_t Zip::_extracFile(zip_int64_t index)
 
     // this->m_file name len
     len      = strlen(this->_sb.name);
-    filePath = this->m_pluginsPath + this->_sb.name;
+    filePath = this->_pluginPath + this->_sb.name;
 
     // if is a directory, create (so dependent)
     if (this->_sb.name[len - 1] == '/')

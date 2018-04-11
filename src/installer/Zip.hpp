@@ -32,9 +32,9 @@ public:
     /**
      * \brief Zip constructor.
      *
-     * @param m_pluginsPath std::string, file system plugins path.
+     * @param _pluginPath std::string, file system plugins path.
      */
-    Zip(std::string pluginsPath);
+    Zip(std::string pluginPath);
 
     /**
      * \brief Zip destructor.
@@ -47,7 +47,7 @@ public:
      *
      * @param pluginsPath std::string, file system plugins path.
      */
-    void setPluginsPath(std::string pluginsPath);
+    void setPluginPath(std::string pluginsPath);
 
     /**
      * \brief Opens the zip archive.
@@ -131,7 +131,7 @@ private:
      * \brief Plugins path, where the plugins will be installed.
      *
      */
-    std::string m_pluginsPath;
+    std::string _pluginPath;
 
     /**
      * \brief ofstream
@@ -143,13 +143,13 @@ private:
      * \brief pointer to struct zip, libzip related.
      *
      */
-    zip_t *_za = nullptr;
+    zip_t *_za;
 
     /**
      * \brief pointer to struct zip_file, libzip related.
      *
      */
-    zip_file_t *_zf = nullptr;
+    zip_file_t *_zf;
 
     /**
      * \brief struct zip_stat, libzip related.
