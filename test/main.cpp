@@ -1,8 +1,13 @@
+#include "Jeplu.hpp"
+
 #include "gtest/gtest.h"
 
 // Test function
 bool testTrue(bool value)
 {
+    Jeplu j;
+    j.init("./");
+
     return value;
 }
 
@@ -10,3 +15,4 @@ bool testTrue(bool value)
 TEST(testTrue, TestTrue) {
     EXPECT_EQ(true, testTrue(false));
 }
+
