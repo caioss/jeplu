@@ -1,18 +1,16 @@
-### QT LOADER ###
-# Find Qt package
-find_package(Qt5 REQUIRED Core)
-# Link with Qt
-list(APPEND QT_CORE_LIB Qt5::Core)
+# find libzip
+find_package(LibZip REQUIRED)
 
-find_library(ZIP_LIB zip)
+# find qtcore
+find_package(QtCore REQUIRED)
 
 # Set src files
-set (JEPLU_INSTALLER_SRC "Zip.cpp"
+set (INSTALLER_SOURCE    "Zip.cpp"
                          "PluginInstaller.cpp")
                          
 # Build installer module
-add_library(installer ${JEPLU_INSTALLER_SRC})
+add_library(installer ${INSTALLER_SOURCE})
 
 # link libzip
-target_link_libraries(installer ${ZIP_LIB} ${QT_CORE_LIB})
+target_link_libraries(installer ${LIBZIP_LIBRARY} ${QTCORE_LIBRARY})
 

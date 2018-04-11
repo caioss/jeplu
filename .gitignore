@@ -4,6 +4,9 @@ build
 # ext
 ext
 
+# docs
+docs
+
 # Prerequisites
 *.d
 
