@@ -10,9 +10,9 @@ _errStr("No error.")
 {
 }
 
-QtLoader::LoadingErrors QtLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin)
+int QtLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin)
 {
-    LoadingErrors rc = IPluginLoader::OK;
+    int rc = LoadingErrors::OK;
     QPluginLoader loader(QString::fromStdString(pluginPath));
     if (loader.load())
     {
@@ -25,13 +25,13 @@ QtLoader::LoadingErrors QtLoader::loadPlugin(const std::string &pluginPath, std:
         else
         {
             _errStr = "Unable to cast the library object to a known object.";
-            rc = IPluginLoader::OBJ_NOT_CASTABLE;
+            rc = LoadingErrors::OBJ_NOT_CASTABLE;
         }
     }
     else
     {
         _errStr = loader.errorString().toStdString();
-        rc = IPluginLoader::LIB_NOT_LOADABLE;
+        rc = LoadingErrors::LIB_NOT_LOADABLE;
     }
 
     return rc;

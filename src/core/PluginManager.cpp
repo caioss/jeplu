@@ -56,6 +56,11 @@ bool PluginManager::init(const ILibFinder &libFinder)
     return false;
 }
 
+bool PluginManager::initialized() const
+{
+    return _initialized;
+}
+
 bool PluginManager::registerProxy(std::shared_ptr<IPluginProxy> proxy)
 {
     if (proxy != nullptr)

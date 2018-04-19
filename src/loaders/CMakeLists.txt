@@ -5,7 +5,8 @@ list(APPEND LIST_LINK_LIBRARY ${QTCORE_LIBRARY})
 
 set(INCLUDE_FILES "${PROJECT_SOURCE_DIR}/include/dlplugincreator.h"
                   "${PROJECT_SOURCE_DIR}/include/IPlugin.hpp"
-                  "${PROJECT_SOURCE_DIR}/include/IQtPlugin.hpp")
+                  "${PROJECT_SOURCE_DIR}/include/IQtPlugin.hpp"
+                  "${CMAKE_SOURCE_DIR}/src/core/IPluginLoader.hpp")
 
 list (APPEND LOADERS_SRC "QtLoader.cpp")
 
