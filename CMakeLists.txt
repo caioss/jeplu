@@ -35,5 +35,5 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/src")
 
 # Include tests if enabled
 if (test)
-   add_subdirectory("${PROJECT_SOURCE_DIR}/test")
+ add_subdirectory("${PROJECT_SOURCE_DIR}/test")
 endif ()

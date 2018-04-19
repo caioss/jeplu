@@ -4,8 +4,7 @@
 #include "IPluginLoader.hpp"
 
 #include <memory>
-#include <QList>
-#include <QFile>
+#include <string>
 
 /**
  *  \brief The \c QtLoader class implements \c IPluginLoader.
@@ -36,7 +35,7 @@ public:
      */
     QtLoader();
 
-    LoadingErrors loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) override;
+    int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) override;
 
     std::string name() const override { return "Qt Loader"; }
 

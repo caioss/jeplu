@@ -1,18 +1,8 @@
-#include "Jeplu.hpp"
-
 #include "gtest/gtest.h"
 
-// Test function
-bool testTrue(bool value)
+int main(int argc, char **argv)
 {
-    Jeplu j;
-    j.init("./");
-
-    return value;
+    ::testing::InitGoogleTest(&argc, argv);
+    int ret = RUN_ALL_TESTS();
+    return ret;
 }
-
-// Test assignment
-TEST(testTrue, TestTrue) {
-    EXPECT_EQ(true, testTrue(false));
-}
-

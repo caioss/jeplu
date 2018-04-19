@@ -8,7 +8,7 @@ class DLLoader : public IPluginLoader
 public:
     DLLoader();
 
-    LoadingErrors loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) override;
+    int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) override;
 
     std::string name() const override { return "Dl Loader"; }
 
