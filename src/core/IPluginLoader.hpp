@@ -36,6 +36,11 @@ class IPluginLoader
 {
 public:
     /**
+     *  \brief Default destructor.
+     */
+    virtual ~IPluginLoader() {}
+
+    /**
      *  \brief Load all the plugins from a given \c path.
      *
      *  All the succesfully loaded plugins will be appended to \c plugins.
