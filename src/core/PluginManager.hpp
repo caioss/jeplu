@@ -35,8 +35,8 @@ public:
      *  Creates all plugins that can be found in \c path and register them to its \c IPluginProxy.
      *
      *  \param path The path to look for dynamic libraries.
-     *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, if the \c PluginFactory is
-     *  not registered or if it cannot create plugins, it returns \c false.
+     *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, if the
+     *  \c PluginFactory is not registered or if it cannot create plugins, it returns \c false.
      */
     bool init(const ILibFinder &finder);
 
@@ -47,11 +47,21 @@ public:
      */
     bool initialized() const;
 
+    // TODO
+    //bool syncPlugins();
+
+    /**
+     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginProxy.
+     *  \sa init(), \sa syncPlugins()
+     */
+    bool hasLoadedPlugins() const;
+
     /**
      *  \brief Register the factory that will create the plugin objects.
      *
-     *  If no factory is registered no plugins can be created, so this class became useless.
+     *  If no factory is registered no plugins can be created, this class became useless.
      *
+     *  \sa PluginFactory
      *  \param factory A shared reference to the \c PluginFactory object.
      *  \return Returns \c true if the \c factory could be registered succesfully. Otherwise, returs false.
      */
@@ -96,6 +106,11 @@ private:
      *  \brief _proxyList Holds \c IPluginProxy object references and its IDs as keys.
      */
     std::map<std::string, std::shared_ptr<IPluginProxy>> _proxyList;
+
+    /**
+     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginProxy.
+     */
+    bool _hasLoadedPlugins;
 };
 
 #endif

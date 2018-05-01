@@ -32,11 +32,17 @@ public:
      *  the job, if available.
      *
      *  \param path The root path to find the dynamic libraries.
-     *  \return returns \c 0 if all the plugins were created succesfully. Otherwise, returns:
-     *          \c -1 if no loader is avilable; or
-     *          \c -2 If no plugins were loaded.
+     *  \return Returns >= 0 when success and < 0 when it fails. The errors represents:
+     *          \c 1 If no plugins were loaded.
+     *          \c -0 if all the plugins were created succesfully;
+     *          \c -1 if no loader is avilable.
      */
     int createPlugins(const std::vector<std::string> &pluginsPaths);
+
+    /**
+     *  \brief Indicates if any \c IPlugin was created.
+     */
+    bool hasPlugins() const;
 
     /**
      *  \brief Gets a vector containing all the \c IPlugin references loaded.

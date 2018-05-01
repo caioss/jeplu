@@ -14,13 +14,21 @@ void PluginManager::_initializeProxies()
 
 void PluginManager::_addPluginsToProxies()
 {
+    if (_factory->plugins().empty())
+    {
+        return;
+    }
+
     for (std::shared_ptr<IPlugin> plugin : _factory->plugins())
     {
         std::cout << "Checking plugin proxy: " << plugin->pluginName() << std::endl;
         std::cout << "\tProxy: " << plugin->proxyId() << std::endl;
         if (_proxyList.count(plugin->proxyId()) > 0)
         {
-            _proxyList[plugin->proxyId()]->addPlugin(plugin);
+            if (_proxyList[plugin->proxyId()]->addPlugin(plugin))
+            {
+                _hasLoadedPlugins = true;
+            }
         }
         else
         {
@@ -32,33 +40,35 @@ void PluginManager::_addPluginsToProxies()
 
 PluginManager::PluginManager() :
 _initialized(false),
-_factory(nullptr)
+_factory(nullptr),
+_hasLoadedPlugins(false)
 {
 }
 
 bool PluginManager::init(const ILibFinder &libFinder)
 {
+    bool rc = false;
     std::vector<std::string> libsPath = libFinder.libsPath();
 
-    if (_factory == nullptr)
-    {
-        return false;
-    }
-
-    if (_factory->createPlugins(libsPath) == 0)
+    if (_factory != nullptr && _factory->createPlugins(libsPath) >= 0)
     {
         _addPluginsToProxies();
         _initializeProxies();
 
-        return _initialized = true;
+        rc = _initialized = true;
     }
 
-    return false;
+    return rc;
 }
 
 bool PluginManager::initialized() const
 {
     return _initialized;
+}
+
+bool PluginManager::hasLoadedPlugins() const
+{
+    return _hasLoadedPlugins;
 }
 
 bool PluginManager::registerProxy(std::shared_ptr<IPluginProxy> proxy)
