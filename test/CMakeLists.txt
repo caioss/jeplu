@@ -31,23 +31,26 @@ add_subdirectory(${GOOGLETEST_SRC}
 
 enable_testing()
 
-# Include examples for testing plugins.
-include_directories("${CMAKE_SOURCE_DIR}/src")
+# Include directories used for testing.
+include_directories("${CMAKE_SOURCE_DIR}/src"
+                    "${CMAKE_SOURCE_DIR}/include"
+                    "PluginManager/"
+                    "Jeplu/")
 
+# Include the files for testing.
 set(INCLUDE_TESTS "${CMAKE_SOURCE_DIR}/src/core/PluginManager.cpp"
                   "${CMAKE_SOURCE_DIR}/src/core/PluginFactory.cpp")
 
+# Include the test source files.
 set(TEST_SOURCES  "main.cpp"
-                  "FakeLibFinder.hpp"
-                  "PluginManagerTest.hpp")
+                  "Jeplu/JepluTest.hpp"
+                  "PluginManager/FakeLibFinder.hpp"
+                  "PluginManager/PluginManagerTest.hpp")
 
 # Build
 add_executable(jeplu-test ${TEST_SOURCES} ${INCLUDE_TESTS})
 
 # Links the library with components.
-target_link_libraries(jeplu-test gtest)
+target_link_libraries(jeplu-test gtest jeplu)
 
-# First Simple Google Test
-#add_executable(PluginManagerTest PluginManagerTest.hpp)
-#target_link_libraries(PluginManagerTest gtest_main gtest)
-add_test(NAME jeplu-test COMMAND jeplu-test)
+#add_test(NAME jeplu-test COMMAND jeplu-test)
