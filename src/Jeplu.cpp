@@ -37,6 +37,11 @@ public:
      */
     bool registerProxy(std::shared_ptr<IPluginProxy> proxy);
 
+    /**
+     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginProxy succesfully.
+     */
+    bool hasLoadedPlugins() const;
+
 private:
     /**
      *  \brief Holds a unique pointer to PluginManager.
@@ -75,6 +80,11 @@ bool Jeplu::JepluImpl::registerProxy(std::shared_ptr<IPluginProxy> proxy)
     return _manager->registerProxy(proxy);
 }
 
+bool Jeplu::JepluImpl::hasLoadedPlugins() const
+{
+    return _manager->hasLoadedPlugins();
+}
+
 // Jeplu Implementation
 
 // Tell the compiler to generate default special members which utilize the power of std::unique_ptr.
@@ -94,16 +104,21 @@ int Jeplu::init(const std::string &pluginsRootPath)
     if (!_impl->initFactory())
     {
         std::cout << "The Plugin Factory could not be initialized or there are no loader available." << std::endl;
-        return -1;
+        return JepluErrs::INIT_FACTORY_ERR;
     }
 
     JepluLibFinder finder(pluginsRootPath);
     if (!_impl->initManager(finder))
     {
         std::cout << "Plugin Manager couldn't be initialized." << std::endl;
-        rc = -2;
+        rc = JepluErrs::INIT_MANAGER_ERR;
     }
     return rc;
+}
+
+bool Jeplu::hasLoadedPlugins() const
+{
+    return _impl->hasLoadedPlugins();
 }
 
 bool Jeplu::registerProxy(std::shared_ptr<IPluginProxy> proxy)

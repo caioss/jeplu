@@ -1,7 +1,23 @@
 #ifndef JEPLU_HPP
 #define JEPLU_HPP
 
+#ifdef _WIN32
+    #define LIB_EXPORT __declspec(dllexport)
+#else
+    #define LIB_EXPORT
+#endif
+
 #include "IPluginProxy.hpp"
+
+namespace JepluErrs
+{
+    enum JepluErrs
+    {
+        OK = 0,
+        INIT_FACTORY_ERR = -1,
+        INIT_MANAGER_ERR = -2
+    };
+};
 
 /**
  *  \brief The Jeplu is the main class that works as a facade for dynamic libraries (plugins) management.
@@ -15,7 +31,7 @@
  *  \sa IPluginProxy
  *  \sa IPlugin
  */
-class Jeplu
+class LIB_EXPORT Jeplu
 {
 public:
     /**
@@ -32,8 +48,17 @@ public:
      *  \brief Initializes the class loading all the plugin available in \c pluginsRootPath.
      *
      *  This class shoulb be called after any proxy registration, otherwise it won't be recognized.
+     *
+     *  \param pluginsRootPath The root path where all the plugins will be located.
+     *
+     *  \return Returns 0 if succeded. Otherwise, returns a negative error, described in \c JepluErrs.
      */
     int init(const std::string &pluginsRootPath);
+
+    /**
+     *  \brief Indicates if any plugin was loaded into any \c IPluginProxy registered.
+     */
+    bool hasLoadedPlugins() const;
 
     /**
      *  \brief Registers a \c IPluginProxy object to Jeplu.
@@ -53,7 +78,7 @@ private:
     /**
      *  \brief Define the private implementation of jeplu as Pimpl.
      */
-    class JepluImpl;
+    class LIB_EXPORT JepluImpl;
 
     /**
      *  \brief Holds a unique pointer to the implementation Jeplu class.
