@@ -1,6 +1,9 @@
 # Cmake build folder
 build
 
+# tmp
+tmp
+
 # ext
 ext
 

@@ -1,37 +1,52 @@
+#include <iostream>
+
 #include "PluginInstaller.hpp"
 
-PluginInstaller::PluginInstaller(std::string pluginPath, std::string zipFile)
-    : _pluginPath(pluginPath),
-      _zipFile(zipFile),
-      _zip(nullptr)
+PluginInstaller::PluginInstaller(void)
 {
 }
 
-void PluginInstaller::setPluginPath(std::string pluginPath)
+void PluginInstaller::setPluginPath(const std::string pluginPath)
 {
-    this->_pluginPath = pluginPath;
+    _pluginPath = pluginPath;
 }
 
-void PluginInstaller::setZipFile(std::string zipFile)
+void PluginInstaller::setFilePath(const std::string filePath)
 {
-    this->_zipFile = zipFile;
+    _filePath = filePath;
 }
 
-void PluginInstaller::init(void)
+bool PluginInstaller::init(void)
 {
-    this->_zip.reset(new Zip());
-    this->_zip->setPluginPath(this->_pluginPath);
-}
+    _artifact = Artifact::make_artifact();
 
-bool PluginInstaller::installPlugin(void)
-{
-    if (this->_zip->openZip(this->_zipFile))
+    if (_artifact != nullptr)
     {
-        if (this->_zip->extractZip() == Zip::ZIP_SUCCESS)
+        _artifact->setPluginPath(_pluginPath);
+        _artifact->setFilePath(_filePath);
+
+        if (_artifact->compress())
         {
             return true;
         }
     }
     return false;
+}
+
+bool PluginInstaller::installPlugin(void)
+{
+    // if (_artifact->open())
+    // {
+    //     if (_artifact->decompress())
+    //     {
+    //         _artifact->close();
+    //         return true;
+    //     }
+    // }
+    // return false;
+}
+
+PluginInstaller::~PluginInstaller(void)
+{
 }
 
