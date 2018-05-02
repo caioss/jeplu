@@ -1,14 +1,21 @@
 #ifndef JEPLU_HPP
 #define JEPLU_HPP
 
-#ifdef _WIN32
-    #define LIB_EXPORT __declspec(dllexport)
-#else
-    #define LIB_EXPORT
-#endif
-
 #include "IPluginProxy.hpp"
 
+#ifdef _WIN32
+    #ifdef JEPLU_EXPORTS
+#define JEPLULIB_API __declspec(dllexport)
+    #else
+#define JEPLULIB_API __declspec(dllimport)
+    #endif
+#else
+    #define JEPLULIB_API
+#endif
+
+/**
+ *  \brief Indicates all the errors that \c Jeplu can return.
+ */
 namespace JepluErrs
 {
     enum JepluErrs
@@ -31,7 +38,7 @@ namespace JepluErrs
  *  \sa IPluginProxy
  *  \sa IPlugin
  */
-class LIB_EXPORT Jeplu
+class JEPLULIB_API Jeplu
 {
 public:
     /**
@@ -78,7 +85,7 @@ private:
     /**
      *  \brief Define the private implementation of jeplu as Pimpl.
      */
-    class LIB_EXPORT JepluImpl;
+    class JEPLULIB_API JepluImpl;
 
     /**
      *  \brief Holds a unique pointer to the implementation Jeplu class.
