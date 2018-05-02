@@ -4,8 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "Zip.hpp"
-#include "Jeplu.hpp"
+#include "Artifact.hpp"
 
 /**
  * \brief This class is resposble for install the plugin
@@ -18,35 +17,70 @@ public:
      * \brief PluginInstaller constructor.
      *
      */
-    PluginInstaller(std::string pluginPath = std::string(),
-                    std::string zipFile    = std::string());
+    PluginInstaller(void);
 
     /**
      * \brief setPluginPath
      *
      * @param pluginPath Description of pluginPath
      */
-    void setPluginPath(std::string pluginPath);
+    void setPluginPath(const std::string pluginPath);
 
-    void setZipFile(std::string zipFile);
+    /**
+     * \brief setZipFile
+     *
+     * @param zipFile Description of zipFile
+     */
+    void setFilePath(const std::string filePath);
 
-    void init(void);
+    /**
+     * \brief init
+     *
+     * @param  Description of
+     */
+     bool init(void);
 
+    /**
+     * \brief installPlugin
+     *
+     * @param  Description of
+     * @return bool
+     */
     bool installPlugin(void);
+
+    bool exportPlugin(void);
 
     /**
      * \brief PluginInstaller destructor.
      *
      */
-     ~PluginInstaller();
+    ~PluginInstaller(void);
 
-protected:
 private:
+    /**
+     * \brief brief description
+     *
+     * @param name description
+     *
+     */
     std::string _pluginPath;
 
-    std::string _zipFile;
+    /**
+     * \brief brief description
+     *
+     * @param name description
+     *
+     */
+    std::string _filePath;
 
-    std::unique_ptr<Zip> _zip;
+    /**
+     * \brief brief description
+     *
+     * @param name description
+     *
+     */
+    //std::unique_ptr<Ab> _zip;
+    std::unique_ptr<Artifact> _artifact;
 };
 
 #endif // _PLUGIN_INSTALLER_HPP

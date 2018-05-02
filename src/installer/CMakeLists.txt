@@ -6,6 +6,7 @@ find_package(QtCore REQUIRED)
 
 # Set src files
 set (INSTALLER_SOURCE    "Zip.cpp"
+                         "Artifact.cpp"
                          "PluginInstaller.cpp")
                          
 # Build installer module
