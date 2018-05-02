@@ -24,13 +24,6 @@ public:
      *  \return A vector containing the path of all libraries found.
      */
     virtual std::vector<std::string> libsPath() const = 0;
-
-    /**
-     *  \brief Checks if new libs are find and returns only the new paths.
-     *
-     *  \return return A list of paths of the new libs, if any was found.
-     */
-    //virtual std::vector<std::string> updatePaths() = 0;
 };
 
 #endif // ILIBFINDER_HPP

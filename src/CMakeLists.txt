@@ -25,6 +25,9 @@ add_library(jeplu SHARED ${JEPLU_SOURCES} ${JEPLU_INCLUDE})
 # Links the library with components.
 target_link_libraries(jeplu ${COMPONENTS})
 
+# Set definition to export symbols.
+target_compile_definitions(jeplu PRIVATE JEPLU_EXPORTS)
+
 set_target_properties(jeplu PROPERTIES PUBLIC_HEADER "${INCLUDE_STR}")
 
 # Install target to lib dir and its public headers to include dir.

@@ -1,21 +1,32 @@
 #ifndef JEPLU_HPP
 #define JEPLU_HPP
 
-#ifdef _WIN32
-    #define LIB_EXPORT __declspec(dllexport)
-#else
-    #define LIB_EXPORT
-#endif
-
 #include "IPluginProxy.hpp"
 
+// MSVC needs these specifications to export and import a class or function to/from a dll.
+// see: https://msdn.microsoft.com/en-us/library/dabb5z75.aspx
+#ifdef _WIN32
+    #ifdef JEPLU_EXPORTS
+        // If marked to export, mark as dllexport to MSVC mark a symbol as exported from a DLL.
+        #define JEPLULIB_API __declspec(dllexport)
+    #else
+        // If not marked to export, use dllimport to import that exported symbol to another file.
+        #define JEPLULIB_API __declspec(dllimport)
+    #endif
+#else
+    #define JEPLULIB_API
+#endif
+
+/**
+ *  \brief Indicates all the errors that \c Jeplu can return.
+ */
 namespace JepluErrs
 {
     enum JepluErrs
     {
-        OK = 0,
-        INIT_FACTORY_ERR = -1,
-        INIT_MANAGER_ERR = -2
+        OK = 0, /*!< Successful. */
+        INIT_FACTORY_ERR = -1, /*!< Indicates that the \c IPluginFactory could not be initialized. */
+        INIT_MANAGER_ERR = -2  /*!< Indicates that the \c IPluginManager could not be initialized. */
     };
 };
 
@@ -31,7 +42,7 @@ namespace JepluErrs
  *  \sa IPluginProxy
  *  \sa IPlugin
  */
-class LIB_EXPORT Jeplu
+class JEPLULIB_API Jeplu
 {
 public:
     /**
@@ -70,15 +81,11 @@ public:
      */
     bool registerProxy(std::shared_ptr<IPluginProxy> proxy);
 
-    // template <typename T> int pluginsWithInterface(std::vector<std::weak_ptr<T>> &plugins) {} //TODO
-
-    // template <typename T> std::vector<std::string> pluginsID() const {} //TODO
-
 private:
     /**
      *  \brief Define the private implementation of jeplu as Pimpl.
      */
-    class LIB_EXPORT JepluImpl;
+    class JepluImpl;
 
     /**
      *  \brief Holds a unique pointer to the implementation Jeplu class.

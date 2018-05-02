@@ -47,9 +47,6 @@ public:
      */
     bool initialized() const;
 
-    // TODO
-    //bool syncPlugins();
-
     /**
      *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginProxy.
      *  \sa init(), \sa syncPlugins()

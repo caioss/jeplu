@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 
-project(jeplu-test)
+project(test)
 
 ######## Google Test
 # Download and unpack googletest at configure time
@@ -30,27 +30,8 @@ add_subdirectory(${GOOGLETEST_SRC}
                                   EXCLUDE_FROM_ALL)
 
 enable_testing()
-
-# Include directories used for testing.
-include_directories("${CMAKE_SOURCE_DIR}/src"
-                    "${CMAKE_SOURCE_DIR}/include"
-                    "PluginManager/"
-                    "Jeplu/")
-
-# Include the files for testing.
-set(INCLUDE_TESTS "${CMAKE_SOURCE_DIR}/src/core/PluginManager.cpp"
-                  "${CMAKE_SOURCE_DIR}/src/core/PluginFactory.cpp")
-
-# Include the test source files.
-set(TEST_SOURCES  "main.cpp"
-                  "Jeplu/JepluTest.hpp"
-                  "PluginManager/FakeLibFinder.hpp"
-                  "PluginManager/PluginManagerTest.hpp")
-
-# Build
-add_executable(jeplu-test ${TEST_SOURCES} ${INCLUDE_TESTS})
-
-# Links the library with components.
-target_link_libraries(jeplu-test gtest jeplu)
+                    
+add_subdirectory("jeplu-test")
+add_subdirectory("unit-tests")
 
 #add_test(NAME jeplu-test COMMAND jeplu-test)

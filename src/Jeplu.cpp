@@ -13,7 +13,8 @@
 /**
  *  \brief Implements and defines the JepluImpl as Pimpl.
  */
-class Jeplu::JepluImpl {
+class Jeplu::JepluImpl
+{
 public:
     /**
      *  \brief Default constructor.

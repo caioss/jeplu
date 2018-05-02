@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 
 #include "PluginManagerTest.hpp"
-#include "JepluTest.hpp"
 
 int main(int argc, char **argv)
 {
