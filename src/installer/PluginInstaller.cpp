@@ -18,14 +18,14 @@ void PluginInstaller::setFilePath(const std::string filePath)
 
 bool PluginInstaller::init(void)
 {
-    _artifact = Artifact::make_artifact();
+    _archive = Archive::make_archive();
 
-    if (_artifact != nullptr)
+    if (_archive != nullptr)
     {
-        _artifact->setPluginPath(_pluginPath);
-        _artifact->setFilePath(_filePath);
+        _archive->setPluginPath(_pluginPath);
+        _archive->setFilePath(_filePath);
 
-        if (_artifact->compress())
+        if (_archive->compress())
         {
             return true;
         }
@@ -35,11 +35,11 @@ bool PluginInstaller::init(void)
 
 bool PluginInstaller::installPlugin(void)
 {
-    // if (_artifact->open())
+    // if (_archive->open())
     // {
-    //     if (_artifact->decompress())
+    //     if (_archive->decompress())
     //     {
-    //         _artifact->close();
+    //         _archive->close();
     //         return true;
     //     }
     // }

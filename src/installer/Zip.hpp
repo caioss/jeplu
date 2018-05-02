@@ -1,5 +1,5 @@
-#ifndef _ZIP_HPP
-#define _ZIP_HPP
+#ifndef ZIP_HPP
+#define ZIP_HPP
 
 #include <string>
 #include <cstdint>
@@ -7,7 +7,7 @@
 
 #include <zip.h>
 
-#include "Artifact.hpp"
+#include "Archive.hpp"
 
 /**
  * \brief size of memory chunk, used to read the decompressed files.
@@ -28,7 +28,7 @@ enum ZIP_RET_VALUES
         ZIP_ERROR_FILE,
 };
 
-class ZipArchive : public Archive
+class Zip : public Archive
 {
 public:
 
@@ -38,14 +38,14 @@ public:
      * \param  Description of
      * \return Zip
      */
-    //Zip(void) : Artifact() {};
+    Zip(void);
 
     /**
      * \brief setFilePath
      *
      * \param filePath Description of filePath
      */
-    void setFilePath(std::string filePath);
+    void setFilePath(const std::string &filePath);
 
     /**
      *  \brief function description
@@ -55,7 +55,7 @@ public:
      *  \param param
      *  \return return type
      */
-    void setPluginPath(std::string PluginPath);
+    void setPluginPath(const std::string &pluginPath);
 
     /**
      * \brief compress
@@ -107,14 +107,14 @@ private:
      * \param  Description of
      */
     void _closeZip(void);
-    
+
     /**
      * \brief _openFile
      *
      * \param  Description of
      * \return bool
      */
-    bool _openFile(const std::string fileName);
+    bool _openFile(const std::string &filePath);
 
     /**
      * \brief _extracFile
@@ -122,7 +122,7 @@ private:
      * \param index Description of index
      * \return uint8_t
      */
-    uint8_t _extractFile(zip_int64_t index);
+    uint8_t _extractFile(const zip_int64_t index);
 
     /**
      * \brief _writeFile
@@ -130,7 +130,7 @@ private:
      * \param filePath Description of filePath
      * \return int8_t
      */
-    uint8_t _writeFile(const std::string fileName);
+    uint8_t _writeFile(const std::string &filePath);
 
     /**
      * \brief _closeFile
@@ -145,15 +145,15 @@ private:
      * \param dirName Description of dirName
      * \return uint8_t
      */
-    uint8_t _mkdir(const std::string dirName);
+    uint8_t _mkdir(const std::string &dirName);
 
     uint8_t _buildZip(void);
 
     bool _zipOpen(void);
 
-    uint8_t _zipAddFile(const std::string filePath);
+    uint8_t _zipAddFile(const std::string &filePath);
 
-    uint8_t _zipAddDir(const std::string dirPath);
+    uint8_t _zipAddDir(const std::string &dirPath);
 
     /**
      * \brief ofstream
@@ -165,13 +165,13 @@ private:
      * \brief pointer to struct zip, libzip related.
      *
      */
-    zip_t *_za = nullptr;
+    zip_t *_za;
 
     /**
      * \brief pointer to struct zip_file, libzip related.
      *
      */
-    zip_file_t *_zf = nullptr;
+    zip_file_t *_zf;
 
     /**
      * \brief struct zip_stat, libzip related.
@@ -181,5 +181,5 @@ private:
 
 };
 
-#endif // _ZIP_HPP
+#endif // ZIP_HPP
 

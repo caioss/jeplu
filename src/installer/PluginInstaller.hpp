@@ -1,10 +1,10 @@
-#ifndef _PLUGIN_INSTALLER_HPP
-#define _PLUGIN_INSTALLER_HPP
+#ifndef PLUGIN_INSTALLER_HPP
+#define PLUGIN_INSTALLER_HPP
 
 #include <string>
 #include <memory>
 
-#include "Artifact.hpp"
+#include "Archive.hpp"
 
 /**
  * \brief This class is resposble for install the plugin
@@ -80,8 +80,8 @@ private:
      *
      */
     //std::unique_ptr<Ab> _zip;
-    std::unique_ptr<Artifact> _artifact;
+    std::unique_ptr<Archive> _archive;
 };
 
-#endif // _PLUGIN_INSTALLER_HPP
+#endif // PLUGIN_INSTALLER_HPP
 
