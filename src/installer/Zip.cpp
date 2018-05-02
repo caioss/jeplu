@@ -7,12 +7,19 @@
 
 #include "Zip.hpp"
 
-void Zip::setFilePath(std::string filePath)
+Zip::Zip(void)
+: Archive()
+{
+    _za = nullptr;
+    _zf = nullptr;
+}
+
+void Zip::setFilePath(const std::string &filePath)
 {
     _filePath = filePath;
 }
 
-void Zip::setPluginPath(std::string pluginPath)
+void Zip::setPluginPath(const std::string &pluginPath)
 {
     _pluginPath = pluginPath;
 }
@@ -78,7 +85,7 @@ void Zip::_closeZip(void)
     }
 }
 
-bool Zip::_openFile(const std::string filePath)
+bool Zip::_openFile(const std::string &filePath)
 {
     // create and append
     _file.open(filePath,
@@ -89,7 +96,7 @@ bool Zip::_openFile(const std::string filePath)
     return _file.is_open();
 }
 
-uint8_t Zip::_writeFile(const std::string filePath)
+uint8_t Zip::_writeFile(const std::string &filePath)
 {
     // auxiliary memory chunk
     char mem_chunk[ZIP_MEM_CHUNK_SIZE];
@@ -152,7 +159,7 @@ uint8_t Zip::_extractZip(void)
     return ZIP_SUCCESS;
 }
 
-uint8_t Zip::_extractFile(zip_int64_t index)
+uint8_t Zip::_extractFile(const zip_int64_t index)
 {
     // full filePath where will be save the archive
     std::string filePath;
@@ -184,7 +191,7 @@ uint8_t Zip::_extractFile(zip_int64_t index)
     return _writeFile(filePath);
 }
 
-uint8_t Zip::_mkdir(const std::string dirName)
+uint8_t Zip::_mkdir(const std::string &dirName)
 {
     // QDir object
     QDir dir;
@@ -200,7 +207,19 @@ uint8_t Zip::_mkdir(const std::string dirName)
     return ZIP_ERROR_DIR;
 }
 
-uint8_t Zip::_zipAddFile(const std::string filePath)
+bool Zip::_zipOpen(void)
+{
+    if (_za == nullptr)
+    {
+        if (!_openZip())
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+uint8_t Zip::_zipAddFile(const std::string &filePath)
 {
     zip_source_t *zs;
 
@@ -220,19 +239,7 @@ uint8_t Zip::_zipAddFile(const std::string filePath)
     return ZIP_ERROR_OPEN;
 }
 
-bool Zip::_zipOpen(void)
-{
-    if (_za == nullptr)
-    {
-        if (!_openZip())
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-uint8_t Zip::_zipAddDir(const std::string dirPath)
+uint8_t Zip::_zipAddDir(const std::string &dirPath)
 {
     if (_zipOpen())
     {
@@ -255,10 +262,11 @@ uint8_t Zip::_buildZip(void)
 
     while(dirIt.hasNext())
     {
+        // work on next dirIt
         dirIt.next();
+
         if (dirIt.fileInfo().isDir())
         {
-            qDebug() << dirIt.filePath();
             if (_zipAddDir(dirIt.filePath().toStdString()) != ZIP_SUCCESS)
             {
                 return ZIP_ERROR_DIR;
@@ -266,7 +274,6 @@ uint8_t Zip::_buildZip(void)
         }
         else if (dirIt.fileInfo().isFile())
         {
-            qDebug() << dirIt.filePath();
             if (_zipAddFile(dirIt.filePath().toStdString()) != ZIP_SUCCESS)
             {
                 return ZIP_ERROR_FILE;

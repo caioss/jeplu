@@ -1,5 +1,5 @@
-#ifndef _ARTIFACT_HPP
-#define _ARTIFACT_HPP
+#ifndef ARCHIVE_HPP
+#define ARCHIVE_HPP
 
 #include <memory>
 #include <cstdint>
@@ -11,39 +11,39 @@
 //         AT_RAR,
 //     };
 
-class Artifact
+class Archive
 {
 public:
 
     /**
-     * \brief Artifact
+     * \brief Archive
      *
      * \param  Description of
-     * \return Artifact
+     * \return Archive
      */
-    Artifact(void);
+    Archive(void);
 
     /**
      * \brief make_artifact
      *
      * \param at Description of at
-     * \return Artifact
+     * \return Archive
      */
-    static std::unique_ptr<Artifact> make_artifact(void);
+    static std::unique_ptr<Archive> make_archive(void);
 
     /**
      * \brief setFilePath
      *
      * \param filePath Description of filePath
      */
-    virtual void setFilePath(std::string filePath) = 0;
+    virtual void setFilePath(const std::string &filePath) = 0;
 
     /**
      * \brief setPluginPath
      *
      * \param pluginPath Description of pluginPath
      */
-    virtual void setPluginPath(std::string pluginPath) = 0;
+    virtual void setPluginPath(const std::string &pluginPath) = 0;
 
     /**
      * \brief compress
@@ -59,7 +59,7 @@ public:
      */
     virtual bool decompress(void) = 0;
 
-    virtual ~Artifact(void);
+    virtual ~Archive(void);
 
 protected:
     std::string _filePath;
@@ -67,5 +67,5 @@ protected:
     std::string _pluginPath;
 };
 
-#endif // _ARTIFACT_HPP
+#endif // ARCHIVE_HPP
 
