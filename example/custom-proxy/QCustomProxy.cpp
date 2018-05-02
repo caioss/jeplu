@@ -18,6 +18,11 @@ bool QCustomProxy::init(std::vector<std::weak_ptr<IPlugin>> plugins)
     return _initialized;
 }
 
+bool QCustomProxy::hasPluginsLoaded() const
+{
+    return !_plugins.empty();
+}
+
 std::string QCustomProxy::proxyId() const
 {
     return "qcustomproxy.proxy.jeplu";

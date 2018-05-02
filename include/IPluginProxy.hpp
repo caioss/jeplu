@@ -40,6 +40,11 @@ public:
     virtual bool initialized() const = 0;
 
     /**
+     *  \brief Indicates if has any \c IPlugin loaded into this proxy.
+     */
+    virtual bool hasPluginsLoaded() const = 0;
+
+    /**
      *  \brief Gets all \c IPlugin references compatible with this proxy.
      *
      *  \return Returns a vector containing weak references of \c IPlugin objects.

@@ -1,12 +1,12 @@
-### QT LOADER ###
-# Find Qt package
-find_package(Qt5 REQUIRED Core)
-# Link with Qt
-list(APPEND LOADERS_LINK_LIBS Qt5::Core)
+# find qtcore
+find_package(QtCore REQUIRED)
+
+list(APPEND LIST_LINK_LIBRARY ${QTCORE_LIBRARY})
 
 set(INCLUDE_FILES "${PROJECT_SOURCE_DIR}/include/dlplugincreator.h"
                   "${PROJECT_SOURCE_DIR}/include/IPlugin.hpp"
-                  "${PROJECT_SOURCE_DIR}/include/IQtPlugin.hpp")
+                  "${PROJECT_SOURCE_DIR}/include/IQtPlugin.hpp"
+                  "${CMAKE_SOURCE_DIR}/src/core/IPluginLoader.hpp")
 
 list (APPEND LOADERS_SRC "QtLoader.cpp")
 
@@ -16,9 +16,10 @@ if (UNIX)
    list(APPEND LOADERS_SRC "DlLoader.cpp")
    
    # Link with Dl lib
-   list(APPEND LOADERS_LINK_LIBS ${CMAKE_DL_LIBS})
+   list(APPEND LIST_LINK_LIBRARY ${CMAKE_DL_LIBS})
 endif (UNIX)
 
 # Build and link targets
 add_library(loaders ${LOADERS_SRC} ${INCLUDE_FILES})
-target_link_libraries(loaders ${LOADERS_LINK_LIBS})
+target_link_libraries(loaders ${LIST_LINK_LIBRARY})
+

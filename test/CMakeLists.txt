@@ -2,30 +2,56 @@ cmake_minimum_required(VERSION 3.8)
 
 project(jeplu-test)
 
-# Extra definitions
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+######## Google Test
+# Download and unpack googletest at configure time
+configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+RESULT_VARIABLE result
+WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
+if(result)
+    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+RESULT_VARIABLE result
+WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/googletest-download )
+if(result)
+    message(FATAL_ERROR "Build step for googletest failed: ${result}")
+endif()
 
-include_directories("../example/")
+# Prevent overriding the parent project's compiler/linker
+# settings on Windows
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-# Find Qt package
-find_package(Qt5 REQUIRED Core)
+# Add googletest directly to our build. This defines
+# the gtest and gtest_main targets.
+set(GOOGLETEST_SRC "${PROJECT_SOURCE_DIR}/ext/googletest-src")
+add_subdirectory(${GOOGLETEST_SRC}
+                 ${PROJECT_BINARY_DIR}/googletest-build
+                                  EXCLUDE_FROM_ALL)
 
-# Find jeplu library
-find_library(JEPLU_LINK jeplu PATHS "${PROJECT_BINARY_DIR}/../lib" NO_DEFAULT_PATH)
-include_directories("${PROJECT_BINARY_DIR}/../include/")
+enable_testing()
 
+# Include directories used for testing.
+include_directories("${CMAKE_SOURCE_DIR}/src"
+                    "${CMAKE_SOURCE_DIR}/include"
+                    "PluginManager/"
+                    "Jeplu/")
+
+# Include the files for testing.
+set(INCLUDE_TESTS "${CMAKE_SOURCE_DIR}/src/core/PluginManager.cpp"
+                  "${CMAKE_SOURCE_DIR}/src/core/PluginFactory.cpp")
+
+# Include the test source files.
 set(TEST_SOURCES  "main.cpp"
-                  "${PROJECT_BINARY_DIR}/../include/dlplugincreator.h"
-                  "${PROJECT_BINARY_DIR}/../include/IPlugin.hpp"
-                  "${PROJECT_BINARY_DIR}/../include/IPluginProxy.hpp"
-                  "${PROJECT_BINARY_DIR}/../include/IQtPlugin.hpp"
-                  "../example/custom-proxy/ICustomInterface.hpp"
-                  "../example/custom-proxy/QCustomProxy.cpp")
+                  "Jeplu/JepluTest.hpp"
+                  "PluginManager/FakeLibFinder.hpp"
+                  "PluginManager/PluginManagerTest.hpp")
 
 # Build
-add_executable(jeplu-test ${TEST_SOURCES} ${JEPLU_INCLUDE})
+add_executable(jeplu-test ${TEST_SOURCES} ${INCLUDE_TESTS})
 
 # Links the library with components.
-target_link_libraries(jeplu-test Qt5::Core ${JEPLU_LINK})
+target_link_libraries(jeplu-test gtest jeplu)
+
+#add_test(NAME jeplu-test COMMAND jeplu-test)
+

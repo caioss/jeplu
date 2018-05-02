@@ -9,7 +9,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # and link with another created by its own. Create another ILibFinder/IPluginLoader, insert its CMakeList target name
 # here (wich represents the same name of its subdir. e.g: JepluLibFinder/CMakeLists.txt) and register into
 # `IPluginManager` changing the `Jeplu.cpp`, at the registration section.
-set(COMPONENTS core loaders JepluLibFinder)
+set(COMPONENTS core loaders JepluLibFinder installer)
 
 # Including components subdir
 foreach(comp ${COMPONENTS})
@@ -24,6 +24,9 @@ add_library(jeplu SHARED ${JEPLU_SOURCES} ${JEPLU_INCLUDE})
 
 # Links the library with components.
 target_link_libraries(jeplu ${COMPONENTS})
+
+# Set definition to export symbols.
+target_compile_definitions(jeplu PRIVATE JEPLU_EXPORTS)
 
 set_target_properties(jeplu PROPERTIES PUBLIC_HEADER "${INCLUDE_STR}")
 

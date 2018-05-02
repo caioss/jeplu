@@ -7,6 +7,21 @@
 #include <string>
 #include <vector>
 
+namespace LoadingErrors {
+    /**
+     *  \brief The enum LoadingErrors indicates possible errors when tring to load a plugin.
+     */
+    enum LoadingErrors
+    {
+        OK = 0,                /*!< Successful */
+        LIB_NOT_LOADABLE = -1, /*!< The given lib couldn't be loaded. */
+        OBJ_NOT_CASTABLE = -2, /*!< The given lib doesn't have a castable object. It can be lead by incompatible
+                                    versions. */
+        CANT_CREATE_OBJ  = -3,  /*!< The given lib could not provide a object. */
+        UNKNOW_ERROR     = -4   /*!< An unknown error occurred, not loading the lib. */
+    };
+}
+
 /**
  *  \brief The IPluginLoader interface represents a \c IPlugin loader.
  *
@@ -21,17 +36,9 @@ class IPluginLoader
 {
 public:
     /**
-     *  \brief The enum LoadingErrors indicates possible errors when tring to load a plugin.
+     *  \brief Default destructor.
      */
-    enum LoadingErrors
-    {
-        OK = 0,                /*!< Successful */
-        LIB_NOT_LOADABLE = -1, /*!< The given lib couldn't be loaded. */
-        OBJ_NOT_CASTABLE = -2, /*!< The given lib doesn't have a castable object. It can be lead by incompatible
-                                    versions. */
-        CANT_CREATE_OBJ  = -3,  /*!< The given lib could not provide a object. */
-        UNKNOW_ERROR     = -4   /*!< An unknown error occurred, not loading the lib. */
-    };
+    virtual ~IPluginLoader() {}
 
     /**
      *  \brief Load all the plugins from a given \c path.
@@ -44,7 +51,7 @@ public:
      *
      *  \return Returns an error specified at \c \sa LoadingErrors.
      */
-    virtual LoadingErrors loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) = 0;
+    virtual int loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin) = 0;
 
     /**
      *  \brief Gets the name of the loader.
