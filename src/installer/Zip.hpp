@@ -35,25 +35,30 @@ public:
     /**
      * \brief Zip
      *
-     * \param  Description of
-     * \return Zip
      */
     Zip(void);
 
     /**
-     * \brief setFilePath
+     * \brief Zip
      *
-     * \param filePath Description of filePath
+     * \param archivePath Description of archivePath
+     * \param pluginPath Description of pluginPath
+     * \return Zip
      */
-    void setFilePath(const std::string &filePath);
+    Zip(const std::string &archivePath,
+        const std::string &pluginPath);
 
     /**
-     *  \brief function description
+     * \brief setArchivePath
      *
-     *  Detailed description
+     * \param archivePath Description of archivePath
+     */
+    void setArchivePath(const std::string &archivePath);
+
+    /**
+     * \brief setPluginPath
      *
-     *  \param param
-     *  \return return type
+     * \param pluginPath Description of pluginPath
      */
     void setPluginPath(const std::string &pluginPath);
 
@@ -72,24 +77,25 @@ public:
     bool decompress(void);
 
     /**
-     * \brief Zip
+     * \brief ~Zip
      *
      * \param  Description of
      */
     ~Zip(void);
 
 private:
+
     /**
-     * \brief Opens the zip archive.
+     * \brief _openZip
      *
-     * \param zipPath std::string, zip archive file system path.
-     * @return bool
+     * \return bool
      */
     bool _openZip(void);
 
     /**
+     * \brief _createZip
      *
-     *
+     * \return bool
      */
     bool _createZip(void);
 
@@ -102,16 +108,15 @@ private:
     uint8_t _extractZip(void);
 
     /**
-     * \brief close
+     * \brief _closeZip
      *
-     * \param  Description of
      */
     void _closeZip(void);
 
     /**
      * \brief _openFile
      *
-     * \param  Description of
+     * \param filePath Description of filePath
      * \return bool
      */
     bool _openFile(const std::string &filePath);
@@ -133,13 +138,6 @@ private:
     uint8_t _writeFile(const std::string &filePath);
 
     /**
-     * \brief _closeFile
-     *
-     * \param  Description of
-     */
-    void _closeFile(void);
-
-    /**
      * \brief _mkdir
      *
      * \param dirName Description of dirName
@@ -147,12 +145,35 @@ private:
      */
     uint8_t _mkdir(const std::string &dirName);
 
+    /**
+     * \brief _buildZip
+     *
+     * \param  Description of
+     * \return uint8_t
+     */
     uint8_t _buildZip(void);
 
+    /**
+     * \brief _zipOpen
+     *
+     * \return bool
+     */
     bool _zipOpen(void);
 
+    /**
+     * \brief _zipAddFile
+     *
+     * \param filePath Description of filePath
+     * \return uint8_t
+     */
     uint8_t _zipAddFile(const std::string &filePath);
 
+    /**
+     * \brief _zipAddDir
+     *
+     * \param dirPath Description of dirPath
+     * \return uint8_t
+     */
     uint8_t _zipAddDir(const std::string &dirPath);
 
     /**
@@ -178,7 +199,6 @@ private:
      *
      */
     zip_stat_t _sb;
-
 };
 
 #endif // ZIP_HPP
