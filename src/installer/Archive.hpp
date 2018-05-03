@@ -5,10 +5,10 @@
 #include <cstdint>
 #include <string>
 
-// enum ARTIFACT_TYPE
+// enum ARCHIVE_SUPPORTED
 //     {
-//         AT_ZIP = 0,
-//         AT_RAR,
+//         A_ZIP = 0,
+//         A_RAR,
 //     };
 
 class Archive
@@ -18,25 +18,43 @@ public:
     /**
      * \brief Archive
      *
+     */
+    Archive(void) {};
+
+    /**
+     * \brief Archive
+     *
+     * \param archivePath Description of archivePath
+     * \param pluginPath Description of pluginPath
+     * \return Archive
+     */
+    Archive(const std::string &archivePath,
+            const std::string &pluginPath);
+
+    /**
+     * \brief makeArchive
+     *
      * \param  Description of
-     * \return Archive
+     * \return std::unique_ptr
      */
-    Archive(void);
+    static std::unique_ptr<Archive> makeArchive(void);
 
     /**
-     * \brief make_artifact
+     * \brief make_archive
      *
-     * \param at Description of at
-     * \return Archive
+     * \param archivePath Description of archivePath
+     * \param pluginPath Description of pluginPath
+     * \return std::unique_ptr
      */
-    static std::unique_ptr<Archive> make_archive(void);
+    static std::unique_ptr<Archive> makeArchive(const std::string &archivePath,
+                                                const std::string &pluginPath);
 
     /**
-     * \brief setFilePath
+     * \brief setArchivePath
      *
-     * \param filePath Description of filePath
+     * \param archivePath Description of archivePath
      */
-    virtual void setFilePath(const std::string &filePath) = 0;
+    virtual void setArchivePath(const std::string &archivePath) = 0;
 
     /**
      * \brief setPluginPath
@@ -59,11 +77,24 @@ public:
      */
     virtual bool decompress(void) = 0;
 
+    /**
+     * \brief ~Archive
+     *
+     */
     virtual ~Archive(void);
 
 protected:
-    std::string _filePath;
 
+    /**
+     * \brief
+     *
+     */
+    std::string _archivePath;
+
+    /**
+     *  \brief
+     *
+     */
     std::string _pluginPath;
 };
 

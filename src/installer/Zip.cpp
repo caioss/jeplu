@@ -10,13 +10,19 @@
 Zip::Zip(void)
 : Archive()
 {
+}
+
+Zip::Zip(const std::string &archivePath,
+         const std::string &pluginPath)
+: Archive(archivePath, pluginPath)
+{
     _za = nullptr;
     _zf = nullptr;
 }
 
-void Zip::setFilePath(const std::string &filePath)
+void Zip::setArchivePath(const std::string &archivePath)
 {
-    _filePath = filePath;
+    _archivePath = archivePath;
 }
 
 void Zip::setPluginPath(const std::string &pluginPath)
@@ -52,7 +58,7 @@ bool Zip::_openZip(void)
 {
     int err;
 
-    if ((_za = zip_open(_filePath.c_str(), ZIP_CHECKCONS, &err)) != nullptr)
+    if ((_za = zip_open(_archivePath.c_str(), ZIP_CHECKCONS, &err)) != nullptr)
     {
         return true;
     }
@@ -63,7 +69,7 @@ bool Zip::_createZip(void)
 {
     int err;
 
-    if ((_za = zip_open(_filePath.c_str(), ZIP_CREATE | ZIP_TRUNCATE, &err)) != nullptr)
+    if ((_za = zip_open(_archivePath.c_str(), ZIP_CREATE | ZIP_TRUNCATE, &err)) != nullptr)
     {
         return true;
     }
@@ -79,7 +85,6 @@ void Zip::_closeZip(void)
         if (zip_close(_za) > 0)
         {
             zerr = zip_get_error(_za);
-            qDebug() << zerr->zip_err;
         }
         _za = nullptr;
     }
@@ -126,11 +131,6 @@ uint8_t Zip::_writeFile(const std::string &filePath)
     _file.close();
 
     return ZIP_SUCCESS;
-}
-
-void Zip::_closeFile(void)
-{
-    _file.close();
 }
 
 uint8_t Zip::_extractZip(void)
@@ -257,8 +257,6 @@ uint8_t Zip::_buildZip(void)
 {
     QDirIterator dirIt(QString::fromStdString(_pluginPath),
                        QDirIterator::Subdirectories);
-
-    //uint8_t ret = ZIP_SUCCESS;
 
     while(dirIt.hasNext())
     {
