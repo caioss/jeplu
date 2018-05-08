@@ -16,69 +16,65 @@ class Archive
 public:
 
     /**
-     * \brief Archive
+     * \brief Default constructor.
      *
      */
     Archive(void) {};
 
     /**
-     * \brief Archive
+     * \brief Alternative constructor.
      *
-     * \param archivePath Description of archivePath
-     * \param pluginPath Description of pluginPath
-     * \return Archive
+     * \param archivePath Archive path.
+     * \param pluginPath  Plugin path.
      */
     Archive(const std::string &archivePath,
             const std::string &pluginPath);
 
     /**
-     * \brief makeArchive
+     * \brief Creates the proper archive object.
      *
-     * \param  Description of
-     * \return std::unique_ptr
+     * \return Archive object.
      */
     static std::unique_ptr<Archive> makeArchive(void);
 
     /**
-     * \brief make_archive
+     * \brief Creates the proper archive object.
      *
-     * \param archivePath Description of archivePath
-     * \param pluginPath Description of pluginPath
-     * \return std::unique_ptr
+     * \param archivePath Archive path.
+     * \param pluginPath Plugin path.
+     * \return Archive object.
      */
     static std::unique_ptr<Archive> makeArchive(const std::string &archivePath,
                                                 const std::string &pluginPath);
 
     /**
-     * \brief setArchivePath
+     * \brief Set the archive path.
      *
-     * \param archivePath Description of archivePath
+     * \param archivePath Archive path.
      */
     virtual void setArchivePath(const std::string &archivePath) = 0;
 
     /**
-     * \brief setPluginPath
+     * \brief Set the plugin path.
      *
-     * \param pluginPath Description of pluginPath
+     * \param pluginPath Plugin path.
      */
     virtual void setPluginPath(const std::string &pluginPath) = 0;
 
     /**
-     * \brief compress
+     * \brief Compress the plugin.
      *
-     * \param  Description of
      */
     virtual bool compress(void) = 0;
 
     /**
-     * \brief decompress
+     * \brief Decompresses the plugin.
      *
-     * \param  Description of
      */
     virtual bool decompress(void) = 0;
 
     /**
-     * \brief ~Archive
+     * \brief Destructor.
      *
      */
     virtual ~Archive(void);
@@ -86,14 +82,12 @@ public:
 protected:
 
     /**
-     * \brief
-     *
+     * \brief Archive path.
      */
     std::string _archivePath;
 
     /**
-     *  \brief
-     *
+     *  \brief Plugin path.
      */
     std::string _pluginPath;
 };

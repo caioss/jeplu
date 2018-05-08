@@ -14,6 +14,9 @@
  */
 #define ZIP_MEM_CHUNK_SIZE 64
 
+/**
+ * \brief Zip return values.
+ */
 enum ZIP_RET_VALUES
 {
         ZIP_SUCCESS = 0,
@@ -28,175 +31,182 @@ enum ZIP_RET_VALUES
         ZIP_ERROR_FILE,
 };
 
+/**
+ *  The class Zip manages the operations related to de zip file type.
+ *
+ *  The objective of this class is:
+ *    - provide interaction with the zip file type.
+ *    - operations supported: create, compress and decompress.
+ */
 class Zip : public Archive
 {
 public:
 
     /**
-     * \brief Zip
-     *
+     * \brief Default constructor.
      */
     Zip(void);
 
     /**
-     * \brief Zip
+     * \brief Alternative constructor.
      *
-     * \param archivePath Description of archivePath
-     * \param pluginPath Description of pluginPath
-     * \return Zip
+     * \param archivePath Archive path.
+     * \param pluginPath  Plugin path.
      */
     Zip(const std::string &archivePath,
         const std::string &pluginPath);
 
     /**
-     * \brief setArchivePath
+     * \brief Set the archive path.
      *
-     * \param archivePath Description of archivePath
+     * \param archivePath Archive path.
      */
     void setArchivePath(const std::string &archivePath);
 
     /**
-     * \brief setPluginPath
+     * \brief Set the plugin path.
      *
-     * \param pluginPath Description of pluginPath
+     * \param pluginPath Plugin path.
      */
     void setPluginPath(const std::string &pluginPath);
 
     /**
-     * \brief compress
+     * \brief Compress the directory to a zip archive.
      *
-     * \param  Description of
      */
     bool compress(void);
 
     /**
-     * \brief decompress
+     * \brief Decompress a zip archive.
      *
-     * \param  Description of
      */
     bool decompress(void);
 
     /**
-     * \brief ~Zip
+     * \brief Destructor.
      *
-     * \param  Description of
      */
     ~Zip(void);
 
 private:
 
     /**
-     * \brief _openZip
+     * \brief Open the zip archive.
      *
-     * \return bool
+     * \return True on success, false otherwise.
      */
     bool _openZip(void);
 
     /**
-     * \brief _createZip
+     * \brief Create a zip archive.
      *
-     * \return bool
+     * \return True on success, false otherwise.
      */
     bool _createZip(void);
 
     /**
-     * \brief _extractZip
+     * \brief Extract zip archive contents.
      *
-     * \param  Description of
-     * \return uint8_t
      */
     uint8_t _extractZip(void);
 
     /**
-     * \brief _closeZip
+     * \brief Close zip archive.
      *
      */
     void _closeZip(void);
 
     /**
-     * \brief _openFile
+     * \brief Open a file in the virtual file system.
      *
-     * \param filePath Description of filePath
-     * \return bool
+     * \param filePath File path.
+     * \return True on success, false otherwise.
      */
     bool _openFile(const std::string &filePath);
 
     /**
-     * \brief _extracFile
+     * \brief Extract one file/directory from zip archive.
      *
-     * \param index Description of index
-     * \return uint8_t
+     * \param index In the zip archive we have a array of files/directorys the index indicates which one.
+     * \retval ZIP_SUCCESS      Success.
+     * \retval ZIP_ERROR_FOPEN  It was not possible to open the virtual file system file.
+     * \retval ZIP_ERROR_STAT   Insternal error from libzip zip_stat_index function.
+     * \retval ZIP_ERROR_READ   It was not possible to read the compressed file.
      */
     uint8_t _extractFile(const zip_int64_t index);
 
     /**
-     * \brief _writeFile
+     * \brief Write the contents decompressed in to the file in the virtual file system.
      *
-     * \param filePath Description of filePath
-     * \return int8_t
+     * \param filePath File path.
+     * \retval ZIP_SUCCESS      Success.
+     * \retval ZIP_ERROR_FOPEN  It was not possible to open the virtual file system file.
+     * \retval ZIP_ERROR_READ   It was not possible to read the compressed file.
      */
     uint8_t _writeFile(const std::string &filePath);
 
     /**
-     * \brief _mkdir
+     * \brief Creates a directory in the virtual file system.
      *
-     * \param dirName Description of dirName
-     * \return uint8_t
+     * \param dirName Directory's name.
+     * \retval ZIP_SUCCESS      Success.
+     * \retval ZIP_ERROR_DIR    It was not possible to create the directory.
      */
     uint8_t _mkdir(const std::string &dirName);
 
     /**
-     * \brief _buildZip
+     * \brief Build the zip archive.
      *
-     * \param  Description of
-     * \return uint8_t
+     * \retval ZIP_SUCCESS      Success.
+     * \retval ZIP_ERROR_DIR    It was not possible to add the directory.
+     * \retval ZIP_ERROR_FILE   It was not possible to add the file.
      */
     uint8_t _buildZip(void);
 
     /**
-     * \brief _zipOpen
+     * \brief Verifies if the zip archive is open.
      *
-     * \return bool
+     * \return True on success, false otherwise.
      */
     bool _zipOpen(void);
 
     /**
-     * \brief _zipAddFile
+     * \brief Add a file in the zip archive.
      *
-     * \param filePath Description of filePath
-     * \return uint8_t
+     * \param filePath File path.
+     * \retval ZIP_SUCCESSS    Success.
+     * \retval ZIP_ERROR_OPEN  It was not possible to open zip archive.
+     * \retval ZIP_ERROR_FILE  It was not possible to add the target file.
      */
     uint8_t _zipAddFile(const std::string &filePath);
 
     /**
-     * \brief _zipAddDir
+     * \brief Add a directory in the zip archive.
      *
-     * \param dirPath Description of dirPath
-     * \return uint8_t
+     * \param dirPath Directory path.
+     * \retval ZIP_SUCCESSS    Directory added into zip archive.
+     * \retval ZIP_ERROR_OPEN  It was not possible to open zip archive.
+     * \retval ZIP_ERROR_DIR   It was not possible to add the target directory.
      */
     uint8_t _zipAddDir(const std::string &dirPath);
 
     /**
-     * \brief ofstream
-     *
+     * \brief ofstream var.
      */
     std::ofstream _file;
 
     /**
      * \brief pointer to struct zip, libzip related.
-     *
      */
     zip_t *_za;
 
     /**
      * \brief pointer to struct zip_file, libzip related.
-     *
      */
     zip_file_t *_zf;
 
     /**
      * \brief struct zip_stat, libzip related.
-     *
      */
     zip_stat_t _sb;
 };

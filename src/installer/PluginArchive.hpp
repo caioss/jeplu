@@ -7,50 +7,50 @@
 #include "Archive.hpp"
 
 /**
- * \brief This class is resposble for install the plugin
+ *  The class PluginArchive, manages the plugin archive.
  *
+ *  The objective of this class is:
+ *    - provide a interface to export/extract plugins.
  */
 class PluginArchive
 {
 public:
     /**
-     * \brief PluginArchive constructor.
+     * \brief Default constructor.
      *
      */
     PluginArchive(void){};
 
     /**
-     * \brief exportPlugin
+     * \brief Create a archive from a plugin directory.
      *
-     * \param archivePath Description of archivePath
-     * \param pluginPath Description of pluginPath
+     * \param archivePath Archive path.
+     * \param pluginPath  Plugin path.
      * \return bool
      */
     bool exportPlugin(const std::string &archivePath,
                       const std::string &pluginPath);
 
     /**
-     * \brief extractPlugin
+     * \brief Extract the archive contents to a plugin directory.
      *
-     * \param archivePath Description of archivePath
-     * \param pluginPath Description of pluginPath
+     * \param archivePath Archive path.
+     * \param pluginPath  Plugin path.
      * \return bool
      */
     bool extractPlugin(const std::string &archivePath,
                        const std::string &pluginPath);
 
     /**
-     * \brief PluginArchive destructor.
+     * \brief Destructor.
      *
      */
-    ~PluginArchive(void);
+    ~PluginArchive(void) {};
 
 private:
 
     /**
-     * \brief brief description
-     *
-     * @param name description
+     * \brief Archive interface pointer.
      *
      */
     std::unique_ptr<Archive> _archive;

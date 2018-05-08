@@ -7,6 +7,7 @@ set(INCLUDE_TESTS "${CMAKE_SOURCE_DIR}/src/core/PluginManager.cpp"
 # Include directories used for testing.
 include_directories("${CMAKE_SOURCE_DIR}/include"
                     "${CMAKE_SOURCE_DIR}/src"
+                    "${CMAKE_SOURCE_DIR}/src/installer"
                     "PluginManager/")
 
 # Include the test source files.

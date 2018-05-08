@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "PluginArchive.hpp"
 
 bool PluginArchive::exportPlugin(const std::string &archivePath,
