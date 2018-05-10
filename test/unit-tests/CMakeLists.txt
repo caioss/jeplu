@@ -19,4 +19,4 @@ set(UNIT_TEST_SOURCES  "main.cpp"
 add_executable(jeplu-utest ${UNIT_TEST_SOURCES} ${INCLUDE_TESTS})
 
 # Links the library with components.
-target_link_libraries(jeplu-utest gtest)
+target_link_libraries(jeplu-utest gtest installer)

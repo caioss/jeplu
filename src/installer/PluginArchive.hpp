@@ -26,7 +26,7 @@ public:
      *
      * \param archivePath Archive path.
      * \param pluginPath  Plugin path.
-     * \return bool
+     * \return True on success, false otherwise.
      */
     bool exportPlugin(const std::string &archivePath,
                       const std::string &pluginPath);
@@ -36,7 +36,7 @@ public:
      *
      * \param archivePath Archive path.
      * \param pluginPath  Plugin path.
-     * \return bool
+     * \return True on success, false otherwise.
      */
     bool extractPlugin(const std::string &archivePath,
                        const std::string &pluginPath);
