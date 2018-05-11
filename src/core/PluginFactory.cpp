@@ -24,8 +24,7 @@ int PluginFactory::createPlugins(const std::vector<std::string> &pluginsPath)
         {
             std::cout << "Trying loader: " << loader->name() << std::endl;
             std::shared_ptr<IPlugin> plugin = nullptr;
-            int rc = loader->loadPlugin(libPath, plugin);
-            if (rc == 0)
+            if (loader->loadPlugin(libPath, plugin) == LoadingErrs::OK)
             {
                 pluginsCreated.push_back(plugin);
                 std::cout << "Plugin " << plugin->pluginName().c_str() << " loaded!" << std::endl;

@@ -97,10 +97,10 @@ Jeplu::Jeplu() :
 _impl(new JepluImpl())
 {}
 
-int Jeplu::init(const std::string &pluginsRootPath)
+JepluErrs Jeplu::init(const std::string &pluginsRootPath)
 {
     std::cout << "Initializing Jeplu..." << std::endl;
-    int rc = 0;
+    JepluErrs rc = JepluErrs::OK;
     // Initializes and register factory to manager.
     if (!_impl->initFactory())
     {

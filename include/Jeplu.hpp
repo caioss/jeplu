@@ -20,14 +20,11 @@
 /**
  *  \brief Indicates all the errors that \c Jeplu can return.
  */
-namespace JepluErrs
+enum class JepluErrs
 {
-    enum JepluErrs
-    {
-        OK = 0, /*!< Successful. */
-        INIT_FACTORY_ERR = -1, /*!< Indicates that the \c IPluginFactory could not be initialized. */
-        INIT_MANAGER_ERR = -2  /*!< Indicates that the \c IPluginManager could not be initialized. */
-    };
+    OK = 0, /*!< Successful. */
+    INIT_FACTORY_ERR = -1, /*!< Indicates that the \c IPluginFactory could not be initialized. */
+    INIT_MANAGER_ERR = -2  /*!< Indicates that the \c IPluginManager could not be initialized. */
 };
 
 /**
@@ -64,7 +61,7 @@ public:
      *
      *  \return Returns 0 if succeded. Otherwise, returns a negative error, described in \c JepluErrs.
      */
-    int init(const std::string &pluginsRootPath);
+    JepluErrs init(const std::string &pluginsRootPath);
 
     /**
      *  \brief Indicates if any plugin was loaded into any \c IPluginProxy registered.

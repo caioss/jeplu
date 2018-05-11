@@ -13,7 +13,7 @@ _errStr("No error")
 {
 }
 
-int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plugin)
+LoadingErrs DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plugin)
 {
     char *error;
     void *plugin_h = dlopen (file.c_str(), RTLD_LAZY);
@@ -21,7 +21,7 @@ int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plu
     if (!plugin_h)
     {
         _errStr = "Failed to load plugin: " + std::string(dlerror());
-        return LoadingErrors::LIB_NOT_LOADABLE;
+        return LoadingErrs::LIB_NOT_LOADABLE;
     }
 
     create_t *create_plugin = (create_t*) dlsym(plugin_h, "create");
@@ -30,7 +30,7 @@ int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plu
     {
         _errStr = "Failed to sync plugin: " + std::string(error);
         dlclose(plugin_h);
-        return LoadingErrors::OBJ_NOT_CASTABLE;
+        return LoadingErrs::OBJ_NOT_CASTABLE;
     }
 
     plugin = create_plugin();
@@ -43,17 +43,15 @@ int DLLoader::_loadPlugin(const std::string &file, std::shared_ptr<IPlugin> &plu
     {
         _errStr = "Unable to create a plugin object.";
         dlclose(plugin_h);
-        return LoadingErrors::CANT_CREATE_OBJ;
+        return LoadingErrs::CANT_CREATE_OBJ;
     }
 
-    return 0;
+    return LoadingErrs::OK;
 }
 
-int DLLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin)
+LoadingErrs DLLoader::loadPlugin(const std::string &pluginPath, std::shared_ptr<IPlugin> &plugin)
 {
-    int rc = _loadPlugin(pluginPath, plugin);
-
-    return rc;
+    return _loadPlugin(pluginPath, plugin);
 }
 
 std::string DLLoader::errString() const
