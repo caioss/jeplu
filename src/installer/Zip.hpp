@@ -10,11 +10,6 @@
 #include "Archive.hpp"
 
 /**
- * \brief size of memory chunk, used to read the decompressed files.
- */
-#define ZIP_MEM_CHUNK_SIZE 64
-
-/**
  * \brief Zip return values.
  */
 enum ZIP_RET_VALUES
@@ -45,7 +40,7 @@ public:
     /**
      * \brief Default constructor.
      */
-    Zip(void);
+    Zip();
 
     /**
      * \brief Alternative constructor.
@@ -74,19 +69,19 @@ public:
      * \brief Compress the directory to a zip archive.
      *
      */
-    bool compress(void);
+    bool compress();
 
     /**
      * \brief Decompress a zip archive.
      *
      */
-    bool decompress(void);
+    bool decompress();
 
     /**
      * \brief Destructor.
      *
      */
-    ~Zip(void);
+    ~Zip();
 
 private:
 
@@ -95,26 +90,26 @@ private:
      *
      * \return True on success, false otherwise.
      */
-    bool _openZip(void);
+    bool _openZip();
 
     /**
      * \brief Create a zip archive.
      *
      * \return True on success, false otherwise.
      */
-    bool _createZip(void);
+    bool _createZip();
 
     /**
      * \brief Extract zip archive contents.
      *
      */
-    uint8_t _extractZip(void);
+    uint8_t _extractZip();
 
     /**
      * \brief Close zip archive.
      *
      */
-    void _closeZip(void);
+    void _closeZip();
 
     /**
      * \brief Open a file in the virtual file system.
@@ -161,14 +156,14 @@ private:
      * \retval ZIP_ERROR_DIR    It was not possible to add the directory.
      * \retval ZIP_ERROR_FILE   It was not possible to add the file.
      */
-    uint8_t _buildZip(void);
+    uint8_t _buildZip();
 
     /**
      * \brief Verifies if the zip archive is open.
      *
      * \return True on success, false otherwise.
      */
-    bool _zipOpen(void);
+    bool _zipOpen();
 
     /**
      * \brief Add a file in the zip archive.

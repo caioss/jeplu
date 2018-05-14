@@ -1,5 +1,5 @@
-#ifndef PLUGIN_ARCHIVE_HPP
-#define PLUGIN_ARCHIVE_HPP
+#ifndef PLUGINARCHIVE_HPP
+#define PLUGINARCHIVE_HPP
 
 #include <string>
 #include <memory>
@@ -19,7 +19,7 @@ public:
      * \brief Default constructor.
      *
      */
-    PluginArchive(void){};
+    PluginArchive() {};
 
     /**
      * \brief Create a archive from a plugin directory.
@@ -45,7 +45,7 @@ public:
      * \brief Destructor.
      *
      */
-    ~PluginArchive(void) {};
+    ~PluginArchive() {};
 
 private:
 
@@ -56,5 +56,5 @@ private:
     std::unique_ptr<Archive> _archive;
 };
 
-#endif // PLUGIN_ARCHIVE_HPP
+#endif // PLUGINARCHIVE_HPP
 

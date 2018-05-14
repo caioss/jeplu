@@ -19,7 +19,7 @@ public:
      * \brief Default constructor.
      *
      */
-    Archive(void) {};
+    Archive() {};
 
     /**
      * \brief Alternative constructor.
@@ -35,7 +35,7 @@ public:
      *
      * \return Archive object.
      */
-    static std::unique_ptr<Archive> makeArchive(void);
+    static std::unique_ptr<Archive> makeArchive();
 
     /**
      * \brief Creates the proper archive object.
@@ -65,19 +65,19 @@ public:
      * \brief Compress the plugin.
      *
      */
-    virtual bool compress(void) = 0;
+    virtual bool compress() = 0;
 
     /**
      * \brief Decompresses the plugin.
      *
      */
-    virtual bool decompress(void) = 0;
+    virtual bool decompress() = 0;
 
     /**
      * \brief Destructor.
      *
      */
-    virtual ~Archive(void);
+    virtual ~Archive();
 
 protected:
 

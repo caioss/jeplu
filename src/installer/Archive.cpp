@@ -2,19 +2,17 @@
 #include "Zip.hpp"
 
 Archive::Archive(const std::string &archivePath,
-                 const std::string &pluginPath)
+                 const std::string &pluginPath):
+_archivePath (archivePath),
+_pluginPath (pluginPath)
 {
-    _archivePath = archivePath;
-    _pluginPath  = pluginPath;
 }
 
-std::unique_ptr<Archive> Archive::makeArchive(void)
+std::unique_ptr<Archive> Archive::makeArchive()
 {
     std::unique_ptr<Archive> archive;
 
     archive.reset(new Zip());
-
-    //artifact = std::unique_ptr<Zip>();
 
     return archive;
 }
@@ -26,12 +24,10 @@ std::unique_ptr<Archive> Archive::makeArchive(const std::string &archivePath,
 
     archive.reset(new Zip(archivePath, pluginPath));
 
-    //artifact = std::unique_ptr<Zip>();
-
     return archive;
 }
 
-Archive::~Archive(void)
+Archive::~Archive()
 {
 }
 
