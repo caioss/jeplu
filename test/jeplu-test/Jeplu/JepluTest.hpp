@@ -46,7 +46,7 @@ protected:
 
 TEST_F(JepluTest, initJeplu)
 {
-    ASSERT_EQ(0, _jeplu.init("plugins/"));
+    ASSERT_EQ(JepluErrs::OK, _jeplu.init("plugins/"));
 }
 
 TEST_F(JepluTest, checkPluginIsEmpty)
