@@ -30,7 +30,10 @@ add_subdirectory(${GOOGLETEST_SRC}
                                   EXCLUDE_FROM_ALL)
 
 enable_testing()
-                    
+
+# Sets EXAMPLE_DIR for test usage.
+set(EXAMPLE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/example/")
+
 add_subdirectory("jeplu-test")
 add_subdirectory("unit-tests")
 

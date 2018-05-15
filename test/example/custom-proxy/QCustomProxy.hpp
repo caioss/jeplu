@@ -17,7 +17,7 @@ public:
 
     bool initialized() const override;
 
-    bool hasPluginsLoaded const override;
+    bool hasPluginsLoaded() const override;
 
     std::vector<std::weak_ptr<IPlugin>> plugins() const override;
 

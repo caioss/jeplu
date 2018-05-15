@@ -5,6 +5,7 @@
 
 #include "gtest/gtest.h"
 
+#include "QCustomProxy.hpp"
 #include "Jeplu.hpp"
 
 /**
@@ -13,9 +14,6 @@
 class JepluTest : public ::testing::Test
 {
 protected:
-    // You can remove any or all of the following functions if its body
-    // is empty.
-
     JepluTest()
     {
         // You can do set-up work for each test here.
@@ -54,6 +52,16 @@ TEST_F(JepluTest, checkPluginIsEmpty)
     _jeplu.init("plugins/");
 
     ASSERT_EQ(false, _jeplu.hasLoadedPlugins());
+}
+
+TEST_F(JepluTest, testProxy)
+{
+    std::shared_ptr<QCustomProxy> proxy = std::make_shared<QCustomProxy>();
+
+    _jeplu.registerProxy(proxy);
+    _jeplu.init("plugins/");
+
+    ASSERT_EQ(true ,proxy->hasPluginsLoaded());
 }
 
 #endif //JEPLUTEST_HPP
