@@ -12,9 +12,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Include jeplu files.
-include_directories("../include/")
-file (GLOB JEPLU_INCLUDE "../include/*.hpp"
-                         "../include/*.h")
+file (GLOB JEPLU_INCLUDE "../../../include/*.hpp"
+                         "../../../include/*.h")
+
+include_directories("../../../include/")
 
 MESSAGE("${JEPLU_INCLUDE}")
 
