@@ -29,6 +29,13 @@ add_subdirectory(${GOOGLETEST_SRC}
                  ${PROJECT_BINARY_DIR}/googletest-build
                                   EXCLUDE_FROM_ALL)
 
+# Build example plugins for test usage.
+add_subdirectory("example/qt-custom-plugin/")
+
+set_target_properties(qcustom_plugin PROPERTIES
+                      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/plugins/qcustom_plugin/"
+                      LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/plugins/qcustom_plugin/")
+
 enable_testing()
 
 # Sets EXAMPLE_DIR for test usage.

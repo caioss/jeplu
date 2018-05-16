@@ -14,7 +14,7 @@
 class JepluTest : public ::testing::Test
 {
 protected:
-    JepluTest()
+    JepluTest() : _pluginsPath("plugins/")
     {
         // You can do set-up work for each test here.
     }
@@ -38,18 +38,25 @@ protected:
         // before the destructor).
     }
 
-    // Objects declared here can be used by all tests in the test case for Foo.
+    /**
+     *  \brief The jeplu object.
+     */
     Jeplu _jeplu;
+
+    /**
+     *  \brief Holds the path that contains the plugins.
+     */
+    std::string _pluginsPath;
 };
 
 TEST_F(JepluTest, initJeplu)
 {
-    ASSERT_EQ(JepluErrs::OK, _jeplu.init("plugins/"));
+    ASSERT_EQ(JepluErrs::OK, _jeplu.init(_pluginsPath));
 }
 
 TEST_F(JepluTest, checkPluginIsEmpty)
 {
-    _jeplu.init("plugins/");
+    _jeplu.init(_pluginsPath);
 
     ASSERT_EQ(false, _jeplu.hasLoadedPlugins());
 }
@@ -59,7 +66,7 @@ TEST_F(JepluTest, testProxy)
     std::shared_ptr<QCustomProxy> proxy = std::make_shared<QCustomProxy>();
 
     _jeplu.registerProxy(proxy);
-    _jeplu.init("plugins/");
+    _jeplu.init(_pluginsPath);
 
     ASSERT_EQ(true ,proxy->hasPluginsLoaded());
 }
