@@ -7,8 +7,8 @@ bool testTrue(void)
 {
     PluginArchive pluginArchive;
 
-    return pluginArchive.exportPlugin("~/core/projects/jeplu/tmp/test.zip",
-                                      "~/core/projects/jeplu/tmp/simulador");
+    return pluginArchive.exportPlugin("/tmp/test.zip",
+                                      "/tmp/simulador");
 }
 
 TEST(testTrue, TestTrue)
