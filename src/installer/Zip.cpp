@@ -9,12 +9,12 @@
 
 const zip_uint64_t ZIP_MEM_CHUNK_SIZE = 64;
 
-Zip::Zip()
-: Archive()
+Zip::Zip() :
+Archive()
 {
 }
 
-Zip::Zip(const std::string &archivePath, const std::string &pluginPath):
+Zip::Zip(const std::string &archivePath, const std::string &pluginPath) :
 Archive(archivePath, pluginPath),
 _za (nullptr),
 _zf (nullptr)
@@ -165,7 +165,7 @@ uint8_t Zip::_extractFile(const zip_int64_t index)
 
     // len for zip_state.name (libc)
     size_t len = strlen(_sb.name);
-    //
+
     // full filePath where will be save the archive
     std::string filePath = _pluginPath + _sb.name;
 

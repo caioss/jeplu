@@ -1,7 +1,6 @@
 #include "PluginArchive.hpp"
 
-bool PluginArchive::exportPlugin(const std::string &archivePath,
-                                 const std::string &pluginPath)
+bool PluginArchive::exportPlugin(const std::string &archivePath, const std::string &pluginPath)
 {
     _archive = Archive::makeArchive(archivePath, pluginPath);
 
@@ -15,8 +14,7 @@ bool PluginArchive::exportPlugin(const std::string &archivePath,
     return false;
 }
 
-bool PluginArchive::extractPlugin(const std::string &archivePath,
-                                  const std::string &pluginPath)
+bool PluginArchive::extractPlugin(const std::string &archivePath, const std::string &pluginPath)
 {
     _archive = Archive::makeArchive(archivePath, pluginPath);
 

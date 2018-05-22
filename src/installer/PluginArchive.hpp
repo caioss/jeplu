@@ -28,8 +28,7 @@ public:
      * \param pluginPath  Plugin path.
      * \return True on success, false otherwise.
      */
-    bool exportPlugin(const std::string &archivePath,
-                      const std::string &pluginPath);
+    bool exportPlugin(const std::string &archivePath, const std::string &pluginPath);
 
     /**
      * \brief Extract the archive contents to a plugin directory.
@@ -38,8 +37,7 @@ public:
      * \param pluginPath  Plugin path.
      * \return True on success, false otherwise.
      */
-    bool extractPlugin(const std::string &archivePath,
-                       const std::string &pluginPath);
+    bool extractPlugin(const std::string &archivePath, const std::string &pluginPath);
 
     /**
      * \brief Destructor.

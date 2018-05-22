@@ -5,16 +5,9 @@
 #include <cstdint>
 #include <string>
 
-// enum ARCHIVE_SUPPORTED
-//     {
-//         A_ZIP = 0,
-//         A_RAR,
-//     };
-
 class Archive
 {
 public:
-
     /**
      * \brief Default constructor.
      *
@@ -27,8 +20,7 @@ public:
      * \param archivePath Archive path.
      * \param pluginPath  Plugin path.
      */
-    Archive(const std::string &archivePath,
-            const std::string &pluginPath);
+    Archive(const std::string &archivePath, const std::string &pluginPath);
 
     /**
      * \brief Creates the proper archive object.
@@ -44,8 +36,7 @@ public:
      * \param pluginPath Plugin path.
      * \return Archive object.
      */
-    static std::unique_ptr<Archive> makeArchive(const std::string &archivePath,
-                                                const std::string &pluginPath);
+    static std::unique_ptr<Archive> makeArchive(const std::string &archivePath, const std::string &pluginPath);
 
     /**
      * \brief Set the archive path.
@@ -80,7 +71,6 @@ public:
     virtual ~Archive();
 
 protected:
-
     /**
      * \brief Archive path.
      */

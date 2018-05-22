@@ -19,7 +19,7 @@ option(test "Build all tests." FALSE) # Makes boolean 'test' available.
 option(no-qt-loader "Remove build of the default Qt loader." FALSE)
 option(no-dlopen-loader "Remove build of the default dlopen loader." FALSE)
 option(no-default-libfinder "Remove build of the default libfinder." FALSE)
-option(no-plugin-installer "Remove build of the plugin installer." FALSE))
+option(no-plugin-installer "Remove build of the plugin installer." FALSE)
 
 # Extra definitions
 set(CMAKE_CXX_STANDARD 11)
