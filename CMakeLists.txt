@@ -4,7 +4,13 @@ cmake_minimum_required(VERSION 3.1.0)
 project(jeplu)
 set(CMAKE_BUILD_TYPE Debug)
 
-# set cmake modules path
+set(JEPLU_VERSION_MAJOR 0 CACHE STRING "major version" FORCE)
+set(JEPLU_VERSION_MINOR 1 CACHE STRING "minor version" FORCE)
+set(JEPLU_VERSION ${JEPLU_VERSION_MAJOR}.${JEPLU_VERSION_MINOR} CACHE STRING "version" FORCE)
+set(JEPLU_NAME_VERSION "${PROJECT_NAME}-${JEPLU_VERSION}")
+
+# Setup cmake modules path and 3d party dir for its usage
+set(3D_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3d_party/")
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # Project extra definitions

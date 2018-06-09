@@ -31,5 +31,5 @@ target_compile_definitions(jeplu PRIVATE JEPLU_EXPORTS)
 set_target_properties(jeplu PROPERTIES PUBLIC_HEADER "${INCLUDE_STR}")
 
 # Install target to lib dir and its public headers to include dir.
-install(FILES ${JEPLU_INCLUDE} "Jeplu.hpp" DESTINATION "${PROJECT_BINARY_DIR}/include")
-install(TARGETS jeplu DESTINATION "${PROJECT_BINARY_DIR}/lib")
+install(FILES ${JEPLU_INCLUDE} DESTINATION "include/${JEPLU_NAME_VERSION}/")
+install(TARGETS jeplu DESTINATION "lib/${JEPLU_NAME_VERSION}/")
