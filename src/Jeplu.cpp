@@ -34,12 +34,12 @@ public:
     bool initManager(const JepluLibFinder &finder);
 
     /**
-     *  \brief Register the given proxy into PluginManager.
+     *  \brief Register the given adapter into PluginManager.
      */
-    bool registerProxy(std::shared_ptr<IPluginProxy> proxy);
+    bool registerAdapter(std::shared_ptr<IPluginAdapter> adapter);
 
     /**
-     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginProxy succesfully.
+     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginAdapter succesfully.
      */
     bool hasLoadedPlugins() const;
 
@@ -76,9 +76,9 @@ bool Jeplu::JepluImpl::initManager(const JepluLibFinder &finder)
     return _manager->init(finder);
 }
 
-bool Jeplu::JepluImpl::registerProxy(std::shared_ptr<IPluginProxy> proxy)
+bool Jeplu::JepluImpl::registerAdapter(std::shared_ptr<IPluginAdapter> adapter)
 {
-    return _manager->registerProxy(proxy);
+    return _manager->registerAdapter(adapter);
 }
 
 bool Jeplu::JepluImpl::hasLoadedPlugins() const
@@ -122,7 +122,7 @@ bool Jeplu::hasLoadedPlugins() const
     return _impl->hasLoadedPlugins();
 }
 
-bool Jeplu::registerProxy(std::shared_ptr<IPluginProxy> proxy)
+bool Jeplu::registerAdapter(std::shared_ptr<IPluginAdapter> adapter)
 {
-    return _impl->registerProxy(proxy);
+    return _impl->registerAdapter(adapter);
 }

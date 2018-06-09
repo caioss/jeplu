@@ -1,19 +1,20 @@
 #ifndef QCUSTOMPROXY_HPP
 #define QCUSTOMPROXY_HPP
 
-#include "ICustomInterface.hpp"
-#include "IPluginProxy.hpp"
+#include "IPluginAdapter.hpp"
 
-class QCustomProxy : public IPluginProxy
+class ICustomInterface;
+
+class QCustomAdapter : public IPluginAdapter
 {
 public:
-    QCustomProxy();
+    QCustomAdapter();
 
-    ~QCustomProxy();
+    ~QCustomAdapter();
 
     bool init(std::vector<std::weak_ptr<IPlugin>> plugins = std::vector<std::weak_ptr<IPlugin>>()) override;
 
-    std::string proxyId() const override;
+    std::string adapterId() const override;
 
     bool initialized() const override;
 

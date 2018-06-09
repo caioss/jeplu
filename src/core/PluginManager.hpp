@@ -1,11 +1,13 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include "ILibFinder.hpp"
-#include "IPluginProxy.hpp"
-#include "PluginFactory.hpp"
-
 #include <map>
+#include <memory>
+#include <string>
+
+class ILibFinder;
+class IPluginAdapter;
+class PluginFactory;
 
 /**
  *  \brief The \c PluginManager class creates and manage \c IPlugin.
@@ -15,10 +17,10 @@
  *  \c IPlugin object for each one.
  *
  *  The \c IPlugin object can be converted to a custom object by inheriting an interface supported by any
- *  \c IPluginProxy, that can be created and registered outside this module.
+ *  \c IPluginAdapter, that can be created and registered outside this module.
  *
  *  \sa IPlugin
- *  \sa IPluginProxy
+ *  \sa IPluginAdapter
  *  \sa PluginFactory
  */
 class PluginManager
@@ -32,7 +34,7 @@ public:
     /**
      *  \brief Initializes the \c PluginManager.
      *
-     *  Creates all plugins that can be found in \c path and register them to its \c IPluginProxy.
+     *  Creates all plugins that can be found in \c path and register them to its \c IPluginAdapter.
      *
      *  \param path The path to look for dynamic libraries.
      *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, if the
@@ -48,7 +50,7 @@ public:
     bool initialized() const;
 
     /**
-     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginProxy.
+     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginAdapter.
      *  \sa init(), \sa syncPlugins()
      */
     bool hasLoadedPlugins() const;
@@ -65,29 +67,29 @@ public:
     bool registerFactory(std::shared_ptr<PluginFactory> factory);
 
     /**
-     *  \brief Register the \c proxy to the list of proxies availbable.
+     *  \brief Register the \c adapter to the list of proxies availbable.
      *
-     *  When this \c PluginManager is initialized, it will search for match between \c IPlugin proxy ID and the
-     *  registered proxies. If there is a match, the \c IPlugin object is registered to it's `IPluginProxy`, becoming
-     *  available as a custom interface of that \c IPluginProxy.
+     *  When this \c PluginManager is initialized, it will search for match between \c IPlugin adapter ID and the
+     *  registered proxies. If there is a match, the \c IPlugin object is registered to it's `IPluginAdapter`, becoming
+     *  available as a custom interface of that \c IPluginAdapter.
      *
-     *  \sa IPluginProxy
+     *  \sa IPluginAdapter
      *
-     *  \param proxy The \c IPluginProxy object that will be registered to initialization.
+     *  \param adapter The \c IPluginAdapter object that will be registered to initialization.
      *  \return Returns true if it can be registered.
      */
-    bool registerProxy(std::shared_ptr<IPluginProxy> proxy);
+    bool registerAdapter(std::shared_ptr<IPluginAdapter> adapter);
 
 private:
     /**
-     *  \brief Initializes all \c IPluginProxy available in \c _proxyList.
+     *  \brief Initializes all \c IPluginAdapter available in \c _adapterList.
      */
-    void _initializeProxies();
+    void _initializeAdapters();
 
     /**
-     *  \brief Adds all loaded plugins to its respective \c IPluginProxy.
+     *  \brief Adds all loaded plugins to its respective \c IPluginAdapter.
      */
-    void _addPluginsToProxies();
+    void _addPluginsToAdapters();
 
     /**
      *  \brief _initialized Holds the init state of this PluginManager.
@@ -100,12 +102,12 @@ private:
     std::shared_ptr<PluginFactory> _factory;
 
     /**
-     *  \brief _proxyList Holds \c IPluginProxy object references and its IDs as keys.
+     *  \brief _adapterList Holds \c IPluginAdapter object references and its IDs as keys.
      */
-    std::map<std::string, std::shared_ptr<IPluginProxy>> _proxyList;
+    std::map<std::string, std::shared_ptr<IPluginAdapter>> _adapterList;
 
     /**
-     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginProxy.
+     *  \brief Indicates if any \c IPlugin was loaded into any \c IPluginAdapter.
      */
     bool _hasLoadedPlugins;
 };

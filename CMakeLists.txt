@@ -31,7 +31,7 @@ set(CMAKE_AUTO_MOC ON)
 set(JEPLU_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(JEPLU_INCLUDE "${JEPLU_INCLUDE_DIR}/dlplugincreator.h"
                   "${JEPLU_INCLUDE_DIR}/IPlugin.hpp"
-                  "${JEPLU_INCLUDE_DIR}/IPluginProxy.hpp"
+                  "${JEPLU_INCLUDE_DIR}/IPluginAdapter.hpp"
                   "${JEPLU_INCLUDE_DIR}/IQtPlugin.hpp"
                   "${JEPLU_INCLUDE_DIR}/Jeplu.hpp")
 include_directories(${JEPLU_INCLUDE_DIR})

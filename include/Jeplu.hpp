@@ -1,21 +1,13 @@
+
 #ifndef JEPLU_HPP
 #define JEPLU_HPP
 
-#include "IPluginProxy.hpp"
+#include "jeplu_api.hpp"
 
-// MSVC needs these specifications to export and import a class or function to/from a dll.
-// see: https://msdn.microsoft.com/en-us/library/dabb5z75.aspx
-#ifdef _WIN32
-    #ifdef JEPLU_EXPORTS
-        // If marked to export, mark as dllexport to MSVC mark a symbol as exported from a DLL.
-        #define JEPLULIB_API __declspec(dllexport)
-    #else
-        // If not marked to export, use dllimport to import that exported symbol to another file.
-        #define JEPLULIB_API __declspec(dllimport)
-    #endif
-#else
-    #define JEPLULIB_API
-#endif
+#include <memory>
+#include <string>
+
+class IPluginAdapter;
 
 /**
  *  \brief Indicates all the errors that \c Jeplu can return.
@@ -32,12 +24,27 @@ enum class JepluErrs
  *
  *  With this class it`s possible to load and retrieve plugins that match with the registered proxies.`
  *
- *  To use this class, the caller should register an \c IPluginProxy. After the proxy registration, the class can be
- *  initialized and all the plugins availabe in the given path that matches with any proxy will be loaded and be ready
- *  to be access and casted by its proxy.
+ *  Each \c IPlugin represents an object that can be built from a dynamic library. That object can represent pretty much
+ *  anything, but only if a \c IPluginAdapter that accepts its type is registered to the Jeplu API. The \c IPluginLoader
+ *  makes a dynamic library compatible with this API, finding the symbol that creates an object castable to \c IPlugin.
  *
- *  \sa IPluginProxy
+ *  The \c IPluginAdapter represents an object capable of casting a \c IPlugin object to a custom type predefined by this
+ *  adapter. In other works, the \c IPlugin subclass that you are creating must be also a subclass of an interface
+ *  supported by a \c IPluginAdapter that you created for your application and registered to the Jeplu API.
+ *  The link between the \c IPlugin and its \c IPluginAdapter is the adapter's id provided by your custom plugin.
+ *
+ *  The usage of this class is based on the \c IPluginAdapter and where the API will look for the dynamic libraries. So,
+ *  the caller should register an \c IPluginAdapter and after the adapter registration, the class can be initialized and
+ *  all the plugins availabe in the given path (under the rules of any \c ILibFinder , see \c JepluLibFinder for details
+ *  of the default \c ILibFinder registered) that matches with any adapter will be loaded and be ready to be access and
+ *  casted by its adapter.
+ *
+ *  By default, this API has an implementation for a \c IPluginLoader. You can find more detailed info in the file
+ *  "include/IQtPlugin.hpp".
+ *
+ *  \sa IPluginAdapter
  *  \sa IPlugin
+ *  \sa IPluginLoader
  */
 class JEPLULIB_API Jeplu
 {
@@ -55,7 +62,7 @@ public:
     /**
      *  \brief Initializes the class loading all the plugin available in \c pluginsRootPath.
      *
-     *  This class shoulb be called after any proxy registration, otherwise it won't be recognized.
+     *  This class shoulb be called after any adapter registration, otherwise it won't be recognized.
      *
      *  \param pluginsRootPath The root path where all the plugins will be located.
      *
@@ -64,21 +71,27 @@ public:
     JepluErrs init(const std::string &pluginsRootPath);
 
     /**
-     *  \brief Indicates if any plugin was loaded into any \c IPluginProxy registered.
+     *  \brief Indicates if any plugin was loaded into any \c IPluginAdapter registered.
      */
     bool hasLoadedPlugins() const;
 
     /**
-     *  \brief Registers a \c IPluginProxy object to Jeplu.
+     *  \brief Registers a \c IPluginAdapter to Jeplu.
      *
-     *  After the initialization of this class, if the proxy is already registered, all the plugins will be available
-     *  in the \c IPluginProxy that it matches with.
-     *  \param param A shared object of  \c IPluginProxy.
-     *  \return Returns \c true if the \c proxy could be registered. Otherwise, returns \c false.
+     *  After the initialization of this class, if the adapter is already registered, all the plugins will be available
+     *  in the \c IPluginAdapter that it matches with.
+     *  \param param A shared object of  \c IPluginAdapter.
+     *  \return Returns \c true if the \c adapter could be registered. Otherwise, returns \c false.
      */
-    bool registerProxy(std::shared_ptr<IPluginProxy> proxy);
+    bool registerAdapter(std::shared_ptr<IPluginAdapter> adapter);
 
 private:
+    /**
+     *  This class is non copyable.
+     */
+    Jeplu(Jeplu &);
+    const Jeplu &operator=(const Jeplu &);
+
     /**
      *  \brief Define the private implementation of jeplu as Pimpl.
      */

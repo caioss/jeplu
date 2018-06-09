@@ -3,7 +3,7 @@
 
 #include "IQtPlugin.hpp"
 
-static const char* customInterfaceID = "qcustomproxy.proxy.jeplu";
+static const char* customInterfaceID = "qcustomadapter.adapter.jeplu";
 
 class ICustomInterface : public virtual IPlugin
 {
@@ -16,7 +16,7 @@ public:
 
     virtual int pluginVersion() const override = 0;
 
-    std::string proxyId() const override { return customInterfaceID; }
+    std::string adapterId() const override { return customInterfaceID; }
 
     virtual bool customFunction() { return false; };
 };

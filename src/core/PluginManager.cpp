@@ -1,18 +1,20 @@
 #include "PluginManager.hpp"
+#include "ILibFinder.hpp"
+#include "IPluginAdapter.hpp"
 #include "PluginFactory.hpp"
 
 #include <iostream>
 
-void PluginManager::_initializeProxies()
+void PluginManager::_initializeAdapters()
 {
-    for (auto it = _proxyList.begin();
-         it != _proxyList.end(); ++it)
+    for (auto it = _adapterList.begin();
+         it != _adapterList.end(); ++it)
     {
         it->second->init();
     }
 }
 
-void PluginManager::_addPluginsToProxies()
+void PluginManager::_addPluginsToAdapters()
 {
     if (_factory->plugins().empty())
     {
@@ -21,18 +23,18 @@ void PluginManager::_addPluginsToProxies()
 
     for (std::shared_ptr<IPlugin> plugin : _factory->plugins())
     {
-        std::cout << "Checking plugin proxy: " << plugin->pluginName() << std::endl;
-        std::cout << "\tProxy: " << plugin->proxyId() << std::endl;
-        if (_proxyList.count(plugin->proxyId()) > 0)
+        std::cout << "Checking plugin adapter: " << plugin->pluginName() << std::endl;
+        std::cout << "\tAdapter: " << plugin->adapterId() << std::endl;
+        if (_adapterList.count(plugin->adapterId()) > 0)
         {
-            if (_proxyList[plugin->proxyId()]->addPlugin(plugin))
+            if (_adapterList[plugin->adapterId()]->addPlugin(plugin))
             {
                 _hasLoadedPlugins = true;
             }
         }
         else
         {
-            std::cout << "Proxy \"" << plugin->proxyId() << "\" not found." << std::endl;
+            std::cout << "Adapter \"" << plugin->adapterId() << "\" not found." << std::endl;
         }
         std::cout << std::endl;
     }
@@ -52,8 +54,8 @@ bool PluginManager::init(const ILibFinder &libFinder)
 
     if (_factory != nullptr && _factory->createPlugins(libsPath) >= 0)
     {
-        _addPluginsToProxies();
-        _initializeProxies();
+        _addPluginsToAdapters();
+        _initializeAdapters();
 
         rc = _initialized = true;
     }
@@ -71,11 +73,11 @@ bool PluginManager::hasLoadedPlugins() const
     return _hasLoadedPlugins;
 }
 
-bool PluginManager::registerProxy(std::shared_ptr<IPluginProxy> proxy)
+bool PluginManager::registerAdapter(std::shared_ptr<IPluginAdapter> adapter)
 {
-    if (proxy != nullptr)
+    if (adapter != nullptr)
     {
-        _proxyList.emplace(proxy->proxyId(), proxy);
+        _adapterList.emplace(adapter->adapterId(), adapter);
         return true;
     }
 

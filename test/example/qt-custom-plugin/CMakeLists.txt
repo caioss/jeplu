@@ -22,10 +22,10 @@ find_package(Qt5 REQUIRED Core)
 # Include jeplu files.
 file (GLOB JEPLU_INCLUDE "../../../include/*.hpp"
                          "../../../include/*.h"
-                         "../custom-proxy/ICustomInterface.hpp")
+                         "../custom-adapter/ICustomInterface.hpp")
 
 include_directories("../../../include/")
-include_directories("../custom-proxy")
+include_directories("../custom-adapter")
 
 # Add flags to compiler.
 #add_definitions(-[compiler_definition])

@@ -5,7 +5,7 @@
 
 #include "gtest/gtest.h"
 
-#include "QCustomProxy.hpp"
+#include "QCustomAdapter.hpp"
 #include "Jeplu.hpp"
 
 /**
@@ -61,14 +61,14 @@ TEST_F(JepluTest, checkPluginIsEmpty)
     ASSERT_EQ(false, _jeplu.hasLoadedPlugins());
 }
 
-TEST_F(JepluTest, testProxy)
+TEST_F(JepluTest, testAdapter)
 {
-    std::shared_ptr<QCustomProxy> proxy = std::make_shared<QCustomProxy>();
+    std::shared_ptr<QCustomAdapter> adapter = std::make_shared<QCustomAdapter>();
 
-    _jeplu.registerProxy(proxy);
+    _jeplu.registerAdapter(adapter);
     _jeplu.init(_pluginsPath);
 
-    ASSERT_EQ(true ,proxy->hasPluginsLoaded());
+    ASSERT_EQ(true ,adapter->hasPluginsLoaded());
 }
 
 #endif //JEPLUTEST_HPP

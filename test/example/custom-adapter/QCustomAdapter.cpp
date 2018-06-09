@@ -1,50 +1,52 @@
-#include "QCustomProxy.hpp"
+#include "QCustomAdapter.hpp"
+
+#include "ICustomInterface.hpp"
 
 #include <iostream>
 
-QCustomProxy::QCustomProxy()
+QCustomAdapter::QCustomAdapter()
 : _initialized(false)
 {
 }
 
-QCustomProxy::~QCustomProxy()
+QCustomAdapter::~QCustomAdapter()
 {
 }
 
-bool QCustomProxy::init(std::vector<std::weak_ptr<IPlugin>> plugins)
+bool QCustomAdapter::init(std::vector<std::weak_ptr<IPlugin>> plugins)
 {
     _initialized = true;
 
     return _initialized;
 }
 
-bool QCustomProxy::hasPluginsLoaded() const
+bool QCustomAdapter::hasPluginsLoaded() const
 {
     return !_plugins.empty();
 }
 
-std::string QCustomProxy::proxyId() const
+std::string QCustomAdapter::adapterId() const
 {
-    return "qcustomproxy.proxy.jeplu";
+    return "qcustomadapter.adapter.jeplu";
 }
 
-bool QCustomProxy::initialized() const
+bool QCustomAdapter::initialized() const
 {
     return _initialized;
 }
 
-std::vector<std::weak_ptr<IPlugin>> QCustomProxy::plugins() const
+std::vector<std::weak_ptr<IPlugin>> QCustomAdapter::plugins() const
 {
     return _plugins;
 }
 
-bool QCustomProxy::addPlugin(std::weak_ptr<IPlugin> plugin)
+bool QCustomAdapter::addPlugin(std::weak_ptr<IPlugin> plugin)
 {
     std::shared_ptr<IPlugin> sharedPlugin = plugin.lock();
     std::shared_ptr<ICustomInterface> customPlugin = std::dynamic_pointer_cast<ICustomInterface>(sharedPlugin);
     if (customPlugin != nullptr && customPlugin->customFunction())
     {
-        std::cout << "Plugin " << customPlugin->pluginName() << " compatible with proxy." << std::endl;
+        std::cout << "Plugin " << customPlugin->pluginName() << " compatible with adapter." << std::endl;
         _plugins.push_back(plugin);
 
         return true;
@@ -52,7 +54,7 @@ bool QCustomProxy::addPlugin(std::weak_ptr<IPlugin> plugin)
     return false;
 }
 
-std::vector<std::weak_ptr<ICustomInterface>> QCustomProxy::interfaces() const
+std::vector<std::weak_ptr<ICustomInterface>> QCustomAdapter::interfaces() const
 {
     std::vector<std::weak_ptr<ICustomInterface>> interfaces;
     for (std::weak_ptr<IPlugin> plugin : _plugins)
