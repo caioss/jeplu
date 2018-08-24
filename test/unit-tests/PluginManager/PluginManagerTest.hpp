@@ -47,8 +47,8 @@ protected:
 
 TEST_F(PluginManagerTest, initWithoutFactory)
 {
-    FakeLibFinder finder(".");
-    _manager.init(finder);
+    std::unique_ptr<FakeLibFinder> finder(new FakeLibFinder("."));
+    _manager.init(std::move(finder));
     ASSERT_EQ(false, _manager.initialized());
 }
 

@@ -3,11 +3,14 @@
 #define JEPLU_HPP
 
 #include "jeplu_api.hpp"
+#include "core/ILibFinder.hpp"
 
 #include <memory>
 #include <string>
 
 class IPluginAdapter;
+class IPluginLoader;
+//class ILibFinder;
 
 /**
  *  \brief Indicates all the errors that \c Jeplu can return.
@@ -65,10 +68,12 @@ public:
      *  This class shoulb be called after any adapter registration, otherwise it won't be recognized.
      *
      *  \param pluginsRootPath The root path where all the plugins will be located.
+     *  \param finder An optional finder. If none is given, the default one is created.
+     *         \sa ILibFinder
      *
      *  \return Returns 0 if succeded. Otherwise, returns a negative error, described in \c JepluErrs.
      */
-    JepluErrs init(const std::string &pluginsRootPath);
+    JepluErrs init(const std::string &pluginsRootPath, std::unique_ptr<ILibFinder> finder = nullptr);
 
     /**
      *  \brief Indicates if any plugin was loaded into any \c IPluginAdapter registered.
@@ -84,6 +89,15 @@ public:
      *  \return Returns \c true if the \c adapter could be registered. Otherwise, returns \c false.
      */
     bool registerAdapter(std::shared_ptr<IPluginAdapter> adapter);
+
+    /**
+     *  \brief Registers a \c IPluginLoader to Jeplu.
+     *
+     *  \sa IPluginLoader
+     *  \param param A unique ptr of \c IPluginLoader.
+     *  \return Returns \c true if the \c loader could be registered. Otherwise, returns \c false.
+     */
+    bool registerLoader(std::unique_ptr<IPluginLoader> loader);
 
 private:
     /**
@@ -102,5 +116,6 @@ private:
      */
     std::unique_ptr<JepluImpl> _impl;
 };
+
 
 #endif // JEPLU_HPP

@@ -40,7 +40,7 @@ public:
      *  \return Returns \c true if this \c PluginManager could be initialized. Otherwise, if the
      *  \c PluginFactory is not registered or if it cannot create plugins, it returns \c false.
      */
-    bool init(const ILibFinder &finder);
+    bool init(std::unique_ptr<ILibFinder> finder);
 
     /**
      *  \brief Indicates if this PluginManager is initialized.

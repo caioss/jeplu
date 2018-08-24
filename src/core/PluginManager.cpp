@@ -47,10 +47,15 @@ _hasLoadedPlugins(false)
 {
 }
 
-bool PluginManager::init(const ILibFinder &libFinder)
+bool PluginManager::init(std::unique_ptr<ILibFinder> libFinder)
 {
+    if (!libFinder)
+    {
+        return false;
+    }
+
     bool rc = false;
-    std::vector<std::string> libsPath = libFinder.libsPath();
+    std::vector<std::string> libsPath = libFinder->libsPath();
 
     if (_factory != nullptr && _factory->createPlugins(libsPath) >= 0)
     {
