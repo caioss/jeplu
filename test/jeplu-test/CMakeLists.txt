@@ -5,9 +5,7 @@ if (NOT DEFINED EXAMPLE_DIR)
 endif()
 
 # Include directories used for testing.
-include_directories("${CMAKE_SOURCE_DIR}/src/"
-                    "${CMAKE_SOURCE_DIR}/include/"
-                    "${EXAMPLE_DIR}/custom-adapter/"
+include_directories("${EXAMPLE_DIR}/custom-adapter/"
                     "Jeplu/")
 
 # Include the test source files.

@@ -41,7 +41,7 @@ enable_testing()
 # Sets EXAMPLE_DIR for test usage.
 set(EXAMPLE_DIR "../example/")
 
-add_subdirectory("jeplu-test")
 add_subdirectory("unit-tests")
+add_subdirectory("jeplu-test")
 
 #add_test(NAME jeplu-test COMMAND jeplu-test)

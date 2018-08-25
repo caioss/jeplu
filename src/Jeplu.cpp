@@ -1,12 +1,23 @@
 #include "Jeplu.hpp"
 
-#ifdef __linux__
-    #include "DlLoader.hpp"
-#endif
 #include "PluginManager.hpp"
 #include "PluginFactory.hpp"
-#include "QtLoader.hpp"
-#include "JepluLibFinder.hpp"
+
+// Check if DlLoader should be added.
+#if defined(__linux__) && !defined(NO_DL_LOADER)
+    #define USE_DL_LOADER
+    #include "DlLoader.hpp"
+#endif
+
+// Check if QtLoader should be added.
+#ifndef NO_QT_LOADER
+    #include "QtLoader.hpp"
+#endif
+
+// Check if Default libfinder is selected.
+#ifndef NO_DEFAULT_LIBFINDER
+    #include "JepluLibFinder.hpp"
+#endif
 
 #include <iostream>
 #include <memory>
@@ -20,9 +31,7 @@ public:
     /**
      *  \brief Default constructor.
      */
-    JepluImpl() :
-    _manager(new PluginManager())
-    {}
+    JepluImpl();
 
     /**
      *  \brief Initializes the PluginFactory and set it up to the Plugin Manager.
@@ -63,19 +72,25 @@ private:
 
 // JepluImpl implementation
 
+Jeplu::JepluImpl::JepluImpl() :
+_manager(new PluginManager()), _factory(new PluginFactory())
+{}
+
 bool Jeplu::JepluImpl::initFactory()
 {
     bool ret = false;
-    _factory = std::make_shared<PluginFactory>();
 
-    // Register DLLoader if it's a linux system.
-#ifdef __linux__
+#ifdef USE_DL_LOADER
+    // Register DLLoader if it's a linux system and it's marked for build.
     std::shared_ptr<DLLoader> dlLoader = std::make_shared<DLLoader>();
     ret |= _factory->registerLoader(std::dynamic_pointer_cast<IPluginLoader>(dlLoader));
 #endif
-    // Register QtLoader
+
+#ifndef NO_QT_LOADER
+    // Register QtLoader if marked for build.
     std::shared_ptr<QtLoader> qLoader = std::make_shared<QtLoader>();
     ret |= _factory->registerLoader(std::dynamic_pointer_cast<IPluginLoader>(qLoader));
+#endif
 
     // Register factory
     ret &= _manager->registerFactory(_factory);
@@ -124,10 +139,19 @@ JepluErrs Jeplu::init(const std::string &pluginsRootPath, std::unique_ptr<ILibFi
         return JepluErrs::INIT_FACTORY_ERR;
     }
 
-    std::unique_ptr<ILibFinder> libFinder = (finder != nullptr ?
-                                             std::move(finder) :
-                                             std::unique_ptr<JepluLibFinder>(new JepluLibFinder(pluginsRootPath))
-    );
+    std::unique_ptr<ILibFinder> libFinder(nullptr);
+
+    // Initializes libFinder with JepluLibFinder if it was not excluded for build.
+#ifndef NO_DEFAULT_LIBFINDER
+    libFinder = std::unique_ptr<JepluLibFinder>(new JepluLibFinder(pluginsRootPath));
+#endif
+
+    // If a finder is provided, use it.
+    if (finder)
+    {
+        libFinder = std::move(finder);
+    }
+
     if (!_impl->initManager(std::move(libFinder)))
     {
         std::cout << "[JEPLU] Plugin Manager couldn't be initialized." << std::endl;

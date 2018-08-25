@@ -16,6 +16,9 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # Project extra definitions
 # Options. Turn on/off with 'cmake -Dtest=TRUE'.
 option(test "Build all tests." FALSE) # Makes boolean 'test' available.
+option(no-qt-loader "Remove build of the default Qt loader." FALSE)
+option(no-dlopen-loader "Remove build of the default dlopen loader." FALSE)
+option(no-default-libfinder "Remove build of the default libfinder." FALSE)
 
 # Extra definitions
 set(CMAKE_CXX_STANDARD 11)
@@ -36,8 +39,10 @@ set(CMAKE_AUTO_MOC ON)
 # Jeplu external
 set(JEPLU_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(JEPLU_INCLUDE "${JEPLU_INCLUDE_DIR}/dlplugincreator.h"
+                  "${JEPLU_INCLUDE_DIR}/ILibFinder.hpp"
                   "${JEPLU_INCLUDE_DIR}/IPlugin.hpp"
                   "${JEPLU_INCLUDE_DIR}/IPluginAdapter.hpp"
+                  "${JEPLU_INCLUDE_DIR}/IPluginLoader.hpp"
                   "${JEPLU_INCLUDE_DIR}/IQtPlugin.hpp"
                   "${JEPLU_INCLUDE_DIR}/Jeplu.hpp")
 include_directories(${JEPLU_INCLUDE_DIR})
@@ -47,5 +52,5 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/src")
 
 # Include tests if enabled
 if (test)
- add_subdirectory("${PROJECT_SOURCE_DIR}/test")
+    add_subdirectory("${PROJECT_SOURCE_DIR}/test")
 endif ()

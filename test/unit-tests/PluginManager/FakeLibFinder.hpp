@@ -1,7 +1,7 @@
 #ifndef FAKELIBFINDER_HPP
 #define FAKELIBFINDER_HPP
 
-#include "core/ILibFinder.hpp"
+#include "ILibFinder.hpp"
 
 class FakeLibFinder : public ILibFinder
 {

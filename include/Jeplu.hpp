@@ -3,7 +3,7 @@
 #define JEPLU_HPP
 
 #include "jeplu_api.hpp"
-#include "core/ILibFinder.hpp"
+#include "ILibFinder.hpp"
 
 #include <memory>
 #include <string>

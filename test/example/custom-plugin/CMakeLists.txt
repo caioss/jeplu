@@ -26,5 +26,4 @@ project (${PROJECT_NAME})
 
 add_library(${PROJECT_NAME} SHARED
 			    "CustomPlugin.cpp"
-			    ${JEPLU_INCLUDE})
-                
+			    ${JEPLU_INCLUDE})                

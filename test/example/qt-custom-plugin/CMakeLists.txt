@@ -16,9 +16,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_AUTOMOC ON)
 
-################# QT #########################
+# Find Qt
 find_package(Qt5 REQUIRED Core)
-################# QT #########################
+
 # Include jeplu files.
 file (GLOB JEPLU_INCLUDE "../../../include/*.hpp"
                          "../../../include/*.h"
