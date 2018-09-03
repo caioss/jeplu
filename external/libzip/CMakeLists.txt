@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 2.8)
+project(zip CXX)
+
+if (MSVC14)
+    set(LIB_COMPILER "vc140")	# Visual Studio 2015
+elseif (MSVC12)
+    set(LIB_COMPILER "vc120")	# Visual Studio 2013
+elseif (MSVC11)
+    set(LIB_COMPILER "vc110")	# Visual Studio 2012
+elseif (MSVC10)
+    set(LIB_COMPILER "vc100")	# Visual Studio 2010
+endif()
+
+
+set(zip_INCLUDE_DIRS
+  ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE INTERNAL "zip include directories"
+)
+set(zip_BIN_DIR
+	${CMAKE_CURRENT_SOURCE_DIR}/bin/${LIB_COMPILER} CACHE INTERNAL "zip binary directory"
+)
+
+add_library(zip SHARED IMPORTED GLOBAL)
+
+# Set .dll files.
+set(LIBZIP_LIB_DEBUG_PATH "${zip_BIN_DIR}/zipd${CMAKE_SHARED_LIBRARY_SUFFIX}")
+set(LIBZIP_LIB_RELEASE_PATH "${zip_BIN_DIR}/zip${CMAKE_SHARED_LIBRARY_SUFFIX}")
+# Set .lib files.
+set(LIBZIP_IMPLIB_DEBUG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/${LIB_COMPILER}/zipd${CMAKE_STATIC_LIBRARY_SUFFIX}")
+set(LIBZIP_IMPLIB_RELEASE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/${LIB_COMPILER}/zip${CMAKE_STATIC_LIBRARY_SUFFIX}")
+
+set_target_properties(zip PROPERTIES 
+						  IMPORTED_LOCATION_DEBUG ${LIBZIP_LIB_DEBUG_PATH}
+						  IMPORTED_IMPLIB_DEBUG ${LIBZIP_IMPLIB_DEBUG_PATH}
+						  IMPORTED_LOCATION_RELEASE ${LIBZIP_LIB_RELEASE_PATH}
+						  IMPORTED_IMPLIB_RELEASE ${LIBZIP_IMPLIB_RELEASE_PATH})
+						  

@@ -4,6 +4,8 @@ include_directories("${PROJECT_SOURCE_DIR}/src/core")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+set(EXTERNAL_LIBS_DIR "${CMAKE_SOURCE_DIR}/external")
+
 # Adds core to build.
 set(MODULES core)
 
