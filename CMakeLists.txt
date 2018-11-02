@@ -9,10 +9,6 @@ set(JEPLU_VERSION_MINOR 1 CACHE STRING "minor version" FORCE)
 set(JEPLU_VERSION ${JEPLU_VERSION_MAJOR}.${JEPLU_VERSION_MINOR} CACHE STRING "version" FORCE)
 set(JEPLU_NAME_VERSION "${PROJECT_NAME}-${JEPLU_VERSION}")
 
-# Setup cmake modules path and 3d party dir for its usage
-set(3D_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3d_party/")
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-
 # Project extra definitions
 # Options. Turn on/off with 'cmake -Dtest=TRUE'.
 option(test "Build all tests." FALSE) # Makes boolean 'test' available.
@@ -36,6 +32,18 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # Enable Cmake to run moc when it is needed.
 set(CMAKE_AUTO_MOC ON)
+
+if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    message ("Found Conan information about dependencies...")
+
+    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup(TARGETS)
+else ()
+    # Setup cmake modules path and 3d party dir for its usage
+    set(3D_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3d_party/")
+endif()
+
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # Jeplu external
 set(JEPLU_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")

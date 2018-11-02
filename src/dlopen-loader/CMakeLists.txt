@@ -8,5 +8,5 @@ list(APPEND LOADERS_SRC "DlLoader.cpp")
 list(APPEND LIST_LINK_LIBRARY ${CMAKE_DL_LIBS})
 
 # Build and link targets
-add_library(dlopen-loader ${LOADERS_SRC} ${INCLUDE_FILES})
+add_library(dlopen-loader STATIC ${LOADERS_SRC} ${INCLUDE_FILES})
 target_link_libraries(dlopen-loader ${LIST_LINK_LIBRARY})

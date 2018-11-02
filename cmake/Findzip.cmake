@@ -1,12 +1,14 @@
 # Finds libzip.
 #
 # This module defines:
-# LIBZIP_INCLUDE_DIR_ZIP
-# LIBZIP_INCLUDE_DIR_ZIPCONF
-# LIBZIP_LIBRARY
+# LIBZIP_INCLUDE_DIR
+# LIBZIP_LIBRARIES
 #
 
-if (UNIX)
+if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+    set(LIBZIP_INCLUDE_DIR ${CONAN_INCLUDE_DIRS_LIBZIP})
+    set(LIBZIP_LIBRARIES ${CONAN_LIBS_LIBZIP})
+elseif (UNIX)
 	find_package(PkgConfig)
 	pkg_check_modules(PC_LIBZIP QUIET libzip)
 
@@ -48,7 +50,7 @@ else ()
 	endif()
 
 
-	set(LIBZIP_INCLUDE_DIR_ZIP
+	set(LIBZIP_INCLUDE_DIR
 	  ${EXTERNAL_LIBS_DIR}/libzip/include CACHE INTERNAL "zip include directories"
 	)
 	set(LIBZIP_LIBRARY_BIN
@@ -70,6 +72,6 @@ else ()
 							  IMPORTED_LOCATION_RELEASE ${LIBZIP_LIB_RELEASE_PATH}
 							  IMPORTED_IMPLIB_RELEASE ${LIBZIP_IMPLIB_RELEASE_PATH})
 
-	set(LIBZIP_LIBRARY zip CACHE INTERNAL "zip library")
+	set(LIBZIP_LIBRARIES zip CACHE INTERNAL "zip library")
 endif ()
 

@@ -1,0 +1,9 @@
+[requires]
+Qt/5.8.0@osechet/stable
+libzip/1.5.1@bincrafters/stable
+
+[generators]
+cmake
+
+[options]
+Qt:shared=True
