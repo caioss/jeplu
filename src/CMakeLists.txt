@@ -4,8 +4,6 @@ include_directories("${PROJECT_SOURCE_DIR}/src/core")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(EXTERNAL_LIBS_DIR "${CMAKE_SOURCE_DIR}/external")
-
 # Adds core to build.
 set(MODULES core)
 
@@ -49,7 +47,7 @@ set(JEPLU_SOURCES "Jeplu.cpp")
 
 # Build shared
 # TODO: adds option to build static.
-add_library(jeplu SHARED ${JEPLU_SOURCES} ${JEPLU_INCLUDE})
+add_library(jeplu SHARED ${JEPLU_SOURCES})
 
 # Links the library with components.
 target_link_libraries(jeplu ${MODULES})

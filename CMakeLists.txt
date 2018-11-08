@@ -34,16 +34,12 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTO_MOC ON)
 
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    message ("Found Conan information about dependencies...")
-
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(TARGETS)
+    include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
 else ()
     # Setup cmake modules path and 3d party dir for its usage
     set(3D_PARTY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/3d_party/")
+    set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 endif()
-
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # Jeplu external
 set(JEPLU_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")

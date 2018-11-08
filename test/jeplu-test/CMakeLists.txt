@@ -1,5 +1,7 @@
 project(jeplu-test)
 
+find_package(gtest)
+
 if (NOT DEFINED EXAMPLE_DIR)
     message(FATAL_ERROR "Example dir not defined.")
 endif()
@@ -14,7 +16,7 @@ set(TEST_SOURCES  "main.cpp"
                   "${EXAMPLE_DIR}/custom-adapter/QCustomAdapter.cpp")
 
 # Build
-add_executable(jeplu-test ${TEST_SOURCES} ${INCLUDE_TESTS})
+add_executable(jeplu-test ${TEST_SOURCES})
 
 # Links the library with components.
-target_link_libraries(jeplu-test gtest jeplu)
+target_link_libraries(jeplu-test gtest::gtest jeplu)
