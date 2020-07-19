@@ -4,6 +4,8 @@ include_directories("${PROJECT_SOURCE_DIR}/src/core")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+set(EXTERNAL_LIBS_DIR "${CMAKE_SOURCE_DIR}/external")
+
 # Adds core to build.
 set(MODULES core)
 
@@ -26,6 +28,13 @@ if (no-qt-loader)
     add_definitions(-DNO_QT_LOADER)
 else ()
     list(APPEND MODULES "qt-loader")
+endif ()
+
+# Adds installer to be built if not excluded.
+if (no-plugin-installer)
+    add_definitions(-DNO_PLUGIN_INSTALLER)
+else ()
+    list(APPEND MODULES "installer")
 endif ()
 
 # Build components that was added above.
